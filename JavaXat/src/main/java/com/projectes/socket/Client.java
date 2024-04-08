@@ -4,6 +4,6 @@ package com.projectes.socket;
  *
  * @author Andreu i Quim
  */
-public class Servidor {
+public class Client {
     
 }
