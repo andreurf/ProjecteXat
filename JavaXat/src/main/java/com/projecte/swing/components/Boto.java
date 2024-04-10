@@ -53,6 +53,7 @@ public class Boto extends JButton {
                     animator.stop();
                 }
                 animator.start();
+                
             }
         });
         TimingTarget target = new TimingTargetAdapter() {

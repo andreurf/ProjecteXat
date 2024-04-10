@@ -56,6 +56,7 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
             }
         });
         boto.setBorderPainted(false);
+        boto.setFocusPainted(false);
         add(boto,"w 60%, h 40");
     }
 
@@ -123,15 +124,21 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
     private void login(boolean login) {
         if (this.isLogin != login) {
             if (login) {
-                titol.setText("hello, Friend!");
-                desc1.setText("Enter your personal details");
-                desc2.setText("and start journey with us");
-                boto.setText("SIGN UP");
+                titol.setText("Benvingut!");
+                desc1.setText("Registra't per a");
+                desc2.setText("començar a xatejar");
+                boto.setText("REGISTRAR-SE");
+                boto.setBorderPainted(false);
+                        boto.setFocusPainted(false);
+
             } else {
-                titol.setText("Welcome Back!");
-                desc1.setText("To keep connected with us please");
-                desc2.setText("login with your personal info");
-                boto.setText("SIGN IN");
+                titol.setText("Benvingut!");
+                desc1.setText("Inicia sessio per a");
+                desc2.setText("començar a xatejar");
+                boto.setText("INICIA SESSIÓ");
+                boto.setBorderPainted(false);
+                        boto.setFocusPainted(false);
+
             }
             this.isLogin = login;
         }

@@ -16,6 +16,11 @@
             <artifactId>miglayout-4.0</artifactId>
             <version>4.0</version>
         </dependency>
+        <dependency>
+            <groupId>mongo-java-driver-3.12.14</groupId>
+            <artifactId>mongo-java-driver-3.12.14</artifactId>
+            <version>3.12.14</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
