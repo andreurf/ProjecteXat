@@ -62,20 +62,27 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setText("REGISTRAR-SE");
         cmd.addActionListener((ActionEvent e) -> {
-            String usuari = txtUser.getText();
+            String usuario = txtUser.getText();
             String email = txtEmail.getText();
-            String contrassenya = txtPass.getText();
-            Usuari newUser = new Usuari(usuari, contrassenya, email);
+            String contrasena = txtPass.getText();
+            Usuari newUser = new Usuari(usuario, contrasena, email);
 
             try {
-                dbConnection.insertUser(newUser);
-                JOptionPane.showMessageDialog(null, "Usuario registrado correctamente");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error al registrar el usuario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+                boolean usuariExisteix = dbConnection.validarUsuari(usuario);
+                boolean emailExisteix = dbConnection.validarEmail(email);
 
+                if (usuariExisteix) {
+                    JOptionPane.showMessageDialog(null, "El nom d'usuari ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (emailExisteix) {
+                    JOptionPane.showMessageDialog(null, "El correu electrònic ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    dbConnection.insertUser(newUser);
+                    JOptionPane.showMessageDialog(null, "Usuari registrat correctament");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error en registrar l'usuari: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
-        ;
 
         registre.add(cmd, "w 40%, h 40");
 
@@ -110,8 +117,24 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         Boto cmd = new Boto();
         cmd.setBackground(new Color(166, 35, 35));
         cmd.setForeground(new Color(250, 250, 250));
-        cmd.setText("Inciar Sessió");
-        login.add(cmd, "w 40%, h 40");
+        cmd.setText("Iniciar Sesión");
+        cmd.addActionListener((ActionEvent e) -> {
+            String usuari = txtUser.getText();
+            String contrasenya = txtPass.getText();
+
+            try {
+                boolean loginOk = dbConnection.iniciarSecio(usuari, contrasenya);
+
+                if (loginOk) {
+                    JOptionPane.showMessageDialog(null, "Inici de sessió exitós");
+                    // Aquí pots redirigir l'usuari a la pàgina principal o una altra pàgina de la teva aplicació
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error en iniciar sessió: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
     }
 

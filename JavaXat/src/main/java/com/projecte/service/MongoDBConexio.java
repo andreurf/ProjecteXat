@@ -1,7 +1,9 @@
 package com.projecte.service;
 
 import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.projecte.models.Usuari;
 import org.bson.Document;
@@ -18,7 +20,7 @@ public class MongoDBConexio {
         userCollection = database.getCollection("usuaris");
     }
 
-    // Métodos para interactuar con la base de datos
+    // Método para insertar un usuario en la base de datos
     public void insertUser(Usuari user) {
         Document userDoc = new Document("usuari", user.getUsuari())
                             .append("email", user.getEmail())
@@ -26,4 +28,25 @@ public class MongoDBConexio {
         userCollection.insertOne(userDoc);
     }
 
+    // Método para verificar si un nombre de usuario ya existe en la base de datos
+    public boolean validarUsuari(String usuari) {
+        Document query = new Document("usuari", usuari);
+        FindIterable<Document> result = userCollection.find(query);
+        return result.first() != null;
+    }
+
+    // Método para verificar si un correo electrónico ya existe en la base de datos
+    public boolean validarEmail(String email) {
+        Document query = new Document("email", email);
+        FindIterable<Document> result = userCollection.find(query);
+        return result.first() != null;
+    }
+    
+    public boolean iniciarSecio(String usuari, String contrasenya) {
+    Document query = new Document("usuari", usuari).append("password", contrasenya);
+    FindIterable<Document> result = userCollection.find(query);
+    return result.first() != null;
+}
+
+    
 }
