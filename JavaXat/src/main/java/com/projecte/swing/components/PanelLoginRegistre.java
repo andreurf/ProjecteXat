@@ -135,6 +135,9 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 JOptionPane.showMessageDialog(null, "Error en iniciar sessió: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+        
+        login.add(cmd, "w 40%, h 40");
+
 
     }
 
