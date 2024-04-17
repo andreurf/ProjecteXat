@@ -2,6 +2,7 @@ package com.projecte.swing.components;
 
 import com.projecte.models.Usuari;
 import com.projecte.service.MongoDBConexio;
+import com.projecte.swing.Xat;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -126,8 +128,9 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 boolean loginOk = dbConnection.iniciarSecio(usuari, contrasenya);
 
                 if (loginOk) {
-                    JOptionPane.showMessageDialog(null, "Inici de sessió exitós");
-                    // Aquí pots redirigir l'usuari a la pàgina principal o una altra pàgina de la teva aplicació
+                    Xat x = new Xat();
+                    x.setVisible(true);
+                    SwingUtilities.getWindowAncestor(this).setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
                 }

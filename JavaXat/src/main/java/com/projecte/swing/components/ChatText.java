@@ -19,8 +19,8 @@ public class ChatText extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(204, 204, 204));
-        setPreferredSize(new java.awt.Dimension(200, 600));
+        setBackground(new java.awt.Color(249, 249, 249));
+        setPreferredSize(new java.awt.Dimension(150, 600));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
