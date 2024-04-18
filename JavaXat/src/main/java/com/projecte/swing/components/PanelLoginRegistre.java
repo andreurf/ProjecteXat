@@ -29,8 +29,8 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         dbConnection = new MongoDBConexio();
         initRegistre();
         initLogin();
-        //login.setVisible(false);
-        //registre.setVisible(true);
+        login.setVisible(false);
+        registre.setVisible(true);
 
     }
 
@@ -54,7 +54,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         registre.add(txtEmail, "w 60%");
 
         //TextField Contrassenya
-        JTextFieldPersonalitzat txtPass = new JTextFieldPersonalitzat();
+        JTextFieldPassword txtPass = new JTextFieldPassword();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
         txtPass.setHint("Contrassenya");
         registre.add(txtPass, "w 60%");
@@ -67,6 +67,12 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
             String usuario = txtUser.getText();
             String email = txtEmail.getText();
             String contrasena = txtPass.getText();
+
+            if (usuario.isEmpty() || email.isEmpty() || contrasena.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Els camps d'usuari, correu electrònic i contrasenya no poden estar buits", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             Usuari newUser = new Usuari(usuario, contrasena, email);
 
             try {
@@ -104,7 +110,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         login.add(txtUser, "w 60%");
 
         //TextField Contrassenya
-        JTextFieldPersonalitzat txtPass = new JTextFieldPersonalitzat();
+        JTextFieldPassword txtPass = new JTextFieldPassword();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
         txtPass.setHint("Contrassenya");
         login.add(txtPass, "w 60%");
@@ -138,9 +144,8 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 JOptionPane.showMessageDialog(null, "Error en iniciar sessió: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
-        login.add(cmd, "w 40%, h 40");
 
+        login.add(cmd, "w 40%, h 40");
 
     }
 

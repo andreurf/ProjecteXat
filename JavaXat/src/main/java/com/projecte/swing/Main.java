@@ -25,7 +25,7 @@ public class Main extends javax.swing.JFrame {
     private MigLayout layout;
     private PanelPersonalitzat panelP;
     private PanelLoginRegistre loginRegistre;
-    private boolean isLogin;
+    private boolean isLogin = false;
     private final double addSize = 30;
     private final double panelSize = 40;
     private final double loginSize = 60;
