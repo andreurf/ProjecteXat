@@ -117,9 +117,7 @@
                 <Component class="javax.swing.JButton" name="cmdMinimitzar">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder/>
-                      </Border>
+                      <Border info="null"/>
                     </Property>
                     <Property name="contentAreaFilled" type="boolean" value="false"/>
                   </Properties>
@@ -133,9 +131,7 @@
                 <Component class="javax.swing.JButton" name="cmdTancar">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
-                        <BevelBorder/>
-                      </Border>
+                      <Border info="null"/>
                     </Property>
                     <Property name="contentAreaFilled" type="boolean" value="false"/>
                   </Properties>

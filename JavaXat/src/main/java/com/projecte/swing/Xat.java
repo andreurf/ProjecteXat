@@ -59,7 +59,7 @@ public class Xat extends javax.swing.JFrame {
         });
 
         cmdMinimitzar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/minimitzar.png")));
-        cmdMinimitzar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cmdMinimitzar.setBorder(null);
         cmdMinimitzar.setContentAreaFilled(false);
         cmdMinimitzar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -68,7 +68,7 @@ public class Xat extends javax.swing.JFrame {
         });
 
         cmdTancar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tancar.png")));
-        cmdTancar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cmdTancar.setBorder(null);
         cmdTancar.setContentAreaFilled(false);
         cmdTancar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +163,14 @@ public class Xat extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cmdTancarActionPerformed
 
+    public static void main(String args[]) {
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Xat().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
