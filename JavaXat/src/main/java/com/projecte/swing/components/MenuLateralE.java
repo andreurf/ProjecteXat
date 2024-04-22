@@ -14,12 +14,13 @@ public class MenuLateralE extends javax.swing.JPanel {
     }
     
     private void init(){
+        sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx","0[]0","5[]5"));
         showPersones();
     }
 
     private void showPersones() {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 20; i++) {
             menuList.add(new ItemUsuaris("Persona " + i) , "wrap");
         }
     }
@@ -32,6 +33,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         menuBoto1 = new com.projecte.swing.components.MenuBoto();
         menuBoto2 = new com.projecte.swing.components.MenuBoto();
         menuBoto3 = new com.projecte.swing.components.MenuBoto();
+        sp = new javax.swing.JScrollPane();
         menuList = new javax.swing.JLayeredPane();
 
         setPreferredSize(new java.awt.Dimension(200, 600));
@@ -50,6 +52,10 @@ public class MenuLateralE extends javax.swing.JPanel {
         menuBoto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/box.png")));
         menu.add(menuBoto3);
 
+        sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        menuList.setPreferredSize(new java.awt.Dimension(166, 568));
+
         javax.swing.GroupLayout menuListLayout = new javax.swing.GroupLayout(menuList);
         menuList.setLayout(menuListLayout);
         menuListLayout.setHorizontalGroup(
@@ -58,17 +64,21 @@ public class MenuLateralE extends javax.swing.JPanel {
         );
         menuListLayout.setVerticalGroup(
             menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 548, Short.MAX_VALUE)
+            .addGap(0, 568, Short.MAX_VALUE)
         );
+
+        sp.setViewportView(menuList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(menuList)
+                .addComponent(sp)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -76,7 +86,7 @@ public class MenuLateralE extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuList)
+                .addComponent(sp, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -88,5 +98,6 @@ public class MenuLateralE extends javax.swing.JPanel {
     private com.projecte.swing.components.MenuBoto menuBoto2;
     private com.projecte.swing.components.MenuBoto menuBoto3;
     private javax.swing.JLayeredPane menuList;
+    private javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
 }
