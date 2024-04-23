@@ -13,6 +13,7 @@ public class ItemUsuaris extends javax.swing.JPanel {
     public ItemUsuaris(String nom) {
         initComponents();
         lbNom.setText(nom);
+        init();
     }
 
     private void init() {
