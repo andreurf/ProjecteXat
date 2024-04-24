@@ -74,13 +74,12 @@
         </Component>
         <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto2">
           <Properties>
-            <Property name="iconSelected" postCode="menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrupBlau.png&quot;))); // NOI18N"/>
+            <Property name="iconSelected" postCode="menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrupBlau.png&quot;)));&#xa;menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrup.png&quot;)));"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto2ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrupBlau.png&quot;))); // NOI18N"/>
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrup.png&quot;)));"/>
           </AuxValues>
         </Component>

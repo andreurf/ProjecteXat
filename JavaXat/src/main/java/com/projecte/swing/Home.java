@@ -1,15 +1,28 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
+
+import com.projecte.swing.ChatText;
+import net.miginfocom.swing.MigLayout;
 
 /**
  *
  * @author andreu i quim
  */
-public class ChatTitol extends javax.swing.JPanel {
-
-    public ChatTitol() {
+public class Home extends javax.swing.JLayeredPane {
+    
+    public Home() {
         initComponents();
+        init();
     }
+    
+    private void init(){
+        setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
+        this.add(new MenuLateralE());
+        this.add(new ChatText());
+        this.add(new MenuLateralD());
 
+        
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -18,11 +31,11 @@ public class ChatTitol extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1007, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
+            .addGap(0, 551, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 

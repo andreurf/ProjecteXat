@@ -1,5 +1,6 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
+import com.projecte.swing.components.BotoDisseny;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;

@@ -1,44 +1,46 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
-import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
 
 /**
  *
  * @author andreu i quim
  */
-public class Home extends javax.swing.JLayeredPane {
-    
-    public Home() {
-        initComponents();
-        init();
-    }
-    
-    private void init(){
-        setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
-        this.add(new MenuLateralE());
-        this.add(new ChatText());
-        this.add(new MenuLateralD());
+public class ChatE extends javax.swing.JLayeredPane {
 
-        
+    public ChatE() {
+        initComponents();
+        txt.setBackground(new Color(242,242,242));
     }
     
+    public void setText(String text){
+        txt.setText(text);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
+        txt = new com.projecte.swing.ChatItem();
+
+        setPreferredSize(new java.awt.Dimension(62, 36));
+
+        setLayer(txt, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1007, Short.MAX_VALUE)
+            .addComponent(txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addComponent(txt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.projecte.swing.ChatItem txt;
     // End of variables declaration//GEN-END:variables
 }

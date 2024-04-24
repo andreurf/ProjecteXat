@@ -1,8 +1,11 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
 import com.projecte.models.Usuari;
 import com.projecte.service.MongoDBConexio;
 import com.projecte.swing.Xat;
+import com.projecte.swing.components.Boto;
+import com.projecte.swing.components.JTextFieldPassword;
+import com.projecte.swing.components.JTextFieldPersonalitzat;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Cursor;

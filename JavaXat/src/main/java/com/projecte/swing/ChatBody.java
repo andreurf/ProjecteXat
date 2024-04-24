@@ -1,7 +1,7 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
+import com.projecte.swing.components.ScrollBar;
 import java.awt.Color;
-import javax.swing.JScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -13,12 +13,22 @@ public class ChatBody extends javax.swing.JPanel {
     public ChatBody() {
         initComponents();
         init();
+        addItemE("hello");
+        addItemE("Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius omnis sit aliquid itaque rerum et, dicta impedit deleniti illo corrupti. Voluptatibus quae itaque odit cum, corrupti dignissimos aperiam earum reiciendis!");
     }
 
     private void init() {
         body.setLayout(new MigLayout("fillx"));
-        sp.setVerticalScrollBar(new JScrollBar());
+        sp.setVerticalScrollBar(new ScrollBar());
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
+    }
+    
+    public void addItemE(String text) {
+        ChatE item = new ChatE();
+        item.setText(text);
+        body.add(item, "wrap, w ::80%");
+        body.repaint();
+        body.revalidate();
     }
 
     @SuppressWarnings("unchecked")
@@ -28,17 +38,20 @@ public class ChatBody extends javax.swing.JPanel {
         sp = new javax.swing.JScrollPane();
         body = new javax.swing.JPanel();
 
+        sp.setBorder(null);
+        sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         body.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout bodyLayout = new javax.swing.GroupLayout(body);
         body.setLayout(bodyLayout);
         bodyLayout.setHorizontalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 824, Short.MAX_VALUE)
+            .addGap(0, 826, Short.MAX_VALUE)
         );
         bodyLayout.setVerticalGroup(
             bodyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 553, Short.MAX_VALUE)
+            .addGap(0, 555, Short.MAX_VALUE)
         );
 
         sp.setViewportView(body);

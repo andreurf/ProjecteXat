@@ -37,7 +37,7 @@ public class Xat extends javax.swing.JFrame {
         cmdMinimitzar = new javax.swing.JButton();
         cmdTancar = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
-        home2 = new com.projecte.swing.components.Home();
+        home2 = new com.projecte.swing.Home();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -178,7 +178,7 @@ public class Xat extends javax.swing.JFrame {
     private javax.swing.JPanel border;
     private javax.swing.JButton cmdMinimitzar;
     private javax.swing.JButton cmdTancar;
-    private com.projecte.swing.components.Home home2;
+    private com.projecte.swing.Home home2;
     private javax.swing.JPanel titol;
     // End of variables declaration//GEN-END:variables
 }

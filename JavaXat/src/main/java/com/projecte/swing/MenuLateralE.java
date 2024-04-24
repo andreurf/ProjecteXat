@@ -1,5 +1,7 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
+import com.projecte.swing.ItemUsuaris;
+import com.projecte.swing.components.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -78,8 +80,8 @@ public class MenuLateralE extends javax.swing.JPanel {
         menu.add(menuBoto1);
 
         menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
-        menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuGrupBlau.png"))); // NOI18N
-        menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuGrupBlau.png"))); // NOI18N
+        menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuGrupBlau.png")));
+        menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
         menuBoto2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoto2ActionPerformed(evt);

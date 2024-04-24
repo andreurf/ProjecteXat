@@ -1,12 +1,12 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
 /**
  *
  * @author andreu i quim
  */
-public class ChatBottom extends javax.swing.JPanel {
+public class ChatTitol extends javax.swing.JPanel {
 
-    public ChatBottom() {
+    public ChatTitol() {
         initComponents();
     }
 
