@@ -1,11 +1,11 @@
-package com.projecte.swing;
+package com.projecte.main;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import com.projecte.swing.components.PanelLoginRegistre;
-import com.projecte.swing.components.PanelPersonalitzat;
+import com.projecte.swing.PanelLoginRegistre;
+import com.projecte.swing.PanelPersonalitzat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;

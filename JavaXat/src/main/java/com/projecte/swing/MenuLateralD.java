@@ -1,4 +1,4 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.projectes.socket;
+package com.projecte.socket;
 
 /**
  *

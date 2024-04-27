@@ -1,4 +1,4 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -13,6 +13,7 @@ public class ItemUsuaris extends javax.swing.JPanel {
     public ItemUsuaris(String nom) {
         initComponents();
         lbNom.setText(nom);
+        init();
     }
 
     private void init() {
@@ -37,6 +38,8 @@ public class ItemUsuaris extends javax.swing.JPanel {
         imatgeAvatar1 = new com.projecte.swing.components.ImatgeAvatar();
         lbNom = new javax.swing.JLabel();
 
+        setBackground(new Color(242, 242, 242));
+
         imatgeAvatar1.setImage(new javax.swing.ImageIcon(getClass().getResource("/profile.png")));
         imatgeAvatar1.setBorderSize(0);
 
@@ -55,8 +58,12 @@ public class ItemUsuaris extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbNom, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(imatgeAvatar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbNom, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(imatgeAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 

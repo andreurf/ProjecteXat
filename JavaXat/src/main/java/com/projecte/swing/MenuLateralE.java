@@ -1,5 +1,7 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
+import com.projecte.swing.ItemUsuaris;
+import com.projecte.swing.components.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -12,17 +14,41 @@ public class MenuLateralE extends javax.swing.JPanel {
         initComponents();
         init();
     }
-    
-    private void init(){
+
+    private void init() {
         sp.setVerticalScrollBar(new ScrollBar());
-        menuList.setLayout(new MigLayout("fillx","0[]0","5[]5"));
+        menuList.setLayout(new MigLayout("fillx", "0[]0", "5[]5"));
         showPersones();
     }
 
     private void showPersones() {
-        for (int i = 0; i < 20; i++) {
-            menuList.add(new ItemUsuaris("Persona " + i) , "wrap");
+        menuList.removeAll();
+        for (int i = 0; i < 40; i++) {
+            menuList.add(new ItemUsuaris("Persona " + i), "wrap");
         }
+        refrescarMenuList();
+    }
+    
+    private void showGrup(){
+        menuList.removeAll();
+        for (int i = 0; i < 4; i++) {
+            menuList.add(new ItemUsuaris("Grup " + i), "wrap");
+        }
+        refrescarMenuList();
+    }
+    
+    private void showEmail(){
+        menuList.removeAll();
+        for (int i = 0; i < 10; i++) {
+            menuList.add(new ItemUsuaris("Email " + i), "wrap");
+        }
+        refrescarMenuList();
+    }
+    
+    
+    private void refrescarMenuList(){
+        menuList.repaint();
+        menuList.revalidate();
     }
     
     @SuppressWarnings("unchecked")
@@ -44,17 +70,38 @@ public class MenuLateralE extends javax.swing.JPanel {
         menu.setLayout(new java.awt.GridLayout(1, 3));
 
         menuBoto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuMissatgeBlau.png")));
+        menuBoto1.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuMissatgeBlau.png"))); // NOI18N
+        menuBoto1.setSelected(true);
+        menuBoto1.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuMissatge.png"))); // NOI18N
+        menuBoto1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBoto1ActionPerformed(evt);
+            }
+        });
         menu.add(menuBoto1);
 
         menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
+        menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuGrupBlau.png")));
+        menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
+        menuBoto2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBoto2ActionPerformed(evt);
+            }
+        });
         menu.add(menuBoto2);
 
         menuBoto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/box.png")));
+        menuBoto3.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/box_selected.png"))); // NOI18N
+        menuBoto3.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/box.png"))); // NOI18N
+        menuBoto3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuBoto3ActionPerformed(evt);
+            }
+        });
         menu.add(menuBoto3);
 
+        sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        menuList.setPreferredSize(new java.awt.Dimension(166, 568));
 
         javax.swing.GroupLayout menuListLayout = new javax.swing.GroupLayout(menuList);
         menuList.setLayout(menuListLayout);
@@ -90,6 +137,33 @@ public class MenuLateralE extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuBoto1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoto1ActionPerformed
+        if (!menuBoto1.isSelected()) {
+            menuBoto1.setSelected(true);
+            menuBoto2.setSelected(false);
+            menuBoto3.setSelected(false);
+            showPersones();
+        }
+    }//GEN-LAST:event_menuBoto1ActionPerformed
+
+    private void menuBoto2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoto2ActionPerformed
+        if (!menuBoto2.isSelected()) {
+            menuBoto1.setSelected(false);
+            menuBoto2.setSelected(true);
+            menuBoto3.setSelected(false);
+            showGrup();
+        }
+    }//GEN-LAST:event_menuBoto2ActionPerformed
+
+    private void menuBoto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoto3ActionPerformed
+        if (!menuBoto3.isSelected()) {
+            menuBoto1.setSelected(false);
+            menuBoto2.setSelected(false);
+            menuBoto3.setSelected(true);
+            showEmail();
+        }
+    }//GEN-LAST:event_menuBoto3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

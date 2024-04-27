@@ -1,5 +1,6 @@
-package com.projecte.swing.components;
+package com.projecte.swing;
 
+import com.projecte.swing.ChatText;
 import net.miginfocom.swing.MigLayout;
 
 /**
