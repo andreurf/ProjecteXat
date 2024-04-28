@@ -85,6 +85,7 @@ public class Xat extends javax.swing.JFrame {
         cmdMinimitzar.setBorder(null);
         cmdMinimitzar.setBorderPainted(false);
         cmdMinimitzar.setContentAreaFilled(false);
+        cmdMinimitzar.setFocusPainted(false);
         cmdMinimitzar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdMinimitzarActionPerformed(evt);
