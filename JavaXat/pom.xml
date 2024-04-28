@@ -34,6 +34,7 @@
                 <directory>src/main/java/com/projecte/icones</directory>
                 <includes>
                     <include>**/*.png</include>
+                    <include>**/*.jpg</include>
                 </includes>
             </resource>
         </resources>
