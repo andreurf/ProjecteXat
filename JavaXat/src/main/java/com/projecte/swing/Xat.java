@@ -1,9 +1,12 @@
 package com.projecte.swing;
 
+import com.projecte.event.EventImatgeVista;
+import com.projecte.event.PublicEvent;
 import com.projecte.swing.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import static java.lang.System.exit;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -25,6 +28,25 @@ public class Xat extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(800, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10, 10));
+        vImatge.setVisible(false);
+        home.setVisible(true);
+        initEvent();
+    }
+    
+    private void initEvent(){
+        PublicEvent.getInstance().addEventImatgeVista(new EventImatgeVista() {
+            @Override
+            public void vistaImatge(Icon imatge) {
+                vImatge.vistaImatge((imatge));
+            }
+
+            @Override
+            public void guardarImatge(Icon imatge) {
+                System.out.println("Guardar Imatge next update");
+            }
+            
+            
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -37,7 +59,8 @@ public class Xat extends javax.swing.JFrame {
         cmdMinimitzar = new javax.swing.JButton();
         cmdTancar = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
-        home2 = new com.projecte.swing.Home();
+        vImatge = new com.projecte.swing.VistaImatge();
+        home = new com.projecte.swing.Home();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -60,6 +83,7 @@ public class Xat extends javax.swing.JFrame {
 
         cmdMinimitzar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/minimitzar.png")));
         cmdMinimitzar.setBorder(null);
+        cmdMinimitzar.setBorderPainted(false);
         cmdMinimitzar.setContentAreaFilled(false);
         cmdMinimitzar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,8 +116,10 @@ public class Xat extends javax.swing.JFrame {
             .addComponent(cmdTancar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        body.setLayout(new java.awt.BorderLayout());
-        body.add(home2, java.awt.BorderLayout.CENTER);
+        body.setLayout(new java.awt.CardLayout());
+        body.setLayer(vImatge, javax.swing.JLayeredPane.POPUP_LAYER);
+        body.add(vImatge, "card3");
+        body.add(home, "card2");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -178,7 +204,8 @@ public class Xat extends javax.swing.JFrame {
     private javax.swing.JPanel border;
     private javax.swing.JButton cmdMinimitzar;
     private javax.swing.JButton cmdTancar;
-    private com.projecte.swing.Home home2;
+    private com.projecte.swing.Home home;
     private javax.swing.JPanel titol;
+    private com.projecte.swing.VistaImatge vImatge;
     // End of variables declaration//GEN-END:variables
 }

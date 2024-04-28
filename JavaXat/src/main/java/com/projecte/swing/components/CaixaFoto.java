@@ -33,7 +33,7 @@ public class CaixaFoto extends JLayeredPane {
             Graphics2D g2 = (Graphics2D) g;
             Rectangle size = getAutoSize(imatge);
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(toImage(imatge), size.getLocation().x, size.getLocation().y, size.getSize().width, size.getSize().height, null);
+           g2.drawImage(toImage(imatge), size.getLocation().x, size.getLocation().y, size.getSize().width, size.getSize().height, null);
         }
         super.paintComponents(g);
     }
@@ -41,6 +41,12 @@ public class CaixaFoto extends JLayeredPane {
     private Rectangle getAutoSize(Icon image) {
         int w = getWidth();
         int h = getHeight();
+        if(w>imatge.getIconWidth()){
+            w=imatge.getIconWidth();
+        }
+        if(h>imatge.getIconHeight()){
+            w=imatge.getIconHeight();
+        }
         int iw = image.getIconWidth();
         int ih = image.getIconHeight();
         double xScale = (double) w / iw;
@@ -48,8 +54,8 @@ public class CaixaFoto extends JLayeredPane {
         double scale = Math.min(xScale, yScale);
         int width = (int) (scale * iw);
         int height = (int) (scale * ih);
-        int x = (w - width) / 2;
-        int y = (h - height) / 2;
+        int x = getWidth()/2-(width/2);
+        int y = getHeight()/2-(height/2);
         return new Rectangle(new Point(x, y), new Dimension(width, height));
     }
 

@@ -26,6 +26,10 @@ public class ChatE extends javax.swing.JLayeredPane {
         txt.setImatge(false, imatge);
     }
     
+    public void setImatge(String... imatge){
+        txt.setImatge(false, imatge);
+    }
+    
     public void setTime(){
         txt.setTemps("10:30 PM");
     }

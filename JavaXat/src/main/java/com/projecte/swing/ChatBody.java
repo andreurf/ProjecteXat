@@ -19,7 +19,8 @@ public class ChatBody extends javax.swing.JPanel {
         addItemD("hello\nHi");
         addItemE("Simpletext started as a passion project because I couldn’t find what I was looking for. Most apps were trying to do too much and ended up bloated with features I don’t need. So I built Simpletext based on a simple premise — what if there’s an app that refuses to do more, choosing instead to do just one thing, and do it well? For Simpletext, that one thing is writing.", "Raven", new ImageIcon(getClass().getResource("/testing/dog.jpg")), new ImageIcon(getClass().getResource("/testing/dog.jpg")));
         addData("28/04/2024");
-        addItemE("hello\nerererew\newewe", "Dara");
+        String img[]={"LRMj,K-:?G9G_JIon}WqD~ITRPs,","LCHBCj~A000g0MM|-UxuRia{-:xZ"};
+        addItemE("hello\nerererew\newewe", "Dara", img);
         addItemD("hello\nerererew\newewe", new ImageIcon(getClass().getResource("/testing/suri.jpg")));
         addItemE("hello\nerererew\newewe", "Jonh", new ImageIcon(getClass().getResource("/testing/dog.jpg")), new ImageIcon(getClass().getResource("/testing/dog.jpg")));
         addData("Today");
@@ -33,6 +34,17 @@ public class ChatBody extends javax.swing.JPanel {
     }
 
     public final void addItemE(String text, String usuari, Icon... imatge) {
+        ChatEPerfil item = new ChatEPerfil();
+        item.setText(text);
+        item.setImatge(imatge);
+        item.setTime();
+        item.setPerfilUsuari(usuari);
+        body.add(item, "wrap, w 100::80%");
+        body.repaint();
+        body.revalidate();
+    }
+    
+    public final void addItemE(String text, String usuari, String[] imatge) {
         ChatEPerfil item = new ChatEPerfil();
         item.setText(text);
         item.setImatge(imatge);
