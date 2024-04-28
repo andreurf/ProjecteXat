@@ -35,6 +35,7 @@ public class ItemImatge extends javax.swing.JLayeredPane {
         progress1.setBorder(null);
         progress1.setForeground(new java.awt.Color(255, 255, 255));
         progress1.setValue(50);
+        progress1.setProgressType(com.projecte.swing.components.Progress.ProgressType.CANCEL);
 
         foto.setLayer(progress1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 

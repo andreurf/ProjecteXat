@@ -38,6 +38,10 @@ public class ChatEPerfil extends javax.swing.JLayeredPane {
         txt.setImatge(false, imatge);
     }
     
+    public void setFitxer(String nomFitxer, String tamanyFitxer){
+        txt.setFitxer(nomFitxer, tamanyFitxer);
+    }
+    
     public void setTime(){
         txt.setTemps("10:30 PM");
     }

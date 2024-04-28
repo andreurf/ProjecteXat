@@ -79,6 +79,16 @@ public class ChatItem extends javax.swing.JLayeredPane {
         add(layer);
     }
     
+    public void setFitxer(String nomFitxer, String tamanyFitxer){
+        JLayeredPane layer = new JLayeredPane();
+        layer.setLayout(new FlowLayout(FlowLayout.LEFT));
+        layer.setBorder(new EmptyBorder(0, 5, 0, 5));
+        ChatFitxer chatFitxer = new ChatFitxer();
+        chatFitxer.setFitxer(nomFitxer, tamanyFitxer);
+        layer.add(chatFitxer);
+        add(layer);
+    }
+    
     public void sendSucces(){
         if(label!=null){
             label.setIcon(new ImageIcon(getClass().getResource("/tick.png")));
