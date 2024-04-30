@@ -21,7 +21,7 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
  *
  * @author Andreu i Quim
  */
-public class Main extends javax.swing.JFrame {
+public class LoginRegistre extends javax.swing.JFrame {
 
     private MigLayout layout;
     private PanelPersonalitzat panelP;
@@ -32,7 +32,7 @@ public class Main extends javax.swing.JFrame {
     private final double loginSize = 60;
     private final DecimalFormat df = new DecimalFormat("##0.###");
 
-    public Main() {
+    public LoginRegistre() {
         initComponents();
         init();
     }
@@ -146,7 +146,7 @@ public class Main extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                new LoginRegistre().setVisible(true);
             }
         });
     }
