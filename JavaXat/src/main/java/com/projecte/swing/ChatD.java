@@ -23,14 +23,6 @@ public class ChatD extends javax.swing.JLayeredPane {
         txt.seen();
     }
     
-    public void setImatge(Icon... imatge){
-        txt.setImatge(true, imatge);
-    }
-    
-    public void setImatge(String... imatge){
-        txt.setImatge(false, imatge);
-    }
-    
     public void setFitxer(String nomFitxer, String tamanyFitxer){
         txt.setFitxer(nomFitxer, tamanyFitxer);
     }

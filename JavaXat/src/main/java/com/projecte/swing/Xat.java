@@ -1,14 +1,9 @@
 package com.projecte.swing;
 
-import com.projecte.event.EventImatgeVista;
-import com.projecte.event.PublicEvent;
 import com.projecte.swing.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import static java.lang.System.exit;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,26 +23,10 @@ public class Xat extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(900, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10, 10));
-        vImatge.setVisible(false);
         home.setVisible(true);
-        initEvent();
     }
     
-    private void initEvent(){
-        PublicEvent.getInstance().addEventImatgeVista(new EventImatgeVista() {
-            @Override
-            public void vistaImatge(Icon imatge) {
-                vImatge.vistaImatge((imatge));
-            }
 
-            @Override
-            public void guardarImatge(Icon imatge) {
-                System.out.println("Guardar Imatge next update");
-            }
-            
-            
-        });
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -59,7 +38,6 @@ public class Xat extends javax.swing.JFrame {
         cmdMinimitzar = new javax.swing.JButton();
         cmdTancar = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
-        vImatge = new com.projecte.swing.VistaImatge();
         home = new com.projecte.swing.Home();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -118,8 +96,6 @@ public class Xat extends javax.swing.JFrame {
         );
 
         body.setLayout(new java.awt.CardLayout());
-        body.setLayer(vImatge, javax.swing.JLayeredPane.POPUP_LAYER);
-        body.add(vImatge, "card3");
         body.add(home, "card2");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
@@ -183,21 +159,17 @@ public class Xat extends javax.swing.JFrame {
     }//GEN-LAST:event_cmdMinimitzarActionPerformed
 
     private void cmdTancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdTancarActionPerformed
-        //int confirmacio = JOptionPane.showConfirmDialog(null, "Segur que vols tancar l'aplicació?", "Confirmar tancament", JOptionPane.YES_NO_OPTION);
-
-        //if (confirmacio == JOptionPane.YES_OPTION) {
-            System.exit(0);
-        //}
+        System.exit(0);
     }//GEN-LAST:event_cmdTancarActionPerformed
 
-//    public static void main(String args[]) {
-//
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Xat().setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) {
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Xat().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
@@ -207,6 +179,5 @@ public class Xat extends javax.swing.JFrame {
     private javax.swing.JButton cmdTancar;
     private com.projecte.swing.Home home;
     private javax.swing.JPanel titol;
-    private com.projecte.swing.VistaImatge vImatge;
     // End of variables declaration//GEN-END:variables
 }

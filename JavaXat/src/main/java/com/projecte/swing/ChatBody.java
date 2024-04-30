@@ -19,19 +19,10 @@ public class ChatBody extends javax.swing.JPanel {
     public ChatBody() {
         initComponents();
         init();
-        addItemD("Send a text message to a group of contacts. Include photos, personalize your texts, and track who clicked your links.",  new ImageIcon(getClass().getResource("/testing/suri.jpg")), new ImageIcon(getClass().getResource("/testing/mona.jpg")));
+        addItemD("Send a text message to a group of contacts. Include photos, personalize your texts, and track who clicked your links.");
         addItemD("hello\nHi");
-        addItemE("Simpletext started as a passion project because I couldn’t find what I was looking for. Most apps were trying to do too much and ended up bloated with features I don’t need. So I built Simpletext based on a simple premise — what if there’s an app that refuses to do more, choosing instead to do just one thing, and do it well? For Simpletext, that one thing is writing.", "Raven", new ImageIcon(getClass().getResource("/testing/dog.jpg")), new ImageIcon(getClass().getResource("/testing/dog.jpg")));
+        addItemE("Simpletext started as a passion project because I couldn’t find what I was looking for. Most apps were trying to do too much and ended up bloated with features I don’t need. So I built Simpletext based on a simple premise — what if there’s an app that refuses to do more, choosing instead to do just one thing, and do it well? For Simpletext, that one thing is writing.","Quim");
         addData("28/04/2024");
-        String img[]={"LRMj,K-:?G9G_JIon}WqD~ITRPs,","LCHBCj~A000g0MM|-UxuRia{-:xZ"};
-        addItemE("hello\nerererew\newewe", "Dara", img);
-        addItemD("hello\nerererew\newewe", new ImageIcon(getClass().getResource("/testing/suri.jpg")));
-        addItemE("hello\nerererew\newewe", "Jonh", new ImageIcon(getClass().getResource("/testing/dog.jpg")), new ImageIcon(getClass().getResource("/testing/dog.jpg")));
-        addData("Avui");
-          addItemD("Ok.\nCom es diu?");
-        addItemE("", "Ro", new ImageIcon(getClass().getResource("/testing/suri.jpg")));
-        addFitxerE("", "Dara", "fitxer.pdf", "1 MB");
-        addFitxerD("","doc.pdf", "10 MB");
     }
 
     private void init() {
@@ -40,32 +31,9 @@ public class ChatBody extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
 
-    public final void addItemE(String text, String usuari, Icon... imatge) {
-        ChatEPerfil item = new ChatEPerfil();
+    public final void addItemE(String text, String usuari) {
+        ChatE item = new ChatE();
         item.setText(text);
-        item.setImatge(imatge);
-        item.setTime();
-        item.setPerfilUsuari(usuari);
-        body.add(item, "wrap, w 100::80%");
-        body.repaint();
-        body.revalidate();
-    }
-    
-    public final void addItemE(String text, String usuari, String[] imatge) {
-        ChatEPerfil item = new ChatEPerfil();
-        item.setText(text);
-        item.setImatge(imatge);
-        item.setTime();
-        item.setPerfilUsuari(usuari);
-        body.add(item, "wrap, w 100::80%");
-        body.repaint();
-        body.revalidate();
-    }
-    
-    public final void addFitxerE(String text, String usuari, String nomFitxer, String tamanyFitxer) {
-        ChatEPerfil item = new ChatEPerfil();
-        item.setText(text);
-        item.setFitxer(nomFitxer, tamanyFitxer);
         item.setTime();
         item.setPerfilUsuari(usuari);
         body.add(item, "wrap, w 100::80%");
@@ -73,10 +41,9 @@ public class ChatBody extends javax.swing.JPanel {
         body.revalidate();
     }
 
-    public final void addItemD(String text, Icon... imatge) {
+    public final void addItemD(String text) {
         ChatD item = new ChatD();
         item.setText(text);
-        item.setImatge(imatge);
         body.add(item, "wrap, al right, w 100::80%");
         body.repaint();
         body.revalidate();

@@ -1,6 +1,5 @@
 package com.projecte.swing;
 
-import com.projecte.swing.ItemUsuaris;
 import com.projecte.swing.components.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
@@ -37,14 +36,6 @@ public class MenuLateralE extends javax.swing.JPanel {
         refrescarMenuList();
     }
     
-    private void showEmail(){
-        menuList.removeAll();
-        for (int i = 0; i < 10; i++) {
-            menuList.add(new ItemUsuaris("Email " + i), "wrap");
-        }
-        refrescarMenuList();
-    }
-    
     
     private void refrescarMenuList(){
         menuList.repaint();
@@ -58,7 +49,6 @@ public class MenuLateralE extends javax.swing.JPanel {
         menu = new javax.swing.JLayeredPane();
         menuBoto1 = new com.projecte.swing.components.MenuBoto();
         menuBoto2 = new com.projecte.swing.components.MenuBoto();
-        menuBoto3 = new com.projecte.swing.components.MenuBoto();
         sp = new javax.swing.JScrollPane();
         menuList = new javax.swing.JLayeredPane();
 
@@ -89,16 +79,6 @@ public class MenuLateralE extends javax.swing.JPanel {
             }
         });
         menu.add(menuBoto2);
-
-        menuBoto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/box.png")));
-        menuBoto3.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/box_selected.png"))); // NOI18N
-        menuBoto3.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/box.png"))); // NOI18N
-        menuBoto3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuBoto3ActionPerformed(evt);
-            }
-        });
-        menu.add(menuBoto3);
 
         sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -142,7 +122,6 @@ public class MenuLateralE extends javax.swing.JPanel {
         if (!menuBoto1.isSelected()) {
             menuBoto1.setSelected(true);
             menuBoto2.setSelected(false);
-            menuBoto3.setSelected(false);
             showPersones();
         }
     }//GEN-LAST:event_menuBoto1ActionPerformed
@@ -151,26 +130,15 @@ public class MenuLateralE extends javax.swing.JPanel {
         if (!menuBoto2.isSelected()) {
             menuBoto1.setSelected(false);
             menuBoto2.setSelected(true);
-            menuBoto3.setSelected(false);
             showGrup();
         }
     }//GEN-LAST:event_menuBoto2ActionPerformed
-
-    private void menuBoto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoto3ActionPerformed
-        if (!menuBoto3.isSelected()) {
-            menuBoto1.setSelected(false);
-            menuBoto2.setSelected(false);
-            menuBoto3.setSelected(true);
-            showEmail();
-        }
-    }//GEN-LAST:event_menuBoto3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane menu;
     private com.projecte.swing.components.MenuBoto menuBoto1;
     private com.projecte.swing.components.MenuBoto menuBoto2;
-    private com.projecte.swing.components.MenuBoto menuBoto3;
     private javax.swing.JLayeredPane menuList;
     private javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
