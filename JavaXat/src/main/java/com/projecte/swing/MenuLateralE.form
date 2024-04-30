@@ -84,18 +84,6 @@
             <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrup.png&quot;)));"/>
           </AuxValues>
         </Component>
-        <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto3">
-          <Properties>
-            <Property name="iconSelected" postCode="menuBoto3.setIconSelected(new javax.swing.ImageIcon(getClass().getResource(&quot;/box_selected.png&quot;))); // NOI18N"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto3ActionPerformed"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto3.setIconSimple(new javax.swing.ImageIcon(getClass().getResource(&quot;/box.png&quot;))); // NOI18N"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto3.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/box.png&quot;)));"/>
-          </AuxValues>
-        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JScrollPane" name="sp">

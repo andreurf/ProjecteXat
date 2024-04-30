@@ -1,7 +1,6 @@
 package com.projecte.swing;
 
 import java.awt.Color;
-import javax.swing.Icon;
 
 /**
  *
@@ -22,16 +21,8 @@ public class ChatE extends javax.swing.JLayeredPane {
         }
     }
     
-    public void setImatge(Icon... imatge){
-        txt.setImatge(false, imatge);
-    }
-    
-    public void setImatge(String... imatge){
-        txt.setImatge(false, imatge);
-    }
-    
-    public void setFitxer(String nomFitxer, String tamanyFitxer){
-        txt.setFitxer(nomFitxer, tamanyFitxer);
+    public void setPerfilUsuari(String usuari){
+        txt.setPerfilUsuari(usuari);
     }
     
     public void setTime(){
