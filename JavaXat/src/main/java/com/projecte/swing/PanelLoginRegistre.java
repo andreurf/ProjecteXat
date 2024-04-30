@@ -1,17 +1,14 @@
 package com.projecte.swing;
 
 import com.projecte.models.Usuari;
-import com.projecte.service.MongoDBConexio;
-import com.projecte.swing.Xat;
+import com.projecte.service.Servidor;
 import com.projecte.swing.components.Boto;
 import com.projecte.swing.components.JTextFieldPassword;
 import com.projecte.swing.components.JTextFieldPersonalitzat;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,11 +22,11 @@ import net.miginfocom.swing.MigLayout;
  */
 public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
-    private MongoDBConexio dbConnection;
+    private Servidor dbConnection;
 
     public PanelLoginRegistre() {
         initComponents();
-        dbConnection = new MongoDBConexio();
+        dbConnection = new Servidor();
         initRegistre();
         initLogin();
         login.setVisible(false);
@@ -50,12 +47,6 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         txtUser.setHint("Usuari");
         registre.add(txtUser, "w 60%");
 
-        //TextField Email
-        JTextFieldPersonalitzat txtEmail = new JTextFieldPersonalitzat();
-        txtEmail.setPrefixIcon(new ImageIcon(getClass().getResource("/mail.png")));
-        txtEmail.setHint("Correu Electrònic");
-        registre.add(txtEmail, "w 60%");
-
         //TextField Contrassenya
         JTextFieldPassword txtPass = new JTextFieldPassword();
         txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
@@ -68,24 +59,20 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         cmd.setText("REGISTRAR-SE");
         cmd.addActionListener((ActionEvent e) -> {
             String usuario = txtUser.getText();
-            String email = txtEmail.getText();
             String contrasena = txtPass.getText();
 
-            if (usuario.isEmpty() || email.isEmpty() || contrasena.isEmpty()) {
+            if (usuario.isEmpty() || contrasena.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Els camps d'usuari, correu electrònic i contrasenya no poden estar buits", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            Usuari newUser = new Usuari(usuario, contrasena, email);
+            Usuari newUser = new Usuari(usuario, contrasena);
 
             try {
                 boolean usuariExisteix = dbConnection.validarUsuari(usuario);
-                boolean emailExisteix = dbConnection.validarEmail(email);
 
                 if (usuariExisteix) {
                     JOptionPane.showMessageDialog(null, "El nom d'usuari ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
-                } else if (emailExisteix) {
-                    JOptionPane.showMessageDialog(null, "El correu electrònic ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     dbConnection.insertUser(newUser);
                     JOptionPane.showMessageDialog(null, "Usuari registrat correctament");
@@ -137,7 +124,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 boolean loginOk = dbConnection.iniciarSecio(usuari, contrasenya);
 
                 if (loginOk) {
-                    Xat x = new Xat();
+                    Client x = new Client();
                     x.setVisible(true);
                     SwingUtilities.getWindowAncestor(this).setVisible(false);
                 } else {
