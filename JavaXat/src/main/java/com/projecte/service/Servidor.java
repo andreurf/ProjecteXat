@@ -1,10 +1,12 @@
 package com.projecte.service;
 
+import com.projecte.models.Missatge;
 import com.projecte.models.Usuari;
 import com.projecte.swing.Xat;
 import java.awt.List;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 public class Servidor {
 
     private static ArrayList<Usuari> usuaris = new ArrayList<Usuari>();
+    private static ArrayList<Socket> socketsConectats = new ArrayList<>();
 
     public static void main(String[] args) {
         try {
@@ -27,9 +30,8 @@ public class Servidor {
             while (true) {
 
                 Socket newSocket = serverSocket.accept();
-
-//                Xat x = new Xat();
-//                x.setVisible(true);
+                socketsConectats.add(newSocket);
+                
                 InputStream is = newSocket.getInputStream();
                 OutputStream os = newSocket.getOutputStream();
 
@@ -53,5 +55,18 @@ public class Servidor {
             username.add(usuaris.get(i).getUsuari());
         }
         return username;
+    }
+    
+    private static void enviarMissatge(Missatge missatge) {
+        for (Socket socket : socketsConectats) {
+            try {
+                OutputStream os = socket.getOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(os);
+                oos.writeObject(missatge);
+                oos.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
