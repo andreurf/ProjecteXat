@@ -9,9 +9,9 @@ import javax.swing.ImageIcon;
  *
  * @author andreu i quim
  */
-public class Client extends javax.swing.JFrame {
+public class Xat extends javax.swing.JFrame {
 
-    public Client() {
+    public Xat() {
         initComponents();
         init();
     }
@@ -166,7 +166,7 @@ public class Client extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Client().setVisible(true);
+                new Xat().setVisible(true);
             }
         });
     }

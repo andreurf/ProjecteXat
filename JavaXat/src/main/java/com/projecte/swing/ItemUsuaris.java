@@ -1,23 +1,35 @@
 package com.projecte.swing;
 
+import com.projecte.models.Usuari;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JLabel;
 
 /**
  *
  * @author andreu i quim
  */
 public class ItemUsuaris extends javax.swing.JPanel {
-
-    public ItemUsuaris(String nom) {
+    
+    private ChatTitol chatTitol;
+   
+    public ItemUsuaris(String nom, ChatTitol chatTitol) {
         initComponents();
+        this.chatTitol = chatTitol;
         lbNom.setText(nom);
         init();
     }
 
     private void init() {
         addMouseListener(new MouseAdapter(){
+            
+            @Override
+            public void mouseClicked(MouseEvent e) {                
+               chatTitol.setNomUsuari(lbNom.getText());
+               setBackground(new Color(255, 0, 0));
+            }
+            
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(new Color(230, 230, 230));
@@ -31,6 +43,7 @@ public class ItemUsuaris extends javax.swing.JPanel {
             
         });
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,7 +57,6 @@ public class ItemUsuaris extends javax.swing.JPanel {
         imatgeAvatar1.setBorderSize(0);
 
         lbNom.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbNom.setText("Nom Usuari");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -1,40 +1,57 @@
 package com.projecte.service;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.projecte.models.Usuari;
-import org.bson.Document;
+import com.projecte.swing.Xat;
+import java.awt.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
 
 public class Servidor {
-    private final MongoClient mongoClient;
-    private final MongoDatabase database;
-    private final MongoCollection<Document> userCollection;
 
-    public Servidor() {
-        mongoClient = new MongoClient("localhost", 27017);
-        database = mongoClient.getDatabase("projecte");
-        userCollection = database.getCollection("usuaris");
+    private static ArrayList<Usuari> usuaris = new ArrayList<Usuari>();
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Creant Socket servidor");
+
+            ServerSocket serverSocket = new ServerSocket();
+
+            InetSocketAddress addr = new InetSocketAddress("127.0.0.1", 7878);
+
+            serverSocket.bind(addr);
+            while (true) {
+
+                Socket newSocket = serverSocket.accept();
+
+//                Xat x = new Xat();
+//                x.setVisible(true);
+                InputStream is = newSocket.getInputStream();
+                OutputStream os = newSocket.getOutputStream();
+
+                byte[] missatge = new byte[50];
+
+                is.read(missatge);
+
+                os.write("OPEN_CHAT".getBytes());
+
+                Usuari user = new Usuari(new String(missatge));
+                usuaris.add(user);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void insertUser(Usuari user) {
-        Document userDoc = new Document("usuari", user.getUsuari())
-                            .append("password", user.getPassword());
-        userCollection.insertOne(userDoc);
+    public static ArrayList<String> getUsuariConectat() {
+        ArrayList<String> username = new ArrayList<>();
+        for (int i = 0; i < usuaris.size(); i++) {
+            username.add(usuaris.get(i).getUsuari());
+        }
+        return username;
     }
-
-    public boolean validarUsuari(String usuari) {
-        Document query = new Document("usuari", usuari);
-        FindIterable<Document> result = userCollection.find(query);
-        return result.first() != null;
-    }
-    
-    public boolean iniciarSecio(String usuari, String contrasenya) {
-    Document query = new Document("usuari", usuari).append("password", contrasenya);
-    FindIterable<Document> result = userCollection.find(query);
-    return result.first() != null;
-}
-
-    
 }
