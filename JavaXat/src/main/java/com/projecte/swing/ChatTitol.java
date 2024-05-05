@@ -1,6 +1,7 @@
 package com.projecte.swing;
 
 import java.awt.Color;
+import javax.swing.JLabel;
 
 /**
  *
@@ -11,21 +12,23 @@ public class ChatTitol extends javax.swing.JPanel {
     public ChatTitol() {
         initComponents();
     }
-    
-    public void setNomUsuari(String nomUsuari){
+
+    public void setNomUsuari(String nomUsuari) {
         lbNom.setText(nomUsuari);
+        lbNom.revalidate();
+        lbNom.repaint();
     }
-    
-    public void estatActiu(){
+
+    public void estatActiu() {
         lbStatus.setText("Actiu");
         lbStatus.setForeground(new java.awt.Color(40, 147, 59));
     }
-    
-    public void setStatusText(String text){
+
+    public void setStatusText(String text) {
         lbStatus.setText(text);
         lbStatus.setForeground(new Color(160, 160, 160));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

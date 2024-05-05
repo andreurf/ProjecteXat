@@ -1,6 +1,12 @@
 package com.projecte.swing;
 
+import com.projecte.models.Usuari;
+import com.projecte.service.Client;
+import com.projecte.service.Servidor;
+import com.projecte.service.ServidorMDB;
 import com.projecte.swing.components.ScrollBar;
+import java.util.ArrayList;
+import java.util.List;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -9,8 +15,11 @@ import net.miginfocom.swing.MigLayout;
  */
 public class MenuLateralE extends javax.swing.JPanel {
 
-    public MenuLateralE() {
+    private ChatTitol chatTitol;
+
+    public MenuLateralE(ChatTitol chatTitol) {
         initComponents();
+        this.chatTitol = chatTitol;
         init();
     }
 
@@ -22,26 +31,31 @@ public class MenuLateralE extends javax.swing.JPanel {
 
     private void showPersones() {
         menuList.removeAll();
-        for (int i = 0; i < 40; i++) {
-            menuList.add(new ItemUsuaris("Persona " + i), "wrap");
+        ServidorMDB servidorMDB = new ServidorMDB();
+        String nomActual = Client.getNomUsuari();
+        List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
+        for (String nom : nomUsuaris) {
+            menuList.add(new ItemUsuaris(nom, chatTitol), "wrap");
         }
+//        for (int i = 0; i < 2; i++) {
+//            menuList.add(new ItemUsuaris("User " + i, chatTitol), "wrap");
+//        }
         refrescarMenuList();
     }
-    
-    private void showGrup(){
+
+    private void showGrup() {
         menuList.removeAll();
-        for (int i = 0; i < 4; i++) {
-            menuList.add(new ItemUsuaris("Grup " + i), "wrap");
+        for (int i = 0; i < 1; i++) {
+            menuList.add(new ItemUsuaris("Grup " + i, chatTitol), "wrap");
         }
         refrescarMenuList();
     }
-    
-    
-    private void refrescarMenuList(){
+
+    private void refrescarMenuList() {
         menuList.repaint();
         menuList.revalidate();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
