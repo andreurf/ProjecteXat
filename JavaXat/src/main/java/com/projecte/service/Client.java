@@ -13,11 +13,11 @@ public class Client {
 
     private static Usuari usuari;
     private static Socket cs;
-    
+
     public static void iniciarClient(Usuari user) {
         try {
             System.out.println("Creant Socket client");
-            
+
             usuari = user;
 
             String ip = user.getIp();
@@ -25,7 +25,7 @@ public class Client {
             cs = new Socket(ip, 7878);
 
             System.out.println("Establint la connexi�");
-            
+
             InputStream is = cs.getInputStream();
             OutputStream os = cs.getOutputStream();
 
@@ -35,14 +35,19 @@ public class Client {
             byte[] messageBytes = new byte[50];
             is.read(messageBytes);
             String message = new String(messageBytes).trim();
-            
+
             if (message.equals("OPEN_CHAT")) {
                 Xat xat = new Xat();
                 xat.setVisible(true);
+//                byte[] missBytes = new byte[50];
+//                while (true) {
+//                    is.read(missBytes);
+//                    String miss = new String(missBytes).trim();
+//                    Xat.actualitzarXat(miss);
+//                }
             }
 
-            cs.close();
-
+//            cs.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +56,7 @@ public class Client {
     public static String getNomUsuari() {
         return usuari.getUsuari();
     }
-    
+
     private static void enviarMensaje(Missatge mensaje) {
         try {
             OutputStream os = cs.getOutputStream();
@@ -62,5 +67,5 @@ public class Client {
             e.printStackTrace();
         }
     }
-    
+
 }

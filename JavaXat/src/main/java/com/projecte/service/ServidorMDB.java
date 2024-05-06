@@ -17,8 +17,8 @@ public class ServidorMDB {
     private final MongoCollection<Document> userCollection;
 
     public ServidorMDB() {
-        mongoClient = new MongoClient("localhost", 27017);
-        database = mongoClient.getDatabase("projecte");
+        mongoClient = new MongoClient("57.129.5.24", 27017);
+        database = mongoClient.getDatabase("grup2");
         userCollection = database.getCollection("usuaris");
     }
 

@@ -31,7 +31,7 @@ public class Servidor {
 
                 Socket newSocket = serverSocket.accept();
                 socketsConectats.add(newSocket);
-                
+
                 InputStream is = newSocket.getInputStream();
                 OutputStream os = newSocket.getOutputStream();
 
@@ -43,6 +43,11 @@ public class Servidor {
 
                 Usuari user = new Usuari(new String(missatge));
                 usuaris.add(user);
+
+//                byte[] messageBytes = new byte[50];
+//                is.read(messageBytes);
+//                String miss = new String(messageBytes).trim();
+//                enviarMissatgeGrup(miss);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -56,8 +61,8 @@ public class Servidor {
         }
         return username;
     }
-    
-    private static void enviarMissatge(Missatge missatge) {
+
+    private static void enviarMissatgeGrup(String missatge) {
         for (Socket socket : socketsConectats) {
             try {
                 OutputStream os = socket.getOutputStream();
