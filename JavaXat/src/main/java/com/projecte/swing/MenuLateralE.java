@@ -1,6 +1,8 @@
 package com.projecte.swing;
 
 import com.projecte.models.Usuari;
+import com.projecte.prova.ClientProva;
+import com.projecte.prova.MongoDBManager;
 import com.projecte.service.Client;
 import com.projecte.service.Servidor;
 import com.projecte.service.ServidorMDB;
@@ -16,26 +18,29 @@ import net.miginfocom.swing.MigLayout;
 public class MenuLateralE extends javax.swing.JPanel {
 
     private ChatTitol chatTitol;
+    private ChatBody chatBody;
 
-    public MenuLateralE(ChatTitol chatTitol) {
+
+    public MenuLateralE(ChatTitol chatTitol, ChatBody chatBody) {
         initComponents();
         this.chatTitol = chatTitol;
+        this.chatBody = chatBody;
         init();
     }
 
     private void init() {
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx", "0[]0", "5[]5"));
-        showPersones();
+//        showPersones();
     }
 
     private void showPersones() {
         menuList.removeAll();
-        ServidorMDB servidorMDB = new ServidorMDB();
-        String nomActual = Client.getNomUsuari();
+        MongoDBManager servidorMDB = new MongoDBManager();
+        String nomActual = ClientProva.getNomUsuari();
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {
-            menuList.add(new ItemUsuaris(nom, chatTitol), "wrap");
+            menuList.add(new ItemUsuaris(nom, chatTitol, chatBody), "wrap");
         }
 //        for (int i = 0; i < 2; i++) {
 //            menuList.add(new ItemUsuaris("User " + i, chatTitol), "wrap");
@@ -46,7 +51,7 @@ public class MenuLateralE extends javax.swing.JPanel {
     private void showGrup() {
         menuList.removeAll();
         for (int i = 0; i < 1; i++) {
-            menuList.add(new ItemUsuaris("Grup " + i, chatTitol), "wrap");
+            menuList.add(new ItemUsuaris("DAM", chatTitol, chatBody), "wrap");
         }
         refrescarMenuList();
     }

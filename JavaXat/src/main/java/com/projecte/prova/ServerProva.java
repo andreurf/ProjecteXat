@@ -7,7 +7,7 @@ import java.util.Date; // Importa la classe Date
 
 public class ServerProva {
 
-    private static final int PORT = 1234;
+    private static final int PORT = 7878;
     private static String grup = "DAM"; // Nom del grup fixe
     private static HashSet<PrintWriter> clients = new HashSet<>();
     private static MongoDBManager dbManager = new MongoDBManager();
@@ -42,10 +42,11 @@ public class ServerProva {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
 
-                out.println("Entra el teu nom d'usuari:");
+//                out.println("Entra el teu nom d'usuari:");
+                out.println("OK");
                 nom = in.readLine();
 
-                out.println("Entra la teva contrasenya:"); // Modificat: demana la contrasenya
+//                out.println("Entra la teva contrasenya:"); // Modificat: demana la contrasenya
                 contrasenya = in.readLine(); // Modificat: llegeix la contrasenya
                 System.out.println(nom + " s'ha connectat al grup " + grup);
 

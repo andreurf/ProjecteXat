@@ -17,8 +17,9 @@ public class Home extends javax.swing.JLayeredPane {
     private void init(){
         setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
         ChatTitol chatTitol = new ChatTitol();
-        this.add(new MenuLateralE(chatTitol));
-        this.add(new ChatText(chatTitol));
+        ChatBody chatBody = new ChatBody();
+        this.add(new MenuLateralE(chatTitol, chatBody));
+        this.add(new ChatText(chatTitol, chatBody));
         this.add(new MenuLateralD());
 
         

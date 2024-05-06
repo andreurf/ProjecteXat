@@ -50,7 +50,7 @@ public class ChatBody extends javax.swing.JPanel {
         item.setTime();
         scrollToBottom();
     }
-    
+
     public final void addFitxerD(String text, String nomFitxer, String tamanyFitxer) {
         ChatD item = new ChatD();
         item.setText(text);
@@ -64,6 +64,12 @@ public class ChatBody extends javax.swing.JPanel {
         ChatData item = new ChatData();
         item.setData(data);
         body.add(item, "wrap, al center");
+        body.repaint();
+        body.revalidate();
+    }
+
+    public void limpiarMensajes() {
+        body.removeAll();
         body.repaint();
         body.revalidate();
     }
@@ -104,7 +110,7 @@ public class ChatBody extends javax.swing.JPanel {
             .addComponent(sp)
         );
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void scrollToBottom() {
         JScrollBar verticalBar = sp.getVerticalScrollBar();
         AdjustmentListener downScroller = new AdjustmentListener() {

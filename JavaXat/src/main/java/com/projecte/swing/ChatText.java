@@ -11,17 +11,20 @@ import net.miginfocom.swing.MigLayout;
 public class ChatText extends javax.swing.JPanel {
 
     private ChatTitol chatTitol;
+    private ChatBody chatBody;
+    private ChatBottom chatBottom;
     
-    public ChatText(ChatTitol chatTitol) {
+    public ChatText(ChatTitol chatTitol, ChatBody chatBody) {
         initComponents();
         this.chatTitol = chatTitol;
+        this.chatBody = chatBody;
+//        this.chatBottom = chatBottom;
         init();
     }
     
     private void init(){
         setLayout(new MigLayout("fillx", "0[fill]0","0[]0[100%, bottom]0[shrink 0]0"));
-        ChatBody chatBody = new ChatBody();
-        ChatBottom chatBottom = new ChatBottom();
+        chatBottom = new ChatBottom();
         PublicEvent.getInstance().addEventXat(new EventXat() {
             @Override
             public void enviarMissatge(String missatge) {

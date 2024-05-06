@@ -1,6 +1,7 @@
 package com.projecte.swing;
 
 import com.projecte.models.Usuari;
+import com.projecte.prova.ClientProva;
 import com.projecte.service.Client;
 import com.projecte.service.ServidorMDB;
 import com.projecte.swing.components.Boto;
@@ -12,6 +13,10 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -82,7 +87,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 JOptionPane.showMessageDialog(null, "Error en registrar l'usuari: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-        
+
         txtUser.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -149,7 +154,11 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         txtUser.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    inciarSessio(txtUser, txtPass, txtIPServidor);
+                    try {
+                        inciarSessio(txtUser, txtPass, txtIPServidor);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
 
@@ -162,7 +171,11 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         txtPass.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    inciarSessio(txtUser, txtPass, txtIPServidor);
+                    try {
+                        inciarSessio(txtUser, txtPass, txtIPServidor);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
 
@@ -175,7 +188,11 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         txtIPServidor.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    inciarSessio(txtUser, txtPass, txtIPServidor);
+                    try {
+                        inciarSessio(txtUser, txtPass, txtIPServidor);
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
 
@@ -196,20 +213,46 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setText("Iniciar Sesión");
         cmd.addActionListener((ActionEvent e) -> {
-            inciarSessio(txtUser, txtPass, txtIPServidor);
+            try {
+                inciarSessio(txtUser, txtPass, txtIPServidor);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         login.add(cmd, "w 40%, h 40");
 
     }
 
-    public void inciarSessio(JTextFieldPersonalitzat txtUser, JTextFieldPassword txtPass, JTextFieldPersonalitzat txtIPServidor) {
+    public void inciarSessio(JTextFieldPersonalitzat txtUser, JTextFieldPassword txtPass, JTextFieldPersonalitzat txtIPServidor) throws IOException {
+        String usuari = txtUser.getText();
+        String contrasenya = txtPass.getText();
+        String ipServidor = txtIPServidor.getText();
+
+        // Crear una instancia del cliente
+        ClientProva client = new ClientProva(ipServidor, 7878);
+        // Enviar las credenciales al servidor a través del cliente
+        boolean loginOk = client.iniciarSesion(usuari, contrasenya);
+        if (loginOk) {
+            JOptionPane.showMessageDialog(null, "Sesión iniciada correctamente");
+            SwingUtilities.getWindowAncestor(this).setVisible(false);
+            Xat xat = new Xat();
+            xat.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // Cerrar la conexión con el servidor
+        // client.close();
+    }
+
+    /*public void inciarSessio(JTextFieldPersonalitzat txtUser, JTextFieldPassword txtPass, JTextFieldPersonalitzat txtIPServidor) {
         String usuari = txtUser.getText();
         String contrasenya = txtPass.getText();
         String ipServidor = txtIPServidor.getText();
 
         try {
-
+            
             boolean loginOk = dbConnection.iniciarSecio(usuari, contrasenya);
 
             if (loginOk) {
@@ -222,8 +265,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error en iniciar sessió: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
+    }*/
     public void registrar(JTextFieldPersonalitzat txtUser, JTextFieldPassword txtPass) {
         String usuari = txtUser.getText();
         String contrasena = txtPass.getText();

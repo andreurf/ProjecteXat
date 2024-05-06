@@ -11,7 +11,6 @@ public class MissatgeModelProva {
 
     public MissatgeModelProva() {
     }
-    
 
     public MissatgeModelProva(String nomUsuari, String missatge, Date dataHora, String grup) {
         this.nomUsuari = nomUsuari;
@@ -24,16 +23,41 @@ public class MissatgeModelProva {
         return nomUsuari;
     }
 
+    public void setNomUsuari(String nomUsuari) {
+        this.nomUsuari = nomUsuari;
+    }
+
     public String getMissatge() {
         return missatge;
+    }
+
+    public void setMissatge(String missatge) {
+        this.missatge = missatge;
     }
 
     public Date getDataHora() {
         return dataHora;
     }
 
+    public void setDataHora(Date dataHora) {
+        this.dataHora = dataHora;
+    }
+
     public String getGrup() {
         return grup;
     }
 
+    public void setGrup(String grup) {
+        this.grup = grup;
+    }
+
+    @Override
+    public String toString() {
+        return "MissatgeModelProva{" +
+                "nomUsuari='" + nomUsuari + '\'' +
+                ", missatge='" + missatge + '\'' +
+                ", dataHora=" + dataHora +
+                ", grup='" + grup + '\'' +
+                '}';
+    }
 }

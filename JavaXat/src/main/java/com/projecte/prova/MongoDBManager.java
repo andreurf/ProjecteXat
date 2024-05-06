@@ -36,20 +36,36 @@ public class MongoDBManager {
     }
 
     // Mètode per recuperar els missatges d'un dia concret per a un grup determinat
-    public List<Document> obtenirMissatgesDiaPerGrup(Date data, String grup) {
-        List<Document> missatgesDiaGrup = new ArrayList<>();
-        MongoCursor<Document> cursor = missatgesCollection.find(Filters.and(
-                Filters.eq("dataHora", data),
-                Filters.eq("grup", grup)
-        )).iterator();
+    public List<MissatgeModelProva> obtenirMissatgesPerGrup(String grup) {
+        List<MissatgeModelProva> missatgesGrup = new ArrayList<>();
+        MongoCursor<Document> cursor = missatgesCollection.find(Filters.eq("grup", grup)).iterator();
         try {
             while (cursor.hasNext()) {
-                missatgesDiaGrup.add(cursor.next());
+                Document doc = cursor.next();
+                String nomUsuari = doc.getString("usuari");
+                String missatge = doc.getString("missatge");
+                Date dataHora = doc.getDate("dataHora");
+                missatgesGrup.add(new MissatgeModelProva(nomUsuari, missatge, dataHora, grup));
             }
         } finally {
             cursor.close();
         }
-        return missatgesDiaGrup;
+        return missatgesGrup;
+    }
+
+    public List<MissatgeModelProva> obtenirMissatgesPerUsuari(String nomUsuari) {
+        List<MissatgeModelProva> missatges = new ArrayList<>();
+        FindIterable<Document> result = missatgesCollection.find(Filters.eq("usuari", nomUsuari));
+        try ( MongoCursor<Document> cursor = result.iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                String missatge = doc.getString("missatge");
+                Date dataHora = new Date();
+                String grup = "Grupo predeterminado";
+                missatges.add(new MissatgeModelProva(nomUsuari, missatge, dataHora, grup));
+            }
+        }
+        return missatges;
     }
 
     // Mètode per desar un usuari connectat a la base de dades
@@ -77,7 +93,23 @@ public class MongoDBManager {
         }
         return nomsUsuarisConnectats;
     }
-    
+
+    public List<String> obtindreNomsUsuaris(String nomUsuari) {
+        List<String> nomUsuaris = new ArrayList<>();
+        FindIterable<Document> result = usuarisCollection.find();
+        try ( MongoCursor<Document> cursor = result.iterator()) {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                String nom = doc.getString("usuari");
+                // Excloure el nom del usuari actual
+                if (!nom.equals(nomUsuari)) {
+                    nomUsuaris.add(nom);
+                }
+            }
+        }
+        return nomUsuaris;
+    }
+
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
