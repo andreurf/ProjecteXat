@@ -44,6 +44,8 @@ public class ItemUsuaris extends javax.swing.JPanel {
                         chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari());
                     }
                 }
+                chatBody.revalidate();
+                chatBody.repaint();
                 /*List<MissatgeModelProva> missatges = manager.obtenirMissatgesPerUsuari(nomUsuari);
                 for (MissatgeModelProva missatge : missatges) {
                     if (missatge.getNomUsuari().equals(nomUsuari)) {
