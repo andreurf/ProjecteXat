@@ -1,9 +1,6 @@
 package com.projecte.service;
 
-import com.projecte.models.Missatge;
 import com.projecte.models.Usuari;
-import com.projecte.swing.Xat;
-import java.awt.List;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
