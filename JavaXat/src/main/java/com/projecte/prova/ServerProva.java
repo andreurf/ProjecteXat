@@ -61,6 +61,7 @@ public class ServerProva {
                 String missatge;
                 while (true) {
                     missatge = in.readLine();
+                    System.out.println(missatge);
                     if (missatge == null) {
                         return;
                     }

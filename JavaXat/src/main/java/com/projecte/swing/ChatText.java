@@ -2,6 +2,7 @@ package com.projecte.swing;
 
 import com.projecte.event.EventXat;
 import com.projecte.event.PublicEvent;
+import com.projecte.prova.ClientProva;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -13,18 +14,20 @@ public class ChatText extends javax.swing.JPanel {
     private ChatTitol chatTitol;
     private ChatBody chatBody;
     private ChatBottom chatBottom;
+    private ClientProva client;
     
-    public ChatText(ChatTitol chatTitol, ChatBody chatBody) {
+    public ChatText(ChatTitol chatTitol, ChatBody chatBody, ClientProva client) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;
+        this.client = client;
 //        this.chatBottom = chatBottom;
         init();
     }
     
     private void init(){
         setLayout(new MigLayout("fillx", "0[fill]0","0[]0[100%, bottom]0[shrink 0]0"));
-        chatBottom = new ChatBottom();
+        chatBottom = new ChatBottom(client);
         PublicEvent.getInstance().addEventXat(new EventXat() {
             @Override
             public void enviarMissatge(String missatge) {

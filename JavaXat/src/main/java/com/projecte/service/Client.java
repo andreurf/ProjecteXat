@@ -37,8 +37,8 @@ public class Client {
             String message = new String(messageBytes).trim();
 
             if (message.equals("OPEN_CHAT")) {
-                Xat xat = new Xat();
-                xat.setVisible(true);
+//                Xat xat = new Xat();
+//                xat.setVisible(true);
 //                byte[] missBytes = new byte[50];
 //                while (true) {
 //                    is.read(missBytes);

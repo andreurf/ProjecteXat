@@ -8,8 +8,9 @@ public class ClientProva {
     private int serverPort;
     private Socket socket;
     private BufferedReader in;
-    private PrintWriter out;
+    private static PrintWriter out;
     private static String usuari;
+    private static String text;
 
     public ClientProva(String serverIP, int serverPort) {
         this.serverIP = serverIP;
@@ -34,15 +35,24 @@ public class ClientProva {
             return resposta.equals("OK");
         } finally {
             // Cerrar conexiones
-            if (socket != null) {
-                socket.close();
-            }
-            if (in != null) {
-                in.close();
-            }
-            if (out != null) {
-                out.close();
-            }
+//            if (socket != null) {
+//                socket.close();
+//            }
+//            if (in != null) {
+//                in.close();
+//            }
+//            if (out != null) {
+//                out.close();
+//            }
+        }
+    }
+    
+    public void enviarMissatge(String text){
+        try {
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println(text);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

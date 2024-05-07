@@ -236,7 +236,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         if (loginOk) {
             JOptionPane.showMessageDialog(null, "Sesión iniciada correctamente");
             SwingUtilities.getWindowAncestor(this).setVisible(false);
-            Xat xat = new Xat();
+            Xat xat = new Xat(client);
             xat.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);

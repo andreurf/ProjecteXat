@@ -1,6 +1,5 @@
 package com.projecte.swing;
 
-import com.projecte.models.Usuari;
 import com.projecte.prova.ClientProva;
 import com.projecte.prova.MissatgeModelProva;
 import com.projecte.prova.MongoDBManager;
@@ -8,7 +7,8 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.JLabel;
+
+
 
 /**
  *
