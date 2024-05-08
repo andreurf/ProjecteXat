@@ -1,35 +1,63 @@
 package com.projecte.swing;
 
-import com.projecte.models.Usuari;
+import com.projecte.prova.ClientProva;
+import com.projecte.prova.MissatgeModelProva;
+import com.projecte.prova.MongoDBManager;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JLabel;
+import java.util.List;
+
+
 
 /**
  *
  * @author andreu i quim
  */
 public class ItemUsuaris extends javax.swing.JPanel {
-    
+
     private ChatTitol chatTitol;
-   
-    public ItemUsuaris(String nom, ChatTitol chatTitol) {
+    private ChatBody chatBody;
+
+    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody) {
         initComponents();
         this.chatTitol = chatTitol;
+        this.chatBody = chatBody;
         lbNom.setText(nom);
         init();
     }
 
     private void init() {
-        addMouseListener(new MouseAdapter(){
-            
+        addMouseListener(new MouseAdapter() {
+
             @Override
-            public void mouseClicked(MouseEvent e) {                
-               chatTitol.setNomUsuari(lbNom.getText());
-               setBackground(new Color(255, 0, 0));
+            public void mouseClicked(MouseEvent e) {
+                chatTitol.setNomUsuari(lbNom.getText());
+                chatBody.limpiarMensajes();
+                String nomUsuari = ClientProva.getNomUsuari();
+                MongoDBManager manager = new MongoDBManager();
+                List<MissatgeModelProva> missatges = manager.obtenirMissatgesPerGrup("DAM");
+                for (MissatgeModelProva missatge : missatges) {
+                    if (missatge.getNomUsuari().equals(nomUsuari)) {
+                        chatBody.addItemD(missatge.getMissatge());
+                    } else {
+                        chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari());
+                    }
+                }
+                chatBody.revalidate();
+                chatBody.repaint();
+                /*List<MissatgeModelProva> missatges = manager.obtenirMissatgesPerUsuari(nomUsuari);
+                for (MissatgeModelProva missatge : missatges) {
+                    if (missatge.getNomUsuari().equals(nomUsuari)) {
+                        chatBody.addItemD(missatge.getMissatge());
+                        System.out.println(missatge.getMissatge());
+                    } else {
+                        chatBody.addItemE(missatge.getMissatge(), "Others");
+                        System.out.println(missatge.getMissatge());
+                    }
+                }*/
             }
-            
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 setBackground(new Color(230, 230, 230));
@@ -39,11 +67,10 @@ public class ItemUsuaris extends javax.swing.JPanel {
             public void mouseExited(MouseEvent e) {
                 setBackground(new Color(242, 242, 242));
             }
-            
-            
+
         });
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

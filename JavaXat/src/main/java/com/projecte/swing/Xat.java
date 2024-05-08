@@ -1,5 +1,6 @@
 package com.projecte.swing;
 
+import com.projecte.prova.ClientProva;
 import com.projecte.swing.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -10,8 +11,11 @@ import javax.swing.ImageIcon;
  * @author andreu i quim
  */
 public class Xat extends javax.swing.JFrame {
-
-    public Xat() {
+    
+    private ClientProva client;
+    
+    public Xat(ClientProva client) {
+        this.client = client;
         initComponents();
         init();
     }
@@ -23,8 +27,6 @@ public class Xat extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(900, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10, 10));
-//        Home home = new Home();
-        home.setVisible(true);
     }
     
     public void actualitzarXat(String missatge){
@@ -43,7 +45,7 @@ public class Xat extends javax.swing.JFrame {
         cmdMinimitzar = new javax.swing.JButton();
         cmdTancar = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
-        home = new com.projecte.swing.Home();
+        home1 = new com.projecte.swing.Home(client);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -101,7 +103,7 @@ public class Xat extends javax.swing.JFrame {
         );
 
         body.setLayout(new java.awt.CardLayout());
-        body.add(home, "card2");
+        body.add(home1, "card2");
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -117,8 +119,8 @@ public class Xat extends javax.swing.JFrame {
             backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(titol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addComponent(body)
+                .addGap(0, 0, 0)
+                .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
                 .addGap(4, 4, 4))
         );
 
@@ -130,7 +132,9 @@ public class Xat extends javax.swing.JFrame {
         );
         borderLayout.setVerticalGroup(
             borderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(borderLayout.createSequentialGroup()
+                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,14 +171,14 @@ public class Xat extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_cmdTancarActionPerformed
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Xat().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Xat().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
@@ -182,7 +186,7 @@ public class Xat extends javax.swing.JFrame {
     private javax.swing.JPanel border;
     private javax.swing.JButton cmdMinimitzar;
     private javax.swing.JButton cmdTancar;
-    private com.projecte.swing.Home home;
+    private com.projecte.swing.Home home1;
     private javax.swing.JPanel titol;
     // End of variables declaration//GEN-END:variables
 }
