@@ -2,7 +2,7 @@ package com.projecte.swing;
 
 import com.projecte.event.EventXat;
 import com.projecte.event.PublicEvent;
-import com.projecte.prova.ClientProva;
+import com.projecte.prova.Client;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -14,9 +14,9 @@ public class ChatText extends javax.swing.JPanel {
     private ChatTitol chatTitol;
     private ChatBody chatBody;
     private ChatBottom chatBottom;
-    private ClientProva client;
+    private Client client;
     
-    public ChatText(ChatTitol chatTitol, ChatBody chatBody, ClientProva client) {
+    public ChatText(ChatTitol chatTitol, ChatBody chatBody, Client client) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;

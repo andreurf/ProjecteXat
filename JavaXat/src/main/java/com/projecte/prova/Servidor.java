@@ -5,12 +5,12 @@ import java.net.*;
 import java.util.*;
 import java.util.Date; // Importa la classe Date
 
-public class ServerProva {
+public class Servidor {
 
     private static final int PORT = 7878;
     private static String grup = "DAM"; // Nom del grup fixe
     private static HashSet<PrintWriter> clients = new HashSet<>();
-    private static MongoDBManager dbManager = new MongoDBManager();
+    private static MongoServeis dbManager = new MongoServeis();
 
     public static void main(String[] args) {
         try {
@@ -28,7 +28,7 @@ public class ServerProva {
     private static class Handler extends Thread {
 
         private String nom;
-        private String contrasenya; // Afegit: guarda la contrasenya
+        private String contrasenya;
         private Socket socket;
         private BufferedReader in;
         private PrintWriter out;
@@ -50,7 +50,7 @@ public class ServerProva {
                 contrasenya = in.readLine(); // Modificat: llegeix la contrasenya
                 System.out.println(nom + " s'ha connectat al grup " + grup);
 
-                UsuariModelProva usuari = new UsuariModelProva(nom, contrasenya, new Date(), grup);
+                Usuari usuari = new Usuari(nom, contrasenya, new Date(), grup);
                 dbManager.desarUsuari(usuari);// Desa el missatge a la base de dades
 
                 synchronized (clients) {
@@ -65,7 +65,7 @@ public class ServerProva {
                     if (missatge == null) {
                         return;
                     }
-                    MissatgeModelProva missatgeModel = new MissatgeModelProva(nom, missatge, new Date(), grup);
+                    Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
                     dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
 
                     // Enviar el missatge als clients

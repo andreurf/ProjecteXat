@@ -1,13 +1,8 @@
 package com.projecte.swing;
 
-import com.projecte.models.Usuari;
-import com.projecte.prova.ClientProva;
-import com.projecte.prova.MongoDBManager;
-import com.projecte.service.Client;
-import com.projecte.service.Servidor;
-import com.projecte.service.ServidorMDB;
+import com.projecte.prova.Client;
+import com.projecte.prova.MongoServeis;
 import com.projecte.swing.components.ScrollBar;
-import java.util.ArrayList;
 import java.util.List;
 import net.miginfocom.swing.MigLayout;
 
@@ -36,15 +31,12 @@ public class MenuLateralE extends javax.swing.JPanel {
 
     private void showPersones() {
         menuList.removeAll();
-        MongoDBManager servidorMDB = new MongoDBManager();
-        String nomActual = ClientProva.getNomUsuari();
+        MongoServeis servidorMDB = new MongoServeis();
+        String nomActual = Client.getNomUsuari();
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {
             menuList.add(new ItemUsuaris(nom, chatTitol, chatBody), "wrap");
         }
-//        for (int i = 0; i < 2; i++) {
-//            menuList.add(new ItemUsuaris("User " + i, chatTitol), "wrap");
-//        }
         refrescarMenuList();
     }
 

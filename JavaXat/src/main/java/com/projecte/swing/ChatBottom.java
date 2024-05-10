@@ -1,7 +1,7 @@
 package com.projecte.swing;
 
 import com.projecte.event.PublicEvent;
-import com.projecte.prova.ClientProva;
+import com.projecte.prova.Client;
 import com.projecte.swing.components.JIMSendTextPane;
 import com.projecte.swing.components.ScrollBar;
 import java.awt.Color;
@@ -23,9 +23,9 @@ import net.miginfocom.swing.MigLayout;
  */
 public class ChatBottom extends javax.swing.JPanel {
 
-    private ClientProva client;
+    private Client client;
     
-    public ChatBottom(ClientProva client) {
+    public ChatBottom(Client client) {
         this.client = client;
         initComponents();
         init();
