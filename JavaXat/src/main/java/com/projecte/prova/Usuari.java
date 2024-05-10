@@ -2,21 +2,30 @@ package com.projecte.prova;
 
 import java.util.Date;
 
-public class UsuariModelProva {
+public class Usuari {
 
     private String nomUsuari;
     private String contrasenya;
     private Date horaConnexio;
     private String grup;
 
-    public UsuariModelProva() {
+    public Usuari() {
     }
 
-    public UsuariModelProva(String nomUsuari, String contrasenya, Date horaConnexio, String grup) {
+    public Usuari(String nomUsuari, String contrasenya, Date horaConnexio, String grup) {
         this.nomUsuari = nomUsuari;
         this.contrasenya = contrasenya;
         this.horaConnexio = horaConnexio;
         this.grup = grup;
+    }
+
+    public Usuari(String nomUsuari) {
+        this.nomUsuari = nomUsuari;
+    }
+
+    public Usuari(String nomUsuari, String contrasenya) {
+        this.nomUsuari = nomUsuari;
+        this.contrasenya = contrasenya;
     }
 
     public String getNomUsuari() {

@@ -2,17 +2,17 @@ package com.projecte.prova;
 
 import java.util.Date;
 
-public class MissatgeModelProva {
+public class Missatge {
 
     private String nomUsuari;
     private String missatge;
     private Date dataHora;
     private String grup;
 
-    public MissatgeModelProva() {
+    public Missatge() {
     }
 
-    public MissatgeModelProva(String nomUsuari, String missatge, Date dataHora, String grup) {
+    public Missatge(String nomUsuari, String missatge, Date dataHora, String grup) {
         this.nomUsuari = nomUsuari;
         this.missatge = missatge;
         this.dataHora = dataHora;

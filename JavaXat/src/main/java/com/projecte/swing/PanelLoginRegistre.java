@@ -1,9 +1,8 @@
 package com.projecte.swing;
 
-import com.projecte.models.Usuari;
-import com.projecte.prova.ClientProva;
-import com.projecte.service.Client;
-import com.projecte.service.ServidorMDB;
+import com.projecte.prova.Client;
+import com.projecte.prova.MongoServeis;
+import com.projecte.prova.Usuari;
 import com.projecte.swing.components.Boto;
 import com.projecte.swing.components.JTextFieldPassword;
 import com.projecte.swing.components.JTextFieldPersonalitzat;
@@ -14,9 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,11 +26,11 @@ import net.miginfocom.swing.MigLayout;
  */
 public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
-    private ServidorMDB dbConnection;
+    private MongoServeis mongoServeis;
 
     public PanelLoginRegistre() {
         initComponents();
-        dbConnection = new ServidorMDB();
+        mongoServeis = new MongoServeis();
         initRegistre();
         initLogin();
         login.setVisible(false);
@@ -63,29 +59,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         cmd.setForeground(new Color(250, 250, 250));
         cmd.setText("REGISTRAR-SE");
         cmd.addActionListener((ActionEvent e) -> {
-            String usuario = txtUser.getText();
-            String contrasena = txtPass.getText();
-
-            if (usuario.isEmpty() || contrasena.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Els camps d'usuari, correu electrònic i contrasenya no poden estar buits", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            Usuari newUser = new Usuari(usuario, contrasena);
-            newUser.setUsuari(usuario);
-
-            try {
-                boolean usuariExisteix = dbConnection.validarUsuari(usuario);
-
-                if (usuariExisteix) {
-                    JOptionPane.showMessageDialog(null, "El nom d'usuari ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    dbConnection.insertUser(newUser);
-                    JOptionPane.showMessageDialog(null, "Usuari registrat correctament");
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error en registrar l'usuari: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+            registrar(txtUser, txtPass);
         });
 
         txtUser.addKeyListener(new KeyListener() {
@@ -228,63 +202,40 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         String usuari = txtUser.getText();
         String contrasenya = txtPass.getText();
         String ipServidor = txtIPServidor.getText();
+        
+        boolean loginOk = mongoServeis.iniciarSecio(usuari, contrasenya);
 
-        // Crear una instancia del cliente
-        ClientProva client = new ClientProva(ipServidor, 7878);
-        // Enviar las credenciales al servidor a través del cliente
-        boolean loginOk = client.iniciarSesion(usuari, contrasenya);
         if (loginOk) {
             JOptionPane.showMessageDialog(null, "Sesión iniciada correctamente");
             SwingUtilities.getWindowAncestor(this).setVisible(false);
+            Client client = new Client(ipServidor, 7878);
+            client.obtindreUsuari(usuari);
             Xat xat = new Xat(client);
             xat.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        // Cerrar la conexión con el servidor
-        // client.close();
     }
 
-    /*public void inciarSessio(JTextFieldPersonalitzat txtUser, JTextFieldPassword txtPass, JTextFieldPersonalitzat txtIPServidor) {
-        String usuari = txtUser.getText();
-        String contrasenya = txtPass.getText();
-        String ipServidor = txtIPServidor.getText();
-
-        try {
-            
-            boolean loginOk = dbConnection.iniciarSecio(usuari, contrasenya);
-
-            if (loginOk) {
-                Usuari user = new Usuari(usuari, contrasenya, ipServidor);
-                Client.iniciarClient(user);
-                SwingUtilities.getWindowAncestor(this).setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error en iniciar sessió: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }*/
     public void registrar(JTextFieldPersonalitzat txtUser, JTextFieldPassword txtPass) {
-        String usuari = txtUser.getText();
-        String contrasena = txtPass.getText();
+        String nomUsuari = txtUser.getText();
+        String contrasenya = txtPass.getText();
 
-        if (usuari.isEmpty() || contrasena.isEmpty()) {
+        if (nomUsuari.isEmpty() || contrasenya.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Els camps d'usuari, correu electrònic i contrasenya no poden estar buits", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Usuari newUser = new Usuari(usuari, contrasena);
-        newUser.setUsuari(usuari);
+        Usuari usuari = new Usuari(nomUsuari, contrasenya);
 
         try {
-            boolean usuariExisteix = dbConnection.validarUsuari(usuari);
+            boolean usuariExisteix = mongoServeis.validarUsuari(nomUsuari);
 
             if (usuariExisteix) {
                 JOptionPane.showMessageDialog(null, "El nom d'usuari ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                dbConnection.insertUser(newUser);
+                mongoServeis.desarUsuari(usuari);
                 JOptionPane.showMessageDialog(null, "Usuari registrat correctament");
             }
         } catch (Exception ex) {

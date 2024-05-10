@@ -1,6 +1,6 @@
 package com.projecte.swing;
 
-import com.projecte.prova.ClientProva;
+import com.projecte.prova.Client;
 import com.projecte.swing.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -12,9 +12,9 @@ import javax.swing.ImageIcon;
  */
 public class Xat extends javax.swing.JFrame {
     
-    private ClientProva client;
+    private Client client;
     
-    public Xat(ClientProva client) {
+    public Xat(Client client) {
         this.client = client;
         initComponents();
         init();

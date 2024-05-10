@@ -1,6 +1,6 @@
 package com.projecte.swing;
 
-import com.projecte.prova.ClientProva;
+import com.projecte.prova.Client;
 import com.projecte.swing.ChatText;
 import net.miginfocom.swing.MigLayout;
 
@@ -10,9 +10,9 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Home extends javax.swing.JLayeredPane {
     
-    private ClientProva client;
+    private Client client;
     
-    public Home(ClientProva client) {
+    public Home(Client client) {
         this.client = client;
         initComponents();
         init();
