@@ -14,12 +14,14 @@ public class MenuLateralE extends javax.swing.JPanel {
 
     private ChatTitol chatTitol;
     private ChatBody chatBody;
+    private Client client;
 
 
-    public MenuLateralE(ChatTitol chatTitol, ChatBody chatBody) {
+    public MenuLateralE(ChatTitol chatTitol, ChatBody chatBody, Client client) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;
+        this.client = client;
         init();
     }
 
@@ -35,7 +37,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         String nomActual = Client.getNomUsuari();
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {
-            menuList.add(new ItemUsuaris(nom, chatTitol, chatBody), "wrap");
+            menuList.add(new ItemUsuaris(nom, chatTitol, chatBody, client), "wrap");
         }
         refrescarMenuList();
     }
@@ -43,7 +45,7 @@ public class MenuLateralE extends javax.swing.JPanel {
     private void showGrup() {
         menuList.removeAll();
         for (int i = 0; i < 1; i++) {
-            menuList.add(new ItemUsuaris("DAM", chatTitol, chatBody), "wrap");
+            menuList.add(new ItemUsuaris("DAM", chatTitol, chatBody, client), "wrap");
         }
         refrescarMenuList();
     }

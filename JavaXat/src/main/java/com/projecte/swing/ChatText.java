@@ -27,7 +27,7 @@ public class ChatText extends javax.swing.JPanel {
     
     private void init(){
         setLayout(new MigLayout("fillx", "0[fill]0","0[]0[100%, bottom]0[shrink 0]0"));
-        chatBottom = new ChatBottom(client);
+        chatBottom = new ChatBottom(client, chatBody);
         PublicEvent.getInstance().addEventXat(new EventXat() {
             @Override
             public void enviarMissatge(String missatge) {

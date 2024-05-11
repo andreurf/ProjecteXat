@@ -24,9 +24,11 @@ import net.miginfocom.swing.MigLayout;
 public class ChatBottom extends javax.swing.JPanel {
 
     private Client client;
+    private ChatBody chatBody;
     
-    public ChatBottom(Client client) {
+    public ChatBottom(Client client, ChatBody chatBody) {
         this.client = client;
+        this.chatBody = chatBody;
         initComponents();
         init();
     }
@@ -67,6 +69,7 @@ public class ChatBottom extends javax.swing.JPanel {
                     client.enviarMissatge(text);
                     txt.setText("");
                     txt.grabFocus();
+                    client.iniciarReceptorMissatges(chatBody); // Iniciar el receptor de mensajes en un hilo separado
                     refrescar();
                 } else {
                     txt.grabFocus();

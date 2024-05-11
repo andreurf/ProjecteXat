@@ -206,7 +206,6 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         boolean loginOk = mongoServeis.iniciarSecio(usuari, contrasenya);
 
         if (loginOk) {
-            JOptionPane.showMessageDialog(null, "Sesión iniciada correctamente");
             SwingUtilities.getWindowAncestor(this).setVisible(false);
             Client client = new Client(ipServidor, 7878);
             client.obtindreUsuari(usuari);

@@ -19,15 +19,16 @@ public class ItemUsuaris extends javax.swing.JPanel {
 
     private ChatTitol chatTitol;
     private ChatBody chatBody;
-    private Timer timer;
+    private Client client;
 
-    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody) {
+    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;
+        this.client = client;
         lbNom.setText(nom);
         init();
-        startTimer();
+        client.iniciarReceptorMissatges(chatBody); // Iniciar el receptor de mensajes en un hilo separado
     }
 
     private void init() {
@@ -51,16 +52,6 @@ public class ItemUsuaris extends javax.swing.JPanel {
         });
     }
 
-    private void startTimer() {
-        timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                refrescarMensajes();
-            }
-        });
-        timer.start();
-    }
-
     private void refrescarMensajes() {
         String nomUsuari = Client.getNomUsuari();
         MongoServeis manager = new MongoServeis();
@@ -69,9 +60,9 @@ public class ItemUsuaris extends javax.swing.JPanel {
         chatBody.limpiarMensajes();
 
         for (Missatge missatge : missatges) {
-            if (missatge.getNomUsuari().equals(nomUsuari)) {
+            if (missatge.getNomUsuari() != null && missatge.getNomUsuari().equals(nomUsuari)) {
                 chatBody.addItemD(missatge.getMissatge());
-            } else {
+            } else if (missatge.getNomUsuari() != null) {
                 chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari());
             }
         }

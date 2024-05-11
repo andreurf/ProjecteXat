@@ -140,5 +140,11 @@ public class MongoServeis {
         FindIterable<Document> result = usuarisCollection.find(query);
         return result.first() != null;
     }
+    
+    public void actualitzarEstat(String usuari, boolean estat){
+        Document query = new Document("usuari", usuari);
+        // TODO: s'ha de canviar per actualitzar
+        FindIterable<Document> result = usuarisCollection.find(query);
+    }
 
 }
