@@ -35,6 +35,8 @@ public class ServidorProva {
                 usuaris.add(usuari);
                 user = usuari;
 
+                new ComprovarEstatClient(usuaris, user).start();
+
                 new Handler(socket, nom).start();
             }
         } catch (IOException e) {
@@ -112,6 +114,33 @@ public class ServidorProva {
             }
         }
 
+    }
+
+    public static class ComprovarEstatClient extends Thread {
+
+        private final ArrayList<Usuari> usuaris;
+        private final Usuari usuari;
+
+        public ComprovarEstatClient(ArrayList<Usuari> usuaris, Usuari usuari) {
+            this.usuaris = usuaris;
+            this.usuari = usuari;
+        }
+
+        @Override
+        public void run() {
+            try {
+                for (Usuari user : usuaris) {
+                    if (!user.equals(usuari)) {
+                        PrintWriter out = new PrintWriter(user.getSocket().getOutputStream(), true);
+                        out.println(usuari.getNomUsuari());
+                        out.println(" s'ha unit al xat.");
+                    }
+                }
+                System.out.println(usuari.getNomUsuari() + " s'ha unit.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

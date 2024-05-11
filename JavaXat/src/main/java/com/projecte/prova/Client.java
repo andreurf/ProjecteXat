@@ -44,20 +44,26 @@ public class Client {
             e.printStackTrace();
         }
     }
-    
+
     public void iniciarReceptorMissatges(ChatBody chatBody) {
         new Thread(() -> {
             try {
                 while (true) {
                     String nom = in.readLine();
                     String missatge = in.readLine();
+                    System.out.println(nom + ": "+ missatge);
                     if (nom != null && missatge != null) {
-                        System.out.println("/////////////////////////"+nomUsuari+"\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-                        System.out.println(nom + ": " + missatge);
-                        if (nom.equals(nomUsuari)) {
-                            SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+                        System.out.println("/////////////////////////" + nomUsuari + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+                        System.out.println(missatge);
+                        if (missatge.equals(" s'ha unit al xat.")) {
+                            SwingUtilities.invokeLater(() -> chatBody.addEstat(nom+missatge));
                         } else {
-                            SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
+                            System.out.println(nom + ": " + missatge);
+                            if (nom.equals(nomUsuari)) {
+                                SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+                            } else {
+                                SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
+                            }
                         }
                         chatBody.revalidate();
                         chatBody.repaint();
