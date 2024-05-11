@@ -55,7 +55,7 @@ public class Client {
                     if (nom != null && missatge != null) {
                         System.out.println("/////////////////////////" + nomUsuari + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
                         System.out.println(missatge);
-                        if (missatge.equals(" s'ha unit al xat.")) {
+                        if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
                             SwingUtilities.invokeLater(() -> chatBody.addEstat(nom+missatge));
                         } else {
                             System.out.println(nom + ": " + missatge);

@@ -79,6 +79,20 @@ public class ServidorProva {
                 }
             } catch (IOException e) {
                 System.out.println("Error en la connexió amb el client: " + e.getMessage());
+            } finally {
+                // Desconexió usuari
+                clients.remove(out); // Eliminar el PrintWriter del client desconectat de la lista de clients
+                try {
+                    socket.close(); // Tancar el socket
+                    System.out.println(nom + " s'ha desconectat");
+                    // Notificar als altres clients sobre la desconexió
+                    for (PrintWriter client : clients) {
+                        client.println(nom); 
+                        client.println(" s'ha desconectat");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -133,10 +147,10 @@ public class ServidorProva {
                     if (!user.equals(usuari)) {
                         PrintWriter out = new PrintWriter(user.getSocket().getOutputStream(), true);
                         out.println(usuari.getNomUsuari());
-                        out.println(" s'ha unit al xat.");
+                        out.println(" s'ha unit al xat");
                     }
                 }
-                System.out.println(usuari.getNomUsuari() + " s'ha unit.");
+                System.out.println(usuari.getNomUsuari() + " s'ha unit");
             } catch (IOException e) {
                 e.printStackTrace();
             }
