@@ -1,14 +1,15 @@
 package com.projecte.swing;
 
-import com.projecte.prova.ClientProva;
-import com.projecte.prova.MissatgeModelProva;
-import com.projecte.prova.MongoDBManager;
+import com.projecte.prova.Client;
+import com.projecte.prova.Missatge;
+import com.projecte.prova.MongoServeis;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-
-
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -18,44 +19,25 @@ public class ItemUsuaris extends javax.swing.JPanel {
 
     private ChatTitol chatTitol;
     private ChatBody chatBody;
+    private Client client;
 
-    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody) {
+    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;
+        this.client = client;
         lbNom.setText(nom);
         init();
+        client.iniciarReceptorMissatges(chatBody); // Iniciar el receptor de mensajes en un hilo separado
     }
 
     private void init() {
         addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 chatTitol.setNomUsuari(lbNom.getText());
                 chatBody.limpiarMensajes();
-                String nomUsuari = ClientProva.getNomUsuari();
-                MongoDBManager manager = new MongoDBManager();
-                List<MissatgeModelProva> missatges = manager.obtenirMissatgesPerGrup("DAM");
-                for (MissatgeModelProva missatge : missatges) {
-                    if (missatge.getNomUsuari().equals(nomUsuari)) {
-                        chatBody.addItemD(missatge.getMissatge());
-                    } else {
-                        chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari());
-                    }
-                }
-                chatBody.revalidate();
-                chatBody.repaint();
-                /*List<MissatgeModelProva> missatges = manager.obtenirMissatgesPerUsuari(nomUsuari);
-                for (MissatgeModelProva missatge : missatges) {
-                    if (missatge.getNomUsuari().equals(nomUsuari)) {
-                        chatBody.addItemD(missatge.getMissatge());
-                        System.out.println(missatge.getMissatge());
-                    } else {
-                        chatBody.addItemE(missatge.getMissatge(), "Others");
-                        System.out.println(missatge.getMissatge());
-                    }
-                }*/
+                refrescarMensajes();
             }
 
             @Override
@@ -67,8 +49,26 @@ public class ItemUsuaris extends javax.swing.JPanel {
             public void mouseExited(MouseEvent e) {
                 setBackground(new Color(242, 242, 242));
             }
-
         });
+    }
+
+    private void refrescarMensajes() {
+        String nomUsuari = Client.getNomUsuari();
+        MongoServeis manager = new MongoServeis();
+        List<Missatge> missatges = manager.obtenirMissatgesPerGrup("DAM");
+
+        chatBody.limpiarMensajes();
+
+        for (Missatge missatge : missatges) {
+            if (missatge.getNomUsuari() != null && missatge.getNomUsuari().equals(nomUsuari)) {
+                chatBody.addItemD(missatge.getMissatge());
+            } else if (missatge.getNomUsuari() != null) {
+                chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari());
+            }
+        }
+
+        chatBody.revalidate();
+        chatBody.repaint();
     }
 
     @SuppressWarnings("unchecked")

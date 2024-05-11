@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MongoDBManager {
+public class MongoServeis {
 
     private final com.mongodb.MongoClient mongoClient;
     private final MongoDatabase database;
     private final MongoCollection<Document> missatgesCollection;
     private final MongoCollection<Document> usuarisCollection;
 
-    public MongoDBManager() {
+    public MongoServeis() {
         MongoClientURI uri = new MongoClientURI("mongodb://grup2:gos456@57.129.5.24:27017");
         mongoClient = new com.mongodb.MongoClient(uri);
         database = mongoClient.getDatabase("grup2");
@@ -27,7 +27,7 @@ public class MongoDBManager {
     }
 
     // Actualización del método desarMissatge
-    public void desarMissatge(MissatgeModelProva missatge) {
+    public void desarMissatge(Missatge missatge) {
         Document document = new Document("usuari", missatge.getNomUsuari())
                 .append("missatge", missatge.getMissatge())
                 .append("dataHora", missatge.getDataHora())
@@ -36,8 +36,8 @@ public class MongoDBManager {
     }
 
     // Mètode per recuperar els missatges d'un dia concret per a un grup determinat
-    public List<MissatgeModelProva> obtenirMissatgesPerGrup(String grup) {
-        List<MissatgeModelProva> missatgesGrup = new ArrayList<>();
+    public List<Missatge> obtenirMissatgesPerGrup(String grup) {
+        List<Missatge> missatgesGrup = new ArrayList<>();
         MongoCursor<Document> cursor = missatgesCollection.find(Filters.eq("grup", grup)).iterator();
         try {
             while (cursor.hasNext()) {
@@ -45,7 +45,7 @@ public class MongoDBManager {
                 String nomUsuari = doc.getString("usuari");
                 String missatge = doc.getString("missatge");
                 Date dataHora = doc.getDate("dataHora");
-                missatgesGrup.add(new MissatgeModelProva(nomUsuari, missatge, dataHora, grup));
+                missatgesGrup.add(new Missatge(nomUsuari, missatge, dataHora, grup));
             }
         } finally {
             cursor.close();
@@ -53,26 +53,25 @@ public class MongoDBManager {
         return missatgesGrup;
     }
 
-    public List<MissatgeModelProva> obtenirMissatgesPerUsuari(String nomUsuari) {
-        List<MissatgeModelProva> missatges = new ArrayList<>();
+    public List<Missatge> obtenirMissatgesPerUsuari(String nomUsuari) {
+        List<Missatge> missatges = new ArrayList<>();
         FindIterable<Document> result = missatgesCollection.find(Filters.eq("usuari", nomUsuari));
-        try ( MongoCursor<Document> cursor = result.iterator()) {
+        try (MongoCursor<Document> cursor = result.iterator()) {
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 String missatge = doc.getString("missatge");
                 Date dataHora = new Date();
                 String grup = "Grupo predeterminado";
-                missatges.add(new MissatgeModelProva(nomUsuari, missatge, dataHora, grup));
+                missatges.add(new Missatge(nomUsuari, missatge, dataHora, grup));
             }
         }
         return missatges;
     }
 
     // Mètode per desar un usuari connectat a la base de dades
-    public void desarUsuari(UsuariModelProva usuari) {
-        String passwordHash = hashPassword(usuari.getContrasenya());
+    public void desarUsuari(Usuari usuari) {
         Document document = new Document("usuari", usuari.getNomUsuari())
-                .append("contrsenya", passwordHash)
+                .append("contrasenya", usuari.getContrasenya())
                 .append("dataHora", usuari.getHoraConnexio())
                 .append("grup", usuari.getGrup());
         usuarisCollection.insertOne(document);
@@ -97,7 +96,7 @@ public class MongoDBManager {
     public List<String> obtindreNomsUsuaris(String nomUsuari) {
         List<String> nomUsuaris = new ArrayList<>();
         FindIterable<Document> result = usuarisCollection.find();
-        try ( MongoCursor<Document> cursor = result.iterator()) {
+        try (MongoCursor<Document> cursor = result.iterator()) {
             while (cursor.hasNext()) {
                 Document doc = cursor.next();
                 String nom = doc.getString("usuari");
@@ -128,6 +127,24 @@ public class MongoDBManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean validarUsuari(String usuari) {
+        Document query = new Document("usuari", usuari);
+        FindIterable<Document> result = usuarisCollection.find(query);
+        return result.first() != null;
+    }
+
+    public boolean iniciarSecio(String usuari, String contrasenya) {
+        Document query = new Document("usuari", usuari).append("contrasenya", contrasenya);
+        FindIterable<Document> result = usuarisCollection.find(query);
+        return result.first() != null;
+    }
+    
+    public void actualitzarEstat(String usuari, boolean estat){
+        Document query = new Document("usuari", usuari);
+        // TODO: s'ha de canviar per actualitzar
+        FindIterable<Document> result = usuarisCollection.find(query);
     }
 
 }

@@ -50,12 +50,11 @@ public class ChatBody extends javax.swing.JPanel {
         item.setTime();
         scrollToBottom();
     }
-
-    public final void addFitxerD(String text, String nomFitxer, String tamanyFitxer) {
-        ChatD item = new ChatD();
-        item.setText(text);
-        item.setFitxer(nomFitxer, tamanyFitxer);
-        body.add(item, "wrap, al right, w 100::80%");
+    
+    public void addEstat(String estat) {
+        ChatEstat item = new ChatEstat();
+        item.setEstat(estat);
+        body.add(item, "wrap, al center");
         body.repaint();
         body.revalidate();
     }

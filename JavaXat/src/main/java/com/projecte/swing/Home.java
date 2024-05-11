@@ -1,6 +1,6 @@
 package com.projecte.swing;
 
-import com.projecte.prova.ClientProva;
+import com.projecte.prova.Client;
 import com.projecte.swing.ChatText;
 import net.miginfocom.swing.MigLayout;
 
@@ -10,9 +10,9 @@ import net.miginfocom.swing.MigLayout;
  */
 public class Home extends javax.swing.JLayeredPane {
     
-    private ClientProva client;
+    private Client client;
     
-    public Home(ClientProva client) {
+    public Home(Client client) {
         this.client = client;
         initComponents();
         init();
@@ -22,7 +22,7 @@ public class Home extends javax.swing.JLayeredPane {
         setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
         ChatTitol chatTitol = new ChatTitol();
         ChatBody chatBody = new ChatBody();
-        this.add(new MenuLateralE(chatTitol, chatBody));
+        this.add(new MenuLateralE(chatTitol, chatBody, client));
         this.add(new ChatText(chatTitol, chatBody, client));
         this.add(new MenuLateralD());
 
