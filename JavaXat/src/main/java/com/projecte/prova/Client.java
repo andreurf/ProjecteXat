@@ -4,7 +4,6 @@ import com.projecte.swing.ChatBody;
 import java.io.*;
 import java.net.*;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 public class Client {
 
@@ -47,55 +46,119 @@ public class Client {
     }
 
     public void iniciarReceptorMissatges(ChatBody chatBody) {
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                try {
-                    StringBuilder mensajeActual = new StringBuilder();
-                    while (true) {
-                        String linea = in.readLine();
-                        if (linea == null) {
-                            // Si la línea es nula, significa que la conexión se ha cerrado
-                            break;
-                        }
-                        if (linea.startsWith("/pm")) {
-                            // Este es un mensaje privado
-                            String mensajePrivado = linea.substring(4); // Eliminar el prefijo /pm
-                            chatBody.addItemD(mensajePrivado);
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String nom = in.readLine();
+                    String missatge = in.readLine();
+                    System.out.println(nom + ": "+ missatge);
+                    if (nom != null && missatge != null) {
+                        System.out.println("/////////////////////////" + nomUsuari + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+                        System.out.println(missatge);
+                        if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
+                            SwingUtilities.invokeLater(() -> chatBody.addEstat(nom+missatge));
                         } else {
-                            // Es parte de un mensaje normal
-                            mensajeActual.append(linea).append("\n");
-
-                            // Verificar si es el final del mensaje
-                            if (linea.isEmpty()) {
-                                // Este es el final del mensaje, agregarlo a la interfaz de usuario
-                                String mensajeCompleto = mensajeActual.toString().trim();
-                                mensajeActual.setLength(0); // Limpiar el StringBuilder para el próximo mensaje
-                                String[] partes = mensajeCompleto.split(": ", 2);
-                                String nom = partes[0];
-                                String mensaje = partes[1];
-                                System.out.println(nom + ": " + mensaje);
-                                if (nom.equals(getNomUsuari())) {
-                                    chatBody.addItemD(mensaje);
-                                } else {
-                                    chatBody.addItemE(mensaje, nom);
-                                }
-                                chatBody.revalidate();
-                                chatBody.repaint();
+                            System.out.println(nom + ": " + missatge);
+                            if (nom.equals(nomUsuari)) {
+                                SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+                            } else {
+                                SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
                             }
                         }
+                        chatBody.revalidate();
+                        chatBody.repaint();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-                return null;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        };
-
-        worker.execute();
+        }).start();
     }
 
     public static String getNomUsuari() {
         return nomUsuari;
     }
 }
+
+/*package com.projecte.prova;
+import com.projecte.swing.ChatBody;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import javax.swing.SwingUtilities;
+
+public class Client {
+
+    private final String serverIP;
+    private final int serverPort;
+    private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
+    private String nomUsuari;
+
+    public Client(String serverIP, int serverPort) {
+        this.serverIP = serverIP;
+        this.serverPort = serverPort;
+    }
+
+    public boolean obtindreUsuari(String nomUsuari) throws IOException {
+        socket = new Socket(serverIP, serverPort);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(socket.getOutputStream(), true);
+
+        this.nomUsuari = nomUsuari;
+
+        // Enviar credenciales al servidor
+        out.println(nomUsuari);
+
+        // Esperar respuesta del servidor
+        String resposta = in.readLine();
+
+        // Si el servidor responde con "OK", el inicio de sesión es exitoso
+        return resposta.equals("OK");
+    }
+
+    public void enviarMissatge(String text) {
+        out.println(text);
+    }
+
+    public void iniciarReceptorMissatges(ChatBody chatBody) {
+        final String nombreUsuario = nomUsuari; // Variable local final
+
+        new Thread(() -> {
+            try {
+                while (true) {
+                    String nom = in.readLine();
+                    String missatge = in.readLine();
+                    if (nom != null && missatge != null) {
+                        if (missatge.startsWith("/pm")) {
+                            // Este es un mensaje privado
+                            final String miss = missatge.substring(4); // Eliminar el prefijo /pm
+                            SwingUtilities.invokeLater(() -> chatBody.addItemD(miss));
+                        } else {
+                            if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
+                                SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
+                            } else {
+                                if (nom.equals(nombreUsuario)) {
+                                    SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+                                } else {
+                                    SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public String getNomUsuari() {
+        return nomUsuari;
+    }
+}*/

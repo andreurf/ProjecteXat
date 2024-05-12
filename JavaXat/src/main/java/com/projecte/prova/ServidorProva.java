@@ -82,8 +82,10 @@ public class ServidorProva {
 
                         PrintWriter destinatario = clientesPorNombre.get(nomReceptor);
                         if (destinatario != null) {
-                            // Enviar el mensaje privado al destinatario
-                            destinatario.println("/pm " + nom + " (Mensaje privado): " + mensajePrivado);
+                            // Enviar el mensaje privado al destinatarioç
+                            System.out.println("/pm " + nom + " (Mensaje privado): " + mensajePrivado);
+                            destinatario.println(nom);                            
+                            destinatario.println(mensajePrivado);
                         } else {
                             // Si el destinatario no existe, informar al remitente
                             out.println("El usuario " + nomReceptor + " no está conectado o no existe.");
