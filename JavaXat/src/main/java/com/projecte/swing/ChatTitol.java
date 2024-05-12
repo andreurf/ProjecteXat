@@ -29,6 +29,10 @@ public class ChatTitol extends javax.swing.JPanel {
         lbStatus.setForeground(new Color(160, 160, 160));
     }
 
+    public String getLbNom() {
+        return lbNom.getText();
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

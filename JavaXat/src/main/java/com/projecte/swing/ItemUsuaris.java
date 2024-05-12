@@ -53,10 +53,15 @@ public class ItemUsuaris extends javax.swing.JPanel {
     }
 
     private void refrescarMensajes() {
-        String nomUsuari = Client.getNomUsuari();
-        MongoServeis manager = new MongoServeis();
-        List<Missatge> missatges = manager.obtenirMissatgesPerGrup("DAM");
 
+        String nomUsuari = client.getNomUsuari();
+        MongoServeis manager = new MongoServeis();
+        List<Missatge> missatges;
+        if (lbNom.getText() == "DAM") {
+            missatges = manager.obtenirMissatgesPerGrup("DAM");
+        } else {
+            missatges = manager.obtenirMissatgesPerGrup(lbNom.getText());
+        }
         chatBody.limpiarMensajes();
 
         for (Missatge missatge : missatges) {

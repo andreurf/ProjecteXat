@@ -25,10 +25,12 @@ public class ChatBottom extends javax.swing.JPanel {
 
     private Client client;
     private ChatBody chatBody;
-    
-    public ChatBottom(Client client, ChatBody chatBody) {
+    private ChatTitol chatTitol;
+
+    public ChatBottom(Client client, ChatBody chatBody, ChatTitol chatTitol) {
         this.client = client;
         this.chatBody = chatBody;
+        this.chatTitol = chatTitol;
         initComponents();
         init();
     }
@@ -65,12 +67,16 @@ public class ChatBottom extends javax.swing.JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String text = txt.getText().trim();
-                if(!text.equals("")){
-                    client.enviarMissatge(text);
+                if (!text.equals("")) {
+                    if (chatTitol.getLbNom().equals("DAM")) {
+                        // Si el destinatario es el grupo general, enviar el mensaje normalmente
+                        client.enviarMissatge(text);
+                    } else {
+                        // Si es un mensaje privado, enviarlo con el prefijo /p destinatario mensaje
+                        client.enviarMissatge("/p " + chatTitol.getLbNom()+ " " + text);
+                    }
                     txt.setText("");
                     txt.grabFocus();
-                    client.iniciarReceptorMissatges(chatBody); // Iniciar el receptor de mensajes en un hilo separado
-                    refrescar();
                 } else {
                     txt.grabFocus();
                 }
