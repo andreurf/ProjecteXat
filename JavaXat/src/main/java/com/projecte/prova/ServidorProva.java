@@ -78,24 +78,26 @@ public class ServidorProva {
                     if (missatge.startsWith("/p")) {
                         String[] partes = missatge.split(" ", 3);
                         String nomReceptor = partes[1];
-                        String mensajePrivado = partes[2];
+                        String missatgePrivat = partes[2];
 
-                        PrintWriter destinatario = clientesPorNombre.get(nomReceptor);
-                        if (destinatario != null) {
-                            // Enviar el mensaje privado al destinatarioç
-                            System.out.println("/pm " + nom + " (Mensaje privado): " + mensajePrivado);
-                            destinatario.println(nom);                            
-                            destinatario.println(mensajePrivado);
+                        PrintWriter destinatari = clientesPorNombre.get(nomReceptor);
+                        if (destinatari != null) {
+                            // Enviar el mensaje privado al destinatario
+                            System.out.println("/pm " + nom + " (Missatge privat): " + missatgePrivat);
+//                            destinatari.println(nom);
+//                            destinatari.println(missatgePrivat);
+                            guardarMissatge(nom, missatgePrivat, nomReceptor, true, nomReceptor);
                         } else {
                             // Si el destinatario no existe, informar al remitente
                             out.println("El usuario " + nomReceptor + " no está conectado o no existe.");
                         }
-                        continue; // Saltar al siguiente mensaje
+//                        continue; // Saltar al siguiente mensaje
+                    } else {
+                        guardarMissatge(nom, missatge, grup, false, nomReceptor);
+//                        Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
+//                        dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
+//                        new RealitzarEnviaments(usuaris, missatge, nom).start();
                     }
-
-                    Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
-                    dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
-                    new RealitzarEnviaments(usuaris, missatge, nom).start();
                 }
             } catch (IOException e) {
                 System.out.println("Error en la connexió amb el client: " + e.getMessage());
@@ -117,31 +119,57 @@ public class ServidorProva {
         }
     }
 
+    public static void guardarMissatge(String nom, String missatge, String grup, boolean missPrivat, String nomReceptor) {
+        Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
+        dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
+        new RealitzarEnviaments(usuaris, missatge, nom, missPrivat, nomReceptor).start();
+    }
+
     public static class RealitzarEnviaments extends Thread {
 
         private final ArrayList<Usuari> usuaris;
         private PrintWriter out;
         private final String missatge;
         private final String nom;
+        private final boolean missPrivat;
+        private final String nomReceptor;
 
-        public RealitzarEnviaments(ArrayList<Usuari> usuaris, String missatge, String nom) {
+        public RealitzarEnviaments(ArrayList<Usuari> usuaris, String missatge, String nom, boolean missPrivat, String nomReceptor) {
             this.usuaris = usuaris;
             this.missatge = missatge;
             this.nom = nom;
+            this.missPrivat = missPrivat;
+            this.nomReceptor = nomReceptor;
         }
 
         @Override
         public void run() {
             try {
-                for (Usuari usu : usuaris) {
-                    // Obtindre el socket del usuari
-                    Socket socket = usu.getSocket();
-                    out = new PrintWriter(socket.getOutputStream(), true);
-                    System.out.println("Enviant missatge...");
-                    //Enviar missatge als usuaris que es conecten
-                    out.println(nom);
-                    out.println(missatge);
-                    out.flush();
+                if (missPrivat) {
+                    for (Usuari usu : usuaris) {
+                        if (usu.getNomUsuari().equals(nom) || usu.getNomUsuari().equals(nomReceptor)) {
+                            // Obtindre el socket del usuari
+                            Socket socket = usu.getSocket();
+                            out = new PrintWriter(socket.getOutputStream(), true);
+                            System.out.println("Enviant missatge...");
+                            //Enviar missatge als usuaris que es conecten
+                            out.println(nom);
+                            out.println(missatge);
+                            out.flush();
+                        } else {
+                        }
+                    }
+                } else {
+                    for (Usuari usu : usuaris) {
+                        // Obtindre el socket del usuari
+                        Socket socket = usu.getSocket();
+                        out = new PrintWriter(socket.getOutputStream(), true);
+                        System.out.println("Enviant missatge...");
+                        //Enviar missatge als usuaris que es conecten
+                        out.println(nom);
+                        out.println(missatge);
+                        out.flush();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

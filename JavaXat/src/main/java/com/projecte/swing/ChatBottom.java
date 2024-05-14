@@ -69,10 +69,8 @@ public class ChatBottom extends javax.swing.JPanel {
                 String text = txt.getText().trim();
                 if (!text.equals("")) {
                     if (chatTitol.getLbNom().equals("DAM")) {
-                        // Si el destinatario es el grupo general, enviar el mensaje normalmente
                         client.enviarMissatge(text);
                     } else {
-                        // Si es un mensaje privado, enviarlo con el prefijo /p destinatario mensaje
                         client.enviarMissatge("/p " + chatTitol.getLbNom()+ " " + text);
                     }
                     txt.setText("");
