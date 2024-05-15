@@ -2,7 +2,7 @@ package com.projecte.prova;
 
 import java.util.Date;
 
-public class Missatge {
+public class Missatge implements Comparable<Missatge> {
 
     private String nomUsuari;
     private String missatge;
@@ -59,5 +59,10 @@ public class Missatge {
                 ", dataHora=" + dataHora +
                 ", grup='" + grup + '\'' +
                 '}';
+    }
+    
+    @Override
+    public int compareTo(Missatge otroMensaje) {
+        return this.getDataHora().compareTo(otroMensaje.getDataHora());
     }
 }

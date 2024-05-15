@@ -52,6 +52,23 @@ public class MongoServeis {
         }
         return missatgesGrup;
     }
+    
+    public List<Missatge> obtenirMissatgesPrivats(String grup, String nom) {
+        List<Missatge> missatgesGrup = new ArrayList<>();
+        MongoCursor<Document> cursor = missatgesCollection.find(Filters.and(Filters.eq("grup", grup),Filters.eq("usuari", nom))).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                String nomUsuari = doc.getString("usuari");
+                String missatge = doc.getString("missatge");
+                Date dataHora = doc.getDate("dataHora");
+                missatgesGrup.add(new Missatge(nomUsuari, missatge, dataHora, grup));
+            }
+        } finally {
+            cursor.close();
+        }
+        return missatgesGrup;
+    }
 
     public List<Missatge> obtenirMissatgesPerUsuari(String nomUsuari) {
         List<Missatge> missatges = new ArrayList<>();

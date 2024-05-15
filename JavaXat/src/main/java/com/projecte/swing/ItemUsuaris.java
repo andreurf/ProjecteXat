@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
 
 /**
  *
@@ -60,8 +61,12 @@ public class ItemUsuaris extends javax.swing.JPanel {
         if (lbNom.getText() == "DAM") {
             missatges = manager.obtenirMissatgesPerGrup("DAM");
         } else {
-            missatges = manager.obtenirMissatgesPerGrup(lbNom.getText());
+            missatges = manager.obtenirMissatgesPrivats(nomUsuari,lbNom.getText());
+            missatges.addAll(manager.obtenirMissatgesPrivats(lbNom.getText(), nomUsuari));
         }
+        
+        Collections.sort(missatges); 
+        
         chatBody.limpiarMensajes();
 
         for (Missatge missatge : missatges) {
