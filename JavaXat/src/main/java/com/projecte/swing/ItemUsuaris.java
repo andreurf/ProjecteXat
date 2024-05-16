@@ -29,7 +29,7 @@ public class ItemUsuaris extends javax.swing.JPanel {
         this.client = client;
         lbNom.setText(nom);
         init();
-        client.iniciarReceptorMissatges(chatBody); // Iniciar el receptor de mensajes en un hilo separado
+        client.iniciarReceptorMissatges(chatBody, chatTitol); // Iniciar el receptor de mensajes en un hilo separado
     }
 
     private void init() {

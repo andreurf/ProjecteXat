@@ -26,11 +26,9 @@ public class ServidorProva {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-//                out.println("Entra el teu nom d'usuari:");
                 out.println("OK");
                 String nom = in.readLine();
                 clientesPorNombre.put(nom, out);
-//                out.println("Entra la teva contrasenya:"); // Modificat: demana la contrasenya
                 System.out.println(nom + " s'ha connectat al grup " + grup);
                 Usuari usuari = new Usuari(nom, socket, true);
                 usuaris.add(usuari);
@@ -79,31 +77,16 @@ public class ServidorProva {
                         String[] partes = missatge.split(" ", 3);
                         String nomReceptor = partes[1];
                         String missatgePrivat = partes[2];
-
-                        PrintWriter destinatari = clientesPorNombre.get(nomReceptor);
-                        if (destinatari != null) {
-                            // Enviar el mensaje privado al destinatario
-                            System.out.println("/pm " + nom + " (Missatge privat): " + missatgePrivat);
-//                            destinatari.println(nom);
-//                            destinatari.println(missatgePrivat);
-                            guardarMissatge(nom, missatgePrivat, nomReceptor, true, nomReceptor);
-                        } else {
-                            // Si el destinatario no existe, informar al remitente
-                            out.println("El usuario " + nomReceptor + " no está conectado o no existe.");
-                        }
-//                        continue; // Saltar al siguiente mensaje
+                        System.out.println("/pm " + nom + " (Missatge privat): " + missatgePrivat);
+                        guardarMissatge(nom, missatgePrivat, nomReceptor, true, nomReceptor); 
                     } else {
                         guardarMissatge(nom, missatge, grup, false, nomReceptor);
-//                        Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
-//                        dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
-//                        new RealitzarEnviaments(usuaris, missatge, nom).start();
                     }
                 }
             } catch (IOException e) {
                 System.out.println("Error en la connexió amb el client: " + e.getMessage());
             } finally {
-                // Desconexió usuari
-                clients.remove(out); // Eliminar el PrintWriter del client desconectat de la lista de clients
+                clients.remove(out);
                 try {
                     socket.close(); // Tancar el socket
                     System.out.println(nom + " s'ha desconectat");
@@ -156,7 +139,6 @@ public class ServidorProva {
                             out.println(nom);
                             out.println(missatge);
                             out.flush();
-                        } else {
                         }
                     }
                 } else {

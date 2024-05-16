@@ -21,6 +21,16 @@
             <artifactId>mongo-java-driver-3.12.14</artifactId>
             <version>3.12.14</version>
         </dependency>
+        <dependency>
+            <groupId>jcalendar-1.4.jar</groupId>
+            <artifactId>jcalendar-1.4.jar</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE190</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -1,11 +1,13 @@
 package com.projecte.swing;
 
+import com.toedter.calendar.JCalendar;
+
 /**
  *
  * @author andreu i quim
  */
 public class MenuLateralD extends javax.swing.JPanel {
-
+    
     public MenuLateralD() {
         initComponents();
         init();
@@ -19,21 +21,15 @@ public class MenuLateralD extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setBackground(new java.awt.Color(249, 249, 249));
+        jCalendar1 = new com.toedter.calendar.JCalendar();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
-        );
+        setBackground(new java.awt.Color(249, 249, 249));
+        setLayout(new java.awt.GridLayout());
+        add(jCalendar1);
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JCalendar jCalendar1;
     // End of variables declaration//GEN-END:variables
 }

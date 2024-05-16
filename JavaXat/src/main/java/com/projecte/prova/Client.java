@@ -1,6 +1,7 @@
 package com.projecte.prova;
 
 import com.projecte.swing.ChatBody;
+import com.projecte.swing.ChatTitol;
 import java.io.*;
 import java.net.*;
 import javax.swing.SwingUtilities;
@@ -45,24 +46,23 @@ public class Client {
         }
     }
 
-    public void iniciarReceptorMissatges(ChatBody chatBody) {
+    public void iniciarReceptorMissatges(ChatBody chatBody, ChatTitol chatTitol) {
         new Thread(() -> {
             try {
                 while (true) {
                     String nom = in.readLine();
                     String missatge = in.readLine();
-                    System.out.println(nom + ": "+ missatge);
+                    System.out.println(nom + ": " + missatge);
                     if (nom != null && missatge != null) {
                         System.out.println("/////////////////////////" + nomUsuari + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
                         System.out.println(missatge);
                         if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
-                            SwingUtilities.invokeLater(() -> chatBody.addEstat(nom+missatge));
+                            SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
                         } else {
-                            System.out.println(nom + ": " + missatge);
-                            if (nom.equals(nomUsuari)) {
-                                SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+                            if (missatge.startsWith("/p")) {
+                                mostrarMissatge(nom, missatge, chatBody);
                             } else {
-                                SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
+                                mostrarMissatge(nom, missatge, chatBody);
                             }
                         }
                         chatBody.revalidate();
@@ -73,6 +73,15 @@ public class Client {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public static void mostrarMissatge(String nom, String missatge, ChatBody chatBody) {
+        System.out.println(nom + ": " + missatge);
+        if (nom.equals(nomUsuari)) {
+            SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+        } else {
+            SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
+        }
     }
 
     public static String getNomUsuari() {
