@@ -39,6 +39,8 @@ public class ItemUsuaris extends javax.swing.JPanel {
                 chatTitol.setNomUsuari(lbNom.getText());
                 chatBody.limpiarMensajes();
                 refrescarMensajes();
+                
+                client.enviarMissatge("/watching " + lbNom.getText());
             }
 
             @Override

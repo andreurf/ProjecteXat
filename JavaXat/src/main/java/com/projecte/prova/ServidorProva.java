@@ -14,7 +14,8 @@ public class ServidorProva {
     private static final ArrayList<Usuari> usuaris = new ArrayList<>();
     private static Usuari user;
     private static boolean missPrivat = false;
-    private static final HashMap<String, PrintWriter> clientesPorNombre = new HashMap<>();
+    private static boolean mirant = false;
+    private static String nomMirant;
 
     public static void main(String[] args) {
         try {
@@ -28,7 +29,7 @@ public class ServidorProva {
 
                 out.println("OK");
                 String nom = in.readLine();
-                clientesPorNombre.put(nom, out);
+
                 System.out.println(nom + " s'ha connectat al grup " + grup);
                 Usuari usuari = new Usuari(nom, socket, true);
                 usuaris.add(usuari);
@@ -73,13 +74,22 @@ public class ServidorProva {
                     if (missatge == null) {
                         return;
                     }
-                    if (missatge.startsWith("/p")) {
+                    if (missatge.startsWith("/watching")) {
+                        nomMirant = missatge.substring(10);
+                        for (Usuari usu : usuaris) {
+                            if (usu.getNomUsuari().equals(nomMirant)) {
+                                mirant = true;
+                            }
+                        }
+                    } else if (missatge.startsWith("/p")) {
                         String[] partes = missatge.split(" ", 3);
                         String nomReceptor = partes[1];
                         String missatgePrivat = partes[2];
                         System.out.println("/pm " + nom + " (Missatge privat): " + missatgePrivat);
-                        guardarMissatge(nom, missatgePrivat, nomReceptor, true, nomReceptor); 
+                        guardarMissatge(nom, missatgePrivat, nomReceptor, true, nomReceptor);
                     } else {
+                        mirant = false;
+                        nomMirant = "";
                         guardarMissatge(nom, missatge, grup, false, nomReceptor);
                     }
                 }
@@ -130,7 +140,16 @@ public class ServidorProva {
             try {
                 if (missPrivat) {
                     for (Usuari usu : usuaris) {
-                        if (usu.getNomUsuari().equals(nom) || usu.getNomUsuari().equals(nomReceptor)) {
+                        if (usu.getNomUsuari().equals(nom)) {
+                            // Obtindre el socket del usuari
+                            Socket socket = usu.getSocket();
+                            out = new PrintWriter(socket.getOutputStream(), true);
+                            System.out.println("Enviant missatge...");
+                            //Enviar missatge als usuaris que es conecten
+                            out.println(nom);
+                            out.println(missatge);
+                            out.flush();
+                        } else if (usu.getNomUsuari().equals(nomReceptor) && (mirant && nom.equals(nomMirant))) {
                             // Obtindre el socket del usuari
                             Socket socket = usu.getSocket();
                             out = new PrintWriter(socket.getOutputStream(), true);
