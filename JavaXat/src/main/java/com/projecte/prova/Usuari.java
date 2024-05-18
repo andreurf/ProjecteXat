@@ -11,6 +11,7 @@ public class Usuari {
     private String grup;
     private Socket socket;
     private boolean estat;
+    private String receptor;
 
     public Usuari() {
     }
@@ -87,6 +88,14 @@ public class Usuari {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+    }
+    
+    public String getReceptor(){
+        return receptor;
+    }
+    
+    public void setReceptor(String receptor){
+        this.receptor = receptor;
     }
 
 }
