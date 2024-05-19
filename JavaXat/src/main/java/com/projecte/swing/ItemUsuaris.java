@@ -11,25 +11,29 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  *
  * @author andreu i quim
  */
-public class ItemUsuaris extends javax.swing.JPanel {
+public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListener{
 
     private ChatTitol chatTitol;
     private ChatBody chatBody;
     private Client client;
+    private MenuLateralD menuLD;
 
-    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client) {
+    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;
         this.client = client;
+        this.menuLD = menuLD;
         lbNom.setText(nom);
         init();
         client.iniciarReceptorMissatges(chatBody, chatTitol); // Iniciar el receptor de mensajes en un hilo separado
+        menuLD.addDateChangeListener(this);
     }
 
     private void init() {        
@@ -63,17 +67,24 @@ public class ItemUsuaris extends javax.swing.JPanel {
         refrescarMensajes();
         client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
     }
+    
+    @Override
+    public void onDateChanged(Date newDate) {
+        refrescarMensajes();
+    }
 
-    private void refrescarMensajes() {
+    public void refrescarMensajes() {
 
         String nomUsuari = client.getNomUsuari();
         MongoServeis manager = new MongoServeis();
         List<Missatge> missatges;
+        Date selectedDate = menuLD.getSelectedDate();
+        
         if (lbNom.getText() == "DAM") {
-            missatges = manager.obtenirMissatgesPerGrup("DAM");
+            missatges = manager.obtenirMissatgesPerGrupIData("DAM", selectedDate);
         } else {
-            missatges = manager.obtenirMissatgesPrivats(nomUsuari,lbNom.getText());
-            missatges.addAll(manager.obtenirMissatgesPrivats(lbNom.getText(), nomUsuari));
+            missatges = manager.obtenirMissatgesPrivatsIData(nomUsuari,lbNom.getText(),selectedDate);
+            missatges.addAll(manager.obtenirMissatgesPrivatsIData(lbNom.getText(), nomUsuari, selectedDate));
         }
         
         Collections.sort(missatges); 

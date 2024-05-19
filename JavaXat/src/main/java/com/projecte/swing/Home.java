@@ -22,9 +22,10 @@ public class Home extends javax.swing.JLayeredPane {
         setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
         ChatTitol chatTitol = new ChatTitol();
         ChatBody chatBody = new ChatBody();
-        this.add(new MenuLateralE(chatTitol, chatBody, client),"cell 0 0, grow");
+        MenuLateralD menuLD = new MenuLateralD(chatTitol, chatBody, client);
+        this.add(new MenuLateralE(chatTitol, chatBody, client, menuLD),"cell 0 0, grow");
         this.add(new ChatText(chatTitol, chatBody, client), "cell 1 0, grow");
-        this.add(new MenuLateralD(chatTitol, chatBody, client), "cell 2 0, grow, wmin 200px, hmin 400px");
+        this.add(menuLD, "cell 2 0, grow, wmin 200px, hmin 400px");
 
         
     }
