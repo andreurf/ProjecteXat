@@ -1,6 +1,5 @@
 package com.projecte.swing;
 
-import com.projecte.event.PublicEvent;
 import com.projecte.prova.Client;
 import com.projecte.swing.components.JIMSendTextPane;
 import com.projecte.swing.components.ScrollBar;

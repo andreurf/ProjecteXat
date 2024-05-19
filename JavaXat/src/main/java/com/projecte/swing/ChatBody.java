@@ -31,23 +31,23 @@ public class ChatBody extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
 
-    public final void addItemE(String text, String usuari) {
+    public final void addItemE(String text, String usuari, String time) {
         ChatE item = new ChatE();
         item.setText(text);
-        item.setTime();
+        item.setTime(time);
         item.setPerfilUsuari(usuari);
         body.add(item, "wrap, w 100::80%");
         body.repaint();
         body.revalidate();
     }
 
-    public final void addItemD(String text) {
+    public final void addItemD(String text, String time) {
         ChatD item = new ChatD();
         item.setText(text);
         body.add(item, "wrap, al right, w 100::80%");
         body.repaint();
         body.revalidate();
-        item.setTime();
+        item.setTime(time);
         scrollToBottom();
     }
     

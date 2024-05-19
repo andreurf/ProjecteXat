@@ -202,7 +202,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         String usuari = txtUser.getText();
         String contrasenya = txtPass.getText();
         String ipServidor = txtIPServidor.getText();
-        
+
         boolean loginOk = mongoServeis.iniciarSecio(usuari, contrasenya);
 
         if (loginOk) {
@@ -229,8 +229,15 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         Usuari usuari = new Usuari(nomUsuari, contrasenya);
 
         try {
-            boolean usuariExisteix = mongoServeis.validarUsuari(nomUsuari);
-
+            boolean usuariExisteix;
+            
+            if(nomUsuari.equals("DAM")){
+                usuariExisteix = true;
+            } else {
+                usuariExisteix = mongoServeis.validarUsuari(nomUsuari);
+            }
+            
+            
             if (usuariExisteix) {
                 JOptionPane.showMessageDialog(null, "El nom d'usuari ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
             } else {

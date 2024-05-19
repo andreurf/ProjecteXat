@@ -12,10 +12,10 @@ import net.miginfocom.swing.MigLayout;
  */
 public class MenuLateralE extends javax.swing.JPanel {
 
-    private ChatTitol chatTitol;
-    private ChatBody chatBody;
-    private Client client;
-
+    private final ChatTitol chatTitol;
+    private final ChatBody chatBody;
+    private final Client client;
+    private ItemUsuaris damItem;
 
     public MenuLateralE(ChatTitol chatTitol, ChatBody chatBody, Client client) {
         initComponents();
@@ -28,7 +28,14 @@ public class MenuLateralE extends javax.swing.JPanel {
     private void init() {
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx", "0[]0", "5[]5"));
-//        showPersones();
+        showGrup();
+        selectDamGroup();
+    }
+
+    private void selectDamGroup() {
+        if (damItem != null) {
+            damItem.handleClick();
+        }
     }
 
     private void showPersones() {
@@ -44,9 +51,8 @@ public class MenuLateralE extends javax.swing.JPanel {
 
     private void showGrup() {
         menuList.removeAll();
-        for (int i = 0; i < 1; i++) {
-            menuList.add(new ItemUsuaris("DAM", chatTitol, chatBody, client), "wrap");
-        }
+        damItem = new ItemUsuaris("DAM", chatTitol, chatBody, client);
+        menuList.add(damItem, "wrap");
         refrescarMenuList();
     }
 
@@ -72,9 +78,8 @@ public class MenuLateralE extends javax.swing.JPanel {
         menu.setPreferredSize(new java.awt.Dimension(200, 7));
         menu.setLayout(new java.awt.GridLayout(1, 3));
 
-        menuBoto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuMissatgeBlau.png")));
+        menuBoto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuMissatge.png")));
         menuBoto1.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuMissatgeBlau.png"))); // NOI18N
-        menuBoto1.setSelected(true);
         menuBoto1.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuMissatge.png"))); // NOI18N
         menuBoto1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,6 +91,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
         menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuGrupBlau.png")));
         menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
+        menuBoto2.setSelected(true);
         menuBoto2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoto2ActionPerformed(evt);

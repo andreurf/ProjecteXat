@@ -24,7 +24,7 @@ public class Home extends javax.swing.JLayeredPane {
         ChatBody chatBody = new ChatBody();
         this.add(new MenuLateralE(chatTitol, chatBody, client));
         this.add(new ChatText(chatTitol, chatBody, client));
-        this.add(new MenuLateralD());
+        this.add(new MenuLateralD(chatTitol, chatBody, client));
 
         
     }

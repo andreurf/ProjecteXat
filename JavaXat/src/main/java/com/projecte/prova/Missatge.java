@@ -1,5 +1,6 @@
 package com.projecte.prova;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Missatge implements Comparable<Missatge> {
@@ -64,5 +65,10 @@ public class Missatge implements Comparable<Missatge> {
     @Override
     public int compareTo(Missatge otroMensaje) {
         return this.getDataHora().compareTo(otroMensaje.getDataHora());
+    }
+    
+    public String getFormattedDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(dataHora);
     }
 }

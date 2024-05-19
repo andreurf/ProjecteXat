@@ -4,6 +4,8 @@ import com.projecte.swing.ChatBody;
 import com.projecte.swing.ChatTitol;
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.SwingUtilities;
 
 public class Client {
@@ -54,16 +56,13 @@ public class Client {
                     String missatge = in.readLine();
                     System.out.println(nom + ": " + missatge);
                     if (nom != null && missatge != null) {
+                        String time = new SimpleDateFormat("HH:mm").format(new Date());
                         System.out.println("/////////////////////////" + nomUsuari + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
                         System.out.println(missatge);
                         if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
                             SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
                         } else {
-                            if (missatge.startsWith("/p")) {
-                                mostrarMissatge(nom, missatge, chatBody);
-                            } else {
-                                mostrarMissatge(nom, missatge, chatBody);
-                            }
+                            mostrarMissatge(nom, missatge, chatBody, time);
                         }
                         chatBody.revalidate();
                         chatBody.repaint();
@@ -75,12 +74,12 @@ public class Client {
         }).start();
     }
 
-    public static void mostrarMissatge(String nom, String missatge, ChatBody chatBody) {
+    public static void mostrarMissatge(String nom, String missatge, ChatBody chatBody, String time) {
         System.out.println(nom + ": " + missatge);
         if (nom.equals(nomUsuari)) {
-            SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
+            SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge, time));
         } else {
-            SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
+            SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom, time));
         }
     }
 

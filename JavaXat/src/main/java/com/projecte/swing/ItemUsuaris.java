@@ -32,15 +32,17 @@ public class ItemUsuaris extends javax.swing.JPanel {
         client.iniciarReceptorMissatges(chatBody, chatTitol); // Iniciar el receptor de mensajes en un hilo separado
     }
 
-    private void init() {
+    private void init() {        
+        
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                chatTitol.setNomUsuari(lbNom.getText());
-                chatBody.limpiarMensajes();
-                refrescarMensajes();
-                
-                client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
+                handleClick();
+//                chatTitol.setNomUsuari(lbNom.getText());
+//                chatBody.limpiarMensajes();
+//                refrescarMensajes();
+//                
+//                client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
             }
 
             @Override
@@ -53,6 +55,13 @@ public class ItemUsuaris extends javax.swing.JPanel {
                 setBackground(new Color(242, 242, 242));
             }
         });
+    }
+    
+    public void handleClick() {
+        chatTitol.setNomUsuari(lbNom.getText());
+        chatBody.limpiarMensajes();
+        refrescarMensajes();
+        client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
     }
 
     private void refrescarMensajes() {
@@ -73,9 +82,9 @@ public class ItemUsuaris extends javax.swing.JPanel {
 
         for (Missatge missatge : missatges) {
             if (missatge.getNomUsuari() != null && missatge.getNomUsuari().equals(nomUsuari)) {
-                chatBody.addItemD(missatge.getMissatge());
+                chatBody.addItemD(missatge.getMissatge(), missatge.getFormattedDateTime());
             } else if (missatge.getNomUsuari() != null) {
-                chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari());
+                chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari(), missatge.getFormattedDateTime());
             }
         }
 

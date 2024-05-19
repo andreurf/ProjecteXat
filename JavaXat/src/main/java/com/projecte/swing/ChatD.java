@@ -27,8 +27,8 @@ public class ChatD extends javax.swing.JLayeredPane {
         txt.setFitxer(nomFitxer, tamanyFitxer);
     }
     
-    public void setTime(){
-        txt.setTemps("10:30 PM");
+    public void setTime(String time) {
+        txt.setTemps(time);
     }
 
     @SuppressWarnings("unchecked")
