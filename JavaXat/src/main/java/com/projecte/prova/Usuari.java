@@ -2,6 +2,7 @@ package com.projecte.prova;
 
 import java.net.Socket;
 import java.util.Date;
+import javax.crypto.SecretKey;
 
 public class Usuari {
 
@@ -12,6 +13,7 @@ public class Usuari {
     private Socket socket;
     private boolean estat;
     private String receptor;
+    private SecretKey aesKey;
 
     public Usuari() {
     }
@@ -96,6 +98,14 @@ public class Usuari {
     
     public void setReceptor(String receptor){
         this.receptor = receptor;
+    }
+    
+    public SecretKey getAesKey() {
+        return aesKey;
+    }
+
+    public void setAesKey(SecretKey aesKey) {
+        this.aesKey = aesKey;
     }
 
 }

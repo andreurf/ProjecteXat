@@ -4,8 +4,13 @@ import com.projecte.swing.ChatBody;
 import com.projecte.swing.ChatTitol;
 import java.io.*;
 import java.net.*;
+import java.security.*;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.SwingUtilities;
 
 public class Client {
@@ -16,50 +21,85 @@ public class Client {
     private BufferedReader in;
     private static PrintWriter out;
     private static String nomUsuari;
+    private SecretKey clauAES;
+    private static KeyPair clientClauRSA; // Claus RSA del client
 
     public Client(String serverIP, int serverPort) {
         this.serverIP = serverIP;
         this.serverPort = serverPort;
     }
 
-    public boolean obtindreUsuari(String nomUsuari) throws IOException {
-        socket = new Socket(serverIP, serverPort);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
+    public boolean obtenirUsuari(String nomUsu) {
+        try {
+            System.out.println("/////////////////////////" + nomUsu + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+            // Generar claus RSA del client
+            KeyPairGenerator clauRSA = KeyPairGenerator.getInstance("RSA");
+            clauRSA.initialize(2048);
+            clientClauRSA = clauRSA.genKeyPair();
 
-        this.nomUsuari = nomUsuari;
+            // Conectar al servidor
+            socket = new Socket(serverIP, serverPort);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
 
-        // Enviar credenciales al servidor
-        out.println(nomUsuari);
+            nomUsuari = nomUsu;
 
-        // Esperar respuesta del servidor
-        String resposta = in.readLine();
+            // Esperar resposta del servidor
+            String resposta = in.readLine();
+            if (!resposta.equals("OK")) {
+                return false;
+            }
 
-        // Si el servidor responde con "OK", el inicio de sesión es exitoso
-        return resposta.equals("OK");
+            // Enviar credencials al servidor
+            out.println(nomUsuari);
+
+            // Enviar clau pública al servidor
+            out.println(Base64.getEncoder().encodeToString(clientClauRSA.getPublic().getEncoded()));
+
+            // Rebre clau AES xifrada
+            String clauAESencriptada = in.readLine().trim();
+            Cipher cipher = Cipher.getInstance("RSA");
+            cipher.init(Cipher.DECRYPT_MODE, clientClauRSA.getPrivate());
+            byte[] decodedKey = Base64.getDecoder().decode(clauAESencriptada);
+            byte[] decryptedKey = cipher.doFinal(decodedKey);
+            clauAES = new SecretKeySpec(decryptedKey, 0, decryptedKey.length, "AES");
+
+            // Si la resposta del servidor és "OK", l'inici de sessió és exitós
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
     }
 
     public void enviarMissatge(String text) {
         try {
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            out.println(text);
-        } catch (IOException e) {
-            e.printStackTrace();
+            String missatgeEncriptat = encriptarMissatge(text, clauAES);
+            out.println(missatgeEncriptat);
+        } catch (Exception e) {
+            System.out.println(e);
         }
+    }
+
+    private String encriptarMissatge(String message, SecretKey aesKey) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+        byte[] encryptedBytes = cipher.doFinal(message.getBytes("UTF-8"));
+        return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
     public void iniciarReceptorMissatges(ChatBody chatBody, ChatTitol chatTitol) {
         new Thread(() -> {
             try {
                 while (true) {
-                    String nom = in.readLine();
-                    String missatge = in.readLine();
-                    System.out.println(nom + ": " + missatge);
-                    if (nom != null && missatge != null) {
+                    String nom = in.readLine().trim();
+                    String missatgeEncriptat = in.readLine().trim();
+                    System.out.println(nom + " (Missatge Encriptat): " + missatgeEncriptat);
+                    if (nom != null && missatgeEncriptat != null) {
+                        String missatge = desencriptarMissatge(missatgeEncriptat, clauAES);
                         String time = new SimpleDateFormat("HH:mm").format(new Date());
-                        System.out.println("/////////////////////////" + nomUsuari + "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-                        System.out.println(missatge);
-                        if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
+                        System.out.println(" (Missatge Desencriptat): " + missatge);
+                        if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconnectat")) {
                             SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
                         } else {
                             mostrarMissatge(nom, missatge, chatBody, time);
@@ -68,10 +108,18 @@ public class Client {
                         chatBody.repaint();
                     }
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    private String desencriptarMissatge(String encryptedMessage, SecretKey aesKey) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, aesKey);
+        byte[] decodedMessage = Base64.getDecoder().decode(encryptedMessage);
+        byte[] decryptedBytes = cipher.doFinal(decodedMessage);
+        return new String(decryptedBytes, "UTF-8");
     }
 
     public static void mostrarMissatge(String nom, String missatge, ChatBody chatBody, String time) {
@@ -87,86 +135,3 @@ public class Client {
         return nomUsuari;
     }
 }
-
-/*package com.projecte.prova;
-import com.projecte.swing.ChatBody;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-
-import javax.swing.SwingUtilities;
-
-public class Client {
-
-    private final String serverIP;
-    private final int serverPort;
-    private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
-    private String nomUsuari;
-
-    public Client(String serverIP, int serverPort) {
-        this.serverIP = serverIP;
-        this.serverPort = serverPort;
-    }
-
-    public boolean obtindreUsuari(String nomUsuari) throws IOException {
-        socket = new Socket(serverIP, serverPort);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-
-        this.nomUsuari = nomUsuari;
-
-        // Enviar credenciales al servidor
-        out.println(nomUsuari);
-
-        // Esperar respuesta del servidor
-        String resposta = in.readLine();
-
-        // Si el servidor responde con "OK", el inicio de sesión es exitoso
-        return resposta.equals("OK");
-    }
-
-    public void enviarMissatge(String text) {
-        out.println(text);
-    }
-
-    public void iniciarReceptorMissatges(ChatBody chatBody) {
-        final String nombreUsuario = nomUsuari; // Variable local final
-
-        new Thread(() -> {
-            try {
-                while (true) {
-                    String nom = in.readLine();
-                    String missatge = in.readLine();
-                    if (nom != null && missatge != null) {
-                        if (missatge.startsWith("/pm")) {
-                            // Este es un mensaje privado
-                            final String miss = missatge.substring(4); // Eliminar el prefijo /pm
-                            SwingUtilities.invokeLater(() -> chatBody.addItemD(miss));
-                        } else {
-                            if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconectat")) {
-                                SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
-                            } else {
-                                if (nom.equals(nombreUsuario)) {
-                                    SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge));
-                                } else {
-                                    SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom));
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-    public String getNomUsuari() {
-        return nomUsuari;
-    }
-}*/

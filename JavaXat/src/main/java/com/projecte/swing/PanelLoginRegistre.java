@@ -208,7 +208,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         if (loginOk) {
             SwingUtilities.getWindowAncestor(this).setVisible(false);
             Client client = new Client(ipServidor, 7878);
-            client.obtindreUsuari(usuari);
+            client.obtenirUsuari(usuari);
             Xat xat = new Xat(client);
             xat.setVisible(true);
         } else {
