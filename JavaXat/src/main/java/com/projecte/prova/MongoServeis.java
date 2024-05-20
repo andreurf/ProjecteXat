@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MongoServeis {
-    
+
     private static MongoServeis instance;
     private final com.mongodb.MongoClient mongoClient;
     private final MongoDatabase database;
@@ -26,7 +26,7 @@ public class MongoServeis {
         missatgesCollection = database.getCollection("missatges");
         usuarisCollection = database.getCollection("usuaris");
     }
-    
+
     public static synchronized MongoServeis getInstance() {
         if (instance == null) {
             instance = new MongoServeis();
@@ -147,8 +147,9 @@ public class MongoServeis {
 
     // Mètode per desar un usuari connectat a la base de dades
     public void desarUsuari(Usuari usuari) {
+        String hashedPassword = hashPassword(usuari.getContrasenya());
         Document document = new Document("usuari", usuari.getNomUsuari())
-                .append("contrasenya", usuari.getContrasenya())
+                .append("contrasenya", hashedPassword)
                 .append("dataHora", usuari.getHoraConnexio())
                 .append("grup", usuari.getGrup());
         usuarisCollection.insertOne(document);
@@ -212,10 +213,16 @@ public class MongoServeis {
         return result.first() != null;
     }
 
-    public boolean iniciarSecio(String usuari, String contrasenya) {
-        Document query = new Document("usuari", usuari).append("contrasenya", contrasenya);
-        FindIterable<Document> result = usuarisCollection.find(query);
-        return result.first() != null;
+    public boolean iniciarSessio(String usuari, String contrasenya) {
+        // Recuperar el hash de la contrasenya de la base de dades
+        Document query = new Document("usuari", usuari);
+        Document userDoc = usuarisCollection.find(query).first();
+        if (userDoc != null) {
+            String hashedPassword = userDoc.getString("contrasenya");
+            // Comparar el hash de la contrasenya entrada amb el hash emmagatzemat
+            return hashedPassword.equals(hashPassword(contrasenya));
+        }
+        return false;
     }
 
     public void actualitzarEstat(String usuari, boolean estat) {

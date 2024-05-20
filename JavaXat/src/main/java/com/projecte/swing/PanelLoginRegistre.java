@@ -203,7 +203,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         String contrasenya = txtPass.getText();
         String ipServidor = txtIPServidor.getText();
 
-        boolean loginOk = mongoServeis.iniciarSecio(usuari, contrasenya);
+        boolean loginOk = mongoServeis.iniciarSessio(usuari, contrasenya);
 
         if (loginOk) {
             SwingUtilities.getWindowAncestor(this).setVisible(false);
