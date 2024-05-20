@@ -56,7 +56,7 @@ public class MenuLateralD extends javax.swing.JPanel {
         if (selectedDate == null) {
             return new Date();
         }
-        System.out.println("Data" + selectedDate);
+//        System.out.println("Data: " + selectedDate);
         return selectedDate;
     }
 

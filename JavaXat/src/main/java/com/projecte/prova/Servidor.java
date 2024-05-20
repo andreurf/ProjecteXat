@@ -8,7 +8,7 @@ import java.util.Date; // Importa la classe Date
 public class Servidor {
 
     private static final int PORT = 7878;
-    private static final MongoServeis dbManager = new MongoServeis();
+    private static final MongoServeis dbManager = MongoServeis.getInstance();
     private static final ArrayList<Usuari> usuaris = new ArrayList<>();
     private static Usuari user;
     private static final boolean missPrivat = false;

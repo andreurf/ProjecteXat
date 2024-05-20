@@ -17,12 +17,13 @@ import java.util.Date;
  *
  * @author andreu i quim
  */
-public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListener{
+public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListener {
 
     private ChatTitol chatTitol;
     private ChatBody chatBody;
     private Client client;
     private MenuLateralD menuLD;
+    private static String selectedUser;
 
     public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD) {
         initComponents();
@@ -36,17 +37,12 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
         menuLD.addDateChangeListener(this);
     }
 
-    private void init() {        
-        
+    private void init() {
+
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleClick();
-//                chatTitol.setNomUsuari(lbNom.getText());
-//                chatBody.limpiarMensajes();
-//                refrescarMensajes();
-//                
-//                client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
             }
 
             @Override
@@ -60,35 +56,38 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
             }
         });
     }
-    
+
     public void handleClick() {
         chatTitol.setNomUsuari(lbNom.getText());
-        chatBody.limpiarMensajes();
+//        chatBody.limpiarMensajes();
+        selectedUser = lbNom.getText();
         refrescarMensajes();
         client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
     }
-    
+
     @Override
     public void onDateChanged(Date newDate) {
-        refrescarMensajes();
+        if (selectedUser != null && selectedUser.equals(lbNom.getText())) {
+            refrescarMensajes();
+        }
     }
 
     public void refrescarMensajes() {
 
         String nomUsuari = client.getNomUsuari();
-        MongoServeis manager = new MongoServeis();
+        MongoServeis manager = MongoServeis.getInstance();
         List<Missatge> missatges;
         Date selectedDate = menuLD.getSelectedDate();
-        
-        if (lbNom.getText() == "DAM") {
+
+        if (lbNom.getText().equals("DAM")) {
             missatges = manager.obtenirMissatgesPerGrupIData("DAM", selectedDate);
         } else {
-            missatges = manager.obtenirMissatgesPrivatsIData(nomUsuari,lbNom.getText(),selectedDate);
+            missatges = manager.obtenirMissatgesPrivatsIData(nomUsuari, lbNom.getText(), selectedDate);
             missatges.addAll(manager.obtenirMissatgesPrivatsIData(lbNom.getText(), nomUsuari, selectedDate));
         }
-        
-        Collections.sort(missatges); 
-        
+
+        Collections.sort(missatges);
+
         chatBody.limpiarMensajes();
 
         for (Missatge missatge : missatges) {

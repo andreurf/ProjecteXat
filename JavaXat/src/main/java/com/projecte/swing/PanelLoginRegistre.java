@@ -30,7 +30,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
     public PanelLoginRegistre() {
         initComponents();
-        mongoServeis = new MongoServeis();
+        mongoServeis = MongoServeis.getInstance();
         initRegistre();
         initLogin();
         login.setVisible(false);

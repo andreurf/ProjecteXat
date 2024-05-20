@@ -42,7 +42,7 @@ public class MenuLateralE extends javax.swing.JPanel {
 
     private void showPersones() {
         menuList.removeAll();
-        MongoServeis servidorMDB = new MongoServeis();
+        MongoServeis servidorMDB = MongoServeis.getInstance();
         String nomActual = Client.getNomUsuari();
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {

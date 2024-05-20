@@ -8,12 +8,12 @@ import java.security.NoSuchAlgorithmException;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 public class MongoServeis {
-
+    
+    private static MongoServeis instance;
     private final com.mongodb.MongoClient mongoClient;
     private final MongoDatabase database;
     private final MongoCollection<Document> missatgesCollection;
@@ -25,6 +25,13 @@ public class MongoServeis {
         database = mongoClient.getDatabase("grup2");
         missatgesCollection = database.getCollection("missatges");
         usuarisCollection = database.getCollection("usuaris");
+    }
+    
+    public static synchronized MongoServeis getInstance() {
+        if (instance == null) {
+            instance = new MongoServeis();
+        }
+        return instance;
     }
 
     // Actualización del método desarMissatge
