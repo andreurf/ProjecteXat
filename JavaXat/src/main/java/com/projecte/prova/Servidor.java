@@ -36,40 +36,56 @@ public class Servidor {
             while (true) {
                 Socket socket = serverSocket.accept();
 
+                boolean usuRepetit = false;
+
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-                // Enviar que pot iniciar sessió
-                out.println("OK");
-
                 // Guardar credencials
-                String nom = in.readLine().trim();
+                String nom = in.readLine();
                 System.out.println(nom + " s'ha connectat");
-                Usuari usuari = new Usuari(nom, socket, true);
-                usuaris.add(usuari);
+                if (!usuaris.isEmpty()) {
+                    for (Usuari usu : usuaris) {
+                        if (nom.equals(usu.getNomUsuari())) {
+                            usuRepetit = true;
+                            break;
+                        }
+                    }
+                }
 
-                // Obtenir clau pública del client
-                byte[] byteKey = Base64.getDecoder().decode(in.readLine().trim());
-                X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
-                KeyFactory kf = KeyFactory.getInstance("RSA");
-                clientClauPublica = kf.generatePublic(X509publicKey);
+                if (!usuRepetit) {
+                    Usuari usuari = new Usuari(nom, socket, true);
+                    usuaris.add(usuari);
 
-                // Xifrar clau AES amb clau pública del client i enviar-li
-                Cipher cipher = Cipher.getInstance("RSA");
-                cipher.init(Cipher.ENCRYPT_MODE, clientClauPublica);
-                byte[] encryptedKey = cipher.doFinal(aesKey.getEncoded());
-                String encryptedAESKey = Base64.getEncoder().encodeToString(encryptedKey);
-                out.println(encryptedAESKey);
+                    // Enviar que pot iniciar sessió
+                    out.println("OK");
 
-                new ComprovarEstatClient(usuari).start();
-                new Handler(socket, nom).start();
+                    // Obtenir clau pública del client
+                    byte[] byteKey = Base64.getDecoder().decode(in.readLine().trim());
+                    X509EncodedKeySpec X509publicKey = new X509EncodedKeySpec(byteKey);
+                    KeyFactory kf = KeyFactory.getInstance("RSA");
+                    clientClauPublica = kf.generatePublic(X509publicKey);
+
+                    // Xifrar clau AES amb clau pública del client i enviar-li
+                    Cipher cipher = Cipher.getInstance("RSA");
+                    cipher.init(Cipher.ENCRYPT_MODE, clientClauPublica);
+                    byte[] encryptedKey = cipher.doFinal(aesKey.getEncoded());
+                    String encryptedAESKey = Base64.getEncoder().encodeToString(encryptedKey);
+                    out.println(encryptedAESKey);
+
+                    new ComprovarEstatClient(usuari).start();
+                    new Handler(socket, nom).start();
+                } else {
+                    out.println("Repetit");
+                    System.out.println("Usuari ja loguejat");
+                }
             }
         } catch (IOException | InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             System.out.println("Error en el servidor: " + e.getMessage());
         }
     }
 
-    // Desencriptar missatge amb AES
+// Desencriptar missatge amb AES
     private static String desencriptarMissatge(String encryptedMessage) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, aesKey);
@@ -84,9 +100,11 @@ public class Servidor {
         cipher.init(Cipher.ENCRYPT_MODE, aesKey);
         byte[] encryptedBytes = cipher.doFinal(message.getBytes("UTF-8"));
         return Base64.getEncoder().encodeToString(encryptedBytes);
+
     }
 
     private static class Handler extends Thread {
+
         private final String nom;
         private final Socket socket;
         private BufferedReader in;
@@ -171,9 +189,11 @@ public class Servidor {
         Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
         dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
         new RealitzarEnviaments(missatge, nom, missPrivat, grup).start();
+
     }
 
     public static class RealitzarEnviaments extends Thread {
+
         private final String missatge;
         private final String nom;
         private final boolean missPrivat;
@@ -224,6 +244,7 @@ public class Servidor {
     }
 
     public static class ComprovarEstatClient extends Thread {
+
         private final Usuari usuari;
 
         public ComprovarEstatClient(Usuari usuari) {
@@ -234,8 +255,17 @@ public class Servidor {
         public void run() {
             try {
                 for (Usuari user : usuaris) {
-                    if (!user.equals(usuari)) {
-                        PrintWriter out = new PrintWriter(user.getSocket().getOutputStream(), true);
+                    PrintWriter out = new PrintWriter(user.getSocket().getOutputStream(), true);
+                    if (usuari.getNomUsuari().equals(user.getNomUsuari())) {
+                        // Enviar la lista de todos los usuarios conectados al nuevo usuario
+                        for (Usuari u : usuaris) {
+                            if (!u.getNomUsuari().equals(usuari.getNomUsuari())) {
+                                out.println(u.getNomUsuari());
+                                out.println(encriptarMissatge(" s'ha unit al xat"));
+                            }
+                        }
+                    } else {
+                        // Notificar a los otros usuarios sobre el nuevo usuario
                         out.println(usuari.getNomUsuari());
                         out.println(encriptarMissatge(" s'ha unit al xat"));
                     }

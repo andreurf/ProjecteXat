@@ -68,7 +68,7 @@ public class MenuLateralD extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(249, 249, 249));
         setLayout(new java.awt.BorderLayout());
-        add(jCalendar1, java.awt.BorderLayout.NORTH);
+        add(jCalendar1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
 

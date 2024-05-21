@@ -4,7 +4,9 @@ import com.projecte.bind.BindMongo;
 import com.projecte.prova.Client;
 import com.projecte.prova.MongoServeis;
 import com.projecte.swing.components.ScrollBar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -18,6 +20,8 @@ public class MenuLateralE extends javax.swing.JPanel {
     private final Client client;
     private ItemUsuaris damItem;
     private final MenuLateralD menuLD;
+    private Map<String, ItemUsuaris> usuarisMap = new HashMap<>();
+    private Map<String, Boolean> userStatusMap = new HashMap<>();
 
     public MenuLateralE(ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD) {
         initComponents();
@@ -47,14 +51,21 @@ public class MenuLateralE extends javax.swing.JPanel {
         String nomActual = Client.getNomUsuari();
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {
-            menuList.add(new ItemUsuaris(nom, chatTitol, chatBody, client, menuLD), "wrap");
+            ItemUsuaris item = new ItemUsuaris(nom, chatTitol, chatBody, client, menuLD, this);
+            menuList.add(item, "wrap");
+            usuarisMap.put(nom, item);
+            // Set the active status of the user based on the saved state
+            Boolean isActive = userStatusMap.get(nom);
+            if (isActive != null) {
+                item.setActive(isActive);
+            }
         }
         refrescarMenuList();
     }
 
     private void showGrup() {
         menuList.removeAll();
-        damItem = new ItemUsuaris("DAM", chatTitol, chatBody, client, menuLD);
+        damItem = new ItemUsuaris("DAM", chatTitol, chatBody, client, menuLD, this);
         menuList.add(damItem, "wrap");
         refrescarMenuList();
     }
@@ -67,6 +78,15 @@ public class MenuLateralE extends javax.swing.JPanel {
     private void refrescarMenuList() {
         menuList.repaint();
         menuList.revalidate();
+    }
+    
+    public void setActive(String username, boolean active) {
+        ItemUsuaris itemUsuari = usuarisMap.get(username);
+        if (itemUsuari != null) {
+            itemUsuari.setActive(active);
+        }
+        userStatusMap.put(username, active);
+        System.out.println("El usuari " + username + " s'ha conectat");
     }
 
     @SuppressWarnings("unchecked")
@@ -175,7 +195,6 @@ public class MenuLateralE extends javax.swing.JPanel {
     }//GEN-LAST:event_menuBoto2ActionPerformed
 
     private void menuBoto3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoto3ActionPerformed
-
         if (!menuBoto3.isSelected()) {
             menuBoto1.setSelected(false);
             menuBoto2.setSelected(false);

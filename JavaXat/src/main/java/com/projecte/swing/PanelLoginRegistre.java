@@ -206,13 +206,19 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         boolean loginOk = mongoServeis.iniciarSessio(usuari, contrasenya);
 
         if (loginOk) {
-            SwingUtilities.getWindowAncestor(this).setVisible(false);
             Client client = new Client(ipServidor, 7878);
-            client.obtenirUsuari(usuari);
+            boolean usuariObtingut = client.obtenirUsuari(usuari);
+            if (!usuariObtingut) {
+                // Mostrar missatge d'error i tornar a mostrar la finestra de login
+                JOptionPane.showMessageDialog(null, "Usuari ja loguejat o error de connexió", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            // Si no hi ha cap error, ocultar el panell de login i mostrar la finestra de xat
+            SwingUtilities.getWindowAncestor(this).setVisible(false);
             Xat xat = new Xat(client);
             xat.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -230,14 +236,13 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
         try {
             boolean usuariExisteix;
-            
-            if(nomUsuari.equals("DAM")){
+
+            if (nomUsuari.equals("DAM")) {
                 usuariExisteix = true;
             } else {
                 usuariExisteix = mongoServeis.validarUsuari(nomUsuari);
             }
-            
-            
+
             if (usuariExisteix) {
                 JOptionPane.showMessageDialog(null, "El nom d'usuari ja està en ús", "Error", JOptionPane.ERROR_MESSAGE);
             } else {

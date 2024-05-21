@@ -149,9 +149,7 @@ public class MongoServeis {
     public void desarUsuari(Usuari usuari) {
         String hashedPassword = hashPassword(usuari.getContrasenya());
         Document document = new Document("usuari", usuari.getNomUsuari())
-                .append("contrasenya", hashedPassword)
-                .append("dataHora", usuari.getHoraConnexio())
-                .append("grup", usuari.getGrup());
+                .append("contrasenya", hashedPassword);
         usuarisCollection.insertOne(document);
     }
 

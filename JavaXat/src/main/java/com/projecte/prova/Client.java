@@ -2,6 +2,7 @@ package com.projecte.prova;
 
 import com.projecte.swing.ChatBody;
 import com.projecte.swing.ChatTitol;
+import com.projecte.swing.MenuLateralE;
 import java.io.*;
 import java.net.*;
 import java.security.*;
@@ -44,14 +45,14 @@ public class Client {
 
             nomUsuari = nomUsu;
 
+            // Enviar credencials al servidor
+            out.println(nomUsuari);
+            
             // Esperar resposta del servidor
             String resposta = in.readLine();
             if (!resposta.equals("OK")) {
                 return false;
             }
-
-            // Enviar credencials al servidor
-            out.println(nomUsuari);
 
             // Enviar clau pública al servidor
             out.println(Base64.getEncoder().encodeToString(clientClauRSA.getPublic().getEncoded()));
@@ -88,7 +89,7 @@ public class Client {
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
-    public void iniciarReceptorMissatges(ChatBody chatBody, ChatTitol chatTitol) {
+    public void iniciarReceptorMissatges(ChatBody chatBody, ChatTitol chatTitol, MenuLateralE menuLE) {
         new Thread(() -> {
             try {
                 while (true) {
@@ -100,12 +101,17 @@ public class Client {
                         String time = new SimpleDateFormat("HH:mm").format(new Date());
                         System.out.println(" (Missatge Desencriptat): " + missatge);
                         if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconnectat")) {
-                            SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
+                            SwingUtilities.invokeLater(() -> menuLE.setActive(nom, missatge.equals(" s'ha unit al xat")));
+                            if(!nomUsuari.equals(nom)){
+                                SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
+                            }
                         } else {
                             mostrarMissatge(nom, missatge, chatBody, time);
                         }
                         chatBody.revalidate();
                         chatBody.repaint();
+                        menuLE.revalidate();
+                        menuLE.repaint();
                     }
                 }
             } catch (Exception e) {

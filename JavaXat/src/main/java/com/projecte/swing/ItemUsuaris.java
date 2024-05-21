@@ -23,17 +23,19 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
     private ChatBody chatBody;
     private Client client;
     private MenuLateralD menuLD;
+    private MenuLateralE menuLE;
     private static String selectedUser;
 
-    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD) {
+    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD, MenuLateralE menuLE) {
         initComponents();
         this.chatTitol = chatTitol;
         this.chatBody = chatBody;
         this.client = client;
         this.menuLD = menuLD;
+        this.menuLE = menuLE;
         lbNom.setText(nom);
         init();
-        client.iniciarReceptorMissatges(chatBody, chatTitol); // Iniciar el receptor de mensajes en un hilo separado
+        client.iniciarReceptorMissatges(chatBody, chatTitol, menuLE); // Iniciar el receptor de mensajes en un hilo separado
         menuLD.addDateChangeListener(this);
     }
 
@@ -101,6 +103,11 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
         chatBody.revalidate();
         chatBody.repaint();
     }
+    
+    
+    public void setActive(boolean active) {
+        activeStatus.setActive(active);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -108,6 +115,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
 
         imatgeAvatar1 = new com.projecte.swing.components.ImatgeAvatar();
         lbNom = new javax.swing.JLabel();
+        activeStatus = new com.projecte.swing.components.ActiveStatus();
 
         setBackground(new Color(242, 242, 242));
 
@@ -123,7 +131,9 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
             .addGroup(layout.createSequentialGroup()
                 .addComponent(imatgeAvatar1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbNom, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addComponent(lbNom, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(activeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -131,7 +141,10 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbNom, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(activeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbNom, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                     .addComponent(imatgeAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -139,6 +152,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.projecte.swing.components.ActiveStatus activeStatus;
     private com.projecte.swing.components.ImatgeAvatar imatgeAvatar1;
     private javax.swing.JLabel lbNom;
     // End of variables declaration//GEN-END:variables
