@@ -1,38 +1,39 @@
 package com.projecte.bind;
 
-import com.mongodb.client.MongoIterable;
+import org.bson.Document;
+
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
-import org.bson.Document;
 
 public class BindMongo extends javax.swing.JFrame {
 
-    private final MongoDBConnector connector;
+    private ConnexioMongo conector;
     private JTextField campIp;
     private JTextField campNomBaseDeDades;
     private JTextField campUsuari;
     private JPasswordField campContrasenya;
     private JComboBox<String> caixaColleccions;
     private JTable taula;
-    private ModelTaulaMongoDB modelTaula;
+    private DefaultTableModel modelTaula;
+    private List<Document> documents;
 
     public BindMongo() {
-        connector = new MongoDBConnector();
+        conector = new ConnexioMongo();
         inicialitzarComponents();
     }
 
     @SuppressWarnings("unchecked")
     private void inicialitzarComponents() {
-        // Configura la ventana para deshabilitar el botón de cerrar
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        
-        
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
+
         JLabel etiquetaIp = new JLabel("IP del servidor:");
         campIp = new JTextField(15);
         JLabel etiquetaNomBaseDeDades = new JLabel("Nom de la base de dades:");
@@ -44,6 +45,7 @@ public class BindMongo extends javax.swing.JFrame {
         JButton botoConnectar = new JButton("Connectar");
         caixaColleccions = new JComboBox<>();
         JButton botoCarregar = new JButton("Carregar col·lecció");
+        JButton botoEliminar = new JButton("Eliminar fila seleccionada");
 
         botoConnectar.addActionListener(new ActionListener() {
             @Override
@@ -59,13 +61,26 @@ public class BindMongo extends javax.swing.JFrame {
             }
         });
 
-        taula = new JTable();
+        botoEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarFilaSeleccionada();
+            }
+        });
+
+        modelTaula = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return true; // Totes les cel·les són editables
+            }
+        };
+        taula = new JTable(modelTaula);
         taula.getModel().addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent e) {
                 if (e.getType() == TableModelEvent.UPDATE) {
                     int fila = e.getFirstRow();
-                    if (fila >= 0) {
+                    if (fila >= 0 && fila < documents.size()) {
                         actualitzarDocument(fila);
                     }
                 }
@@ -114,12 +129,17 @@ public class BindMongo extends javax.swing.JFrame {
         c.gridwidth = 2;
         panellEntrada.add(botoCarregar, c);
 
+        c.gridx = 0;
+        c.gridy = 6;
+        c.gridwidth = 2;
+        panellEntrada.add(botoEliminar, c);
+
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(panellEntrada, BorderLayout.NORTH);
         getContentPane().add(panellDesplaçament, BorderLayout.CENTER);
 
         pack();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // Centrar la finestra
     }
 
     private void connectarAMongoDB() {
@@ -127,20 +147,13 @@ public class BindMongo extends javax.swing.JFrame {
         String nomBaseDeDades = campNomBaseDeDades.getText().trim();
         String usuari = campUsuari.getText().trim();
         String contrasenya = new String(campContrasenya.getPassword()).trim();
-        if (!ip.isEmpty() && !nomBaseDeDades.isEmpty() && !usuari.isEmpty() && !contrasenya.isEmpty()) {
-            try {
-                connector.connectar(ip, nomBaseDeDades, usuari, contrasenya);
-                omplirCaixaColleccions();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Error d'autenticació: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Si us plau, emplena tots els camps: IP del servidor, nom de la base de dades, usuari i contrasenya.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (conector.connectar(ip, nomBaseDeDades, usuari, contrasenya)) {
+            omplirCaixaColleccions();
         }
     }
 
     private void omplirCaixaColleccions() {
-        MongoIterable<String> colleccions = connector.obtenirColleccions();
+        List<String> colleccions = conector.obtenirNomsColleccions();
         caixaColleccions.removeAllItems();
         for (String colleccio : colleccions) {
             caixaColleccions.addItem(colleccio);
@@ -150,23 +163,58 @@ public class BindMongo extends javax.swing.JFrame {
     private void carregarDadesColleccio() {
         String nomColleccio = (String) caixaColleccions.getSelectedItem();
         if (nomColleccio != null) {
-            List<Document> documents = connector.carregarDadesColleccio(nomColleccio);
-            modelTaula = new ModelTaulaMongoDB(documents);
-            taula.setModel(modelTaula);
+            documents = conector.carregarColleccio(nomColleccio);
+            if (documents.size() > 0) {
+                Document primerDocument = documents.get(0);
+                List<String> columnes = new ArrayList<>(primerDocument.keySet());
+
+                modelTaula.setColumnIdentifiers(columnes.toArray());
+
+                modelTaula.setRowCount(0); // Neteja les files existents
+                for (Document doc : documents) {
+                    List<Object> dadesFila = new ArrayList<>();
+                    for (String col : columnes) {
+                        dadesFila.add(doc.get(col));
+                    }
+                    modelTaula.addRow(dadesFila.toArray());
+                }
+
+                modelTaula.fireTableDataChanged();
+            }
         }
     }
 
     private void actualitzarDocument(int fila) {
         String nomColleccio = (String) caixaColleccions.getSelectedItem();
         if (nomColleccio != null) {
-            Document documentOriginal = modelTaula.getDocument(fila);
+            Document documentOriginal = documents.get(fila);
+
             Document documentActualitzat = new Document();
             for (int j = 0; j < modelTaula.getColumnCount(); j++) {
                 documentActualitzat.append(modelTaula.getColumnName(j), modelTaula.getValueAt(fila, j));
             }
-            connector.actualitzarDocument(nomColleccio, documentOriginal, documentActualitzat);
-            modelTaula.setDocument(fila, documentActualitzat);
+
+            conector.actualitzarDocument(nomColleccio, documentOriginal, documentActualitzat);
+            documents.set(fila, documentActualitzat);
         }
     }
 
+    private void eliminarFilaSeleccionada() {
+        int filaSeleccionada = taula.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String nomColleccio = (String) caixaColleccions.getSelectedItem();
+            if (nomColleccio != null) {
+                Document documentAEliminar = documents.get(filaSeleccionada);
+                Object id = documentAEliminar.get("_id");
+                if (id != null) {
+                    conector.eliminarDocumentPerId(nomColleccio, id);
+                }
+                documents.remove(filaSeleccionada);
+                modelTaula.removeRow(filaSeleccionada);
+                modelTaula.fireTableDataChanged();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Si us plau, selecciona una fila per eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
