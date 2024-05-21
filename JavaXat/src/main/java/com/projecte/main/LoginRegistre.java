@@ -104,7 +104,6 @@ public class LoginRegistre extends javax.swing.JFrame {
         fons = new javax.swing.JLayeredPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
 
         fons.setBackground(new java.awt.Color(255, 255, 255));
         fons.setOpaque(true);

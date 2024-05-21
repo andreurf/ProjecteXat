@@ -61,10 +61,21 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
 
     public void handleClick() {
         chatTitol.setNomUsuari(lbNom.getText());
+        if (!lbNom.getText().equals("DAM")) {
+            if (activeStatus.isActive()) {
+                chatTitol.estatActiu();
+            } else {
+                chatTitol.setStatusText("Inactiu");
+            }
+        }
+
 //        chatBody.limpiarMensajes();
         selectedUser = lbNom.getText();
+
         refrescarMensajes();
-        client.enviarMissatge("/w " + client.getNomUsuari() + " " + lbNom.getText());
+
+        client.enviarMissatge(
+                "/w " + client.getNomUsuari() + " " + lbNom.getText());
     }
 
     @Override
@@ -103,8 +114,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
         chatBody.revalidate();
         chatBody.repaint();
     }
-    
-    
+
     public void setActive(boolean active) {
         activeStatus.setActive(active);
     }
