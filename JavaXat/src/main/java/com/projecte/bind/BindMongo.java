@@ -12,7 +12,7 @@ import org.bson.Document;
 
 public class BindMongo extends javax.swing.JFrame {
 
-    private MongoDBConnector connector;
+    private final MongoDBConnector connector;
     private JTextField campIp;
     private JTextField campNomBaseDeDades;
     private JTextField campUsuari;
@@ -28,9 +28,11 @@ public class BindMongo extends javax.swing.JFrame {
 
     @SuppressWarnings("unchecked")
     private void inicialitzarComponents() {
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        // Configura la ventana para deshabilitar el botón de cerrar
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        
+        
         JLabel etiquetaIp = new JLabel("IP del servidor:");
         campIp = new JTextField(15);
         JLabel etiquetaNomBaseDeDades = new JLabel("Nom de la base de dades:");
@@ -117,7 +119,7 @@ public class BindMongo extends javax.swing.JFrame {
         getContentPane().add(panellDesplaçament, BorderLayout.CENTER);
 
         pack();
-        setLocationRelativeTo(null); // Centrar la finestra
+        setLocationRelativeTo(null);
     }
 
     private void connectarAMongoDB() {
@@ -167,11 +169,4 @@ public class BindMongo extends javax.swing.JFrame {
         }
     }
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BindMongo().setVisible(true);
-            }
-        });
-    }
 }
