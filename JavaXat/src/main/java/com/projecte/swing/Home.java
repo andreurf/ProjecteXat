@@ -12,10 +12,15 @@ public class Home extends javax.swing.JLayeredPane {
     
     private Client client;
     
+    
     public Home(Client client) {
         this.client = client;
         initComponents();
         init();
+    }
+    
+    public Home() {
+        initComponents();
     }
     
     private void init(){

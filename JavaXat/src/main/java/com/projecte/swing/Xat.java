@@ -1,10 +1,12 @@
 package com.projecte.swing;
 
+import com.projecte.bind.BindMongo;
 import com.projecte.prova.Client;
 import com.projecte.swing.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -27,12 +29,7 @@ public class Xat extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(900, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10, 10));
-    }
-    
-    public void actualitzarXat(String missatge){
-        
-    }
-    
+    }    
 
 
     @SuppressWarnings("unchecked")
@@ -46,6 +43,11 @@ public class Xat extends javax.swing.JFrame {
         cmdTancar = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
         home1 = new com.projecte.swing.Home(client);
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -102,8 +104,8 @@ public class Xat extends javax.swing.JFrame {
             .addComponent(cmdTancar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        body.setLayout(new java.awt.CardLayout());
-        body.add(home1, "card2");
+        body.setLayout(new java.awt.BorderLayout());
+        body.add(home1, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
@@ -133,9 +135,32 @@ public class Xat extends javax.swing.JFrame {
         borderLayout.setVerticalGroup(
             borderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(borderLayout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jMenu1.setText("Eines");
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Bind");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem3.setText("Vista Grups");
+        jMenu1.add(jMenuItem3);
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem4.setText("Vista Persones");
+        jMenu1.add(jMenuItem4);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,12 +189,17 @@ public class Xat extends javax.swing.JFrame {
     }//GEN-LAST:event_titolMousePressed
 
     private void cmdMinimitzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdMinimitzarActionPerformed
-        // TODO add your handling code here:
+        setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_cmdMinimitzarActionPerformed
 
     private void cmdTancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdTancarActionPerformed
         System.exit(0);
     }//GEN-LAST:event_cmdTancarActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        BindMongo bindMongo = new BindMongo();
+        bindMongo.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 //    public static void main(String args[]) {
 //
@@ -187,6 +217,11 @@ public class Xat extends javax.swing.JFrame {
     private javax.swing.JButton cmdMinimitzar;
     private javax.swing.JButton cmdTancar;
     private com.projecte.swing.Home home1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel titol;
     // End of variables declaration//GEN-END:variables
 }

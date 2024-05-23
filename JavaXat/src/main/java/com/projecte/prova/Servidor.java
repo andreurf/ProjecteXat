@@ -29,9 +29,12 @@ public class Servidor {
             KeyGenerator clauAES = KeyGenerator.getInstance("AES");
             clauAES.init(256);
             aesKey = clauAES.generateKey();
-
-            ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("Servidor del xat en línia...");
+            
+            // Obtenir la IP local del servidor
+            InetAddress localIP = InetAddress.getLocalHost();
+            
+            ServerSocket serverSocket = new ServerSocket(PORT, 0, localIP);
+            System.out.println("Servidor del xat en línia..." + localIP.getHostAddress() + ":" + PORT);
 
             while (true) {
                 Socket socket = serverSocket.accept();
