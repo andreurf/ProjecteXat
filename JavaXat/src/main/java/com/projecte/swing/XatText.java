@@ -7,45 +7,48 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author andreu i quim
  */
-public class Home extends javax.swing.JLayeredPane {
+public class XatText extends javax.swing.JPanel {
 
-    private Client client;
-
-    public Home(Client client) {
-        this.client = client;
+    private final XatTitol xatTitol;
+    private final XatBody xatBody;
+    private XatBottom xatBottom;
+    private final Client client;
+    
+    public XatText(XatTitol chatTitol, XatBody chatBody, Client client) {
         initComponents();
+        this.xatTitol = chatTitol;
+        this.xatBody = chatBody;
+        this.client = client;
         init();
     }
-
-    public Home() {
-        initComponents();
-    }
-
-    private void init() {
-        setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
-        XatTitol xatTitol = new XatTitol();
-        XatBody xatBody = new XatBody();
-        MenuLateralD menuLD = new MenuLateralD();
-        this.add(new MenuLateralE(xatTitol, xatBody, client, menuLD), "cell 0 0, grow");
-        this.add(new XatText(xatTitol, xatBody, client), "cell 1 0, grow");
-        this.add(menuLD, "cell 2 0, grow, wmin 200px, hmin 400px");
+    
+    private void init(){
+        setLayout(new MigLayout("fillx", "0[fill]0","0[]0[100%, bottom]0[shrink 0]0"));
+        xatBottom = new XatBottom(client, xatBody, xatTitol);
+        add(xatTitol,"wrap");
+        add(xatBody,"wrap");
+        add(xatBottom,"h :: 50%");
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(727, 600));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1007, Short.MAX_VALUE)
+            .addGap(0, 727, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

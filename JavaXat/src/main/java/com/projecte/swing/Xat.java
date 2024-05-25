@@ -2,7 +2,7 @@ package com.projecte.swing;
 
 import com.projecte.bind.BindMongo;
 import com.projecte.serveis.Client;
-import com.projecte.swing.components.ComponentAjustar;
+import com.projecte.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
@@ -13,9 +13,9 @@ import javax.swing.JFrame;
  * @author andreu i quim
  */
 public class Xat extends javax.swing.JFrame {
-    
-    private Client client;
-    
+
+    private final Client client;
+
     public Xat(Client client) {
         this.client = client;
         initComponents();
@@ -29,8 +29,7 @@ public class Xat extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(900, 500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10, 10));
-    }    
-
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -200,15 +199,6 @@ public class Xat extends javax.swing.JFrame {
         BindMongo bindMongo = new BindMongo();
         bindMongo.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-//    public static void main(String args[]) {
-//
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Xat().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;

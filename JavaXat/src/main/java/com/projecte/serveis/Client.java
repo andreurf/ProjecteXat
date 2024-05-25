@@ -1,7 +1,7 @@
 package com.projecte.serveis;
 
-import com.projecte.swing.ChatBody;
-import com.projecte.swing.ChatTitol;
+import com.projecte.swing.XatBody;
+import com.projecte.swing.XatTitol;
 import com.projecte.swing.MenuLateralE;
 import java.io.*;
 import java.net.*;
@@ -89,7 +89,7 @@ public class Client {
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
-    public void iniciarReceptorMissatges(ChatBody chatBody, ChatTitol chatTitol, MenuLateralE menuLE) {
+    public void iniciarReceptorMissatges(XatBody chatBody, XatTitol chatTitol, MenuLateralE menuLE) {
         new Thread(() -> {
             try {
                 while (true) {
@@ -101,9 +101,9 @@ public class Client {
                         String time = new SimpleDateFormat("HH:mm").format(new Date());
                         System.out.println(" (Missatge Desencriptat): " + missatge);
                         if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconnectat")) {
-                            SwingUtilities.invokeLater(() -> menuLE.setActive(nom, missatge.equals(" s'ha unit al xat")));
+                            SwingUtilities.invokeLater(() -> menuLE.setActiu(nom, missatge.equals(" s'ha unit al xat")));
                             if(!nomUsuari.equals(nom)){
-                                SwingUtilities.invokeLater(() -> chatBody.addEstat(nom + missatge));
+                                SwingUtilities.invokeLater(() -> chatBody.afegirEstat(nom + missatge));
                             }
                         } else {
                             mostrarMissatge(nom, missatge, chatBody, time);
@@ -128,12 +128,12 @@ public class Client {
         return new String(decryptedBytes, "UTF-8");
     }
 
-    public static void mostrarMissatge(String nom, String missatge, ChatBody chatBody, String time) {
+    public static void mostrarMissatge(String nom, String missatge, XatBody chatBody, String time) {
         System.out.println(nom + ": " + missatge);
         if (nom.equals(nomUsuari)) {
-            SwingUtilities.invokeLater(() -> chatBody.addItemD(missatge, time));
+            SwingUtilities.invokeLater(() -> chatBody.afegirItemD(missatge, time));
         } else {
-            SwingUtilities.invokeLater(() -> chatBody.addItemE(missatge, nom, time));
+            SwingUtilities.invokeLater(() -> chatBody.afegirItemE(missatge, nom, time));
         }
     }
 

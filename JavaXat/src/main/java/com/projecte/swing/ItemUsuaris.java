@@ -7,9 +7,6 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.Timer;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Date;
 
@@ -17,26 +14,27 @@ import java.util.Date;
  *
  * @author andreu i quim
  */
-public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListener {
+public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener {
 
-    private ChatTitol chatTitol;
-    private ChatBody chatBody;
-    private Client client;
-    private MenuLateralD menuLD;
-    private MenuLateralE menuLE;
-    private static String selectedUser;
+    private final XatTitol xatTitol;
+    private final XatBody xatBody;
+    private final Client client;
+    private final MenuLateralD menuLD;
+    private final MenuLateralE menuLE;
+    private static String usuariSeleccionat;
 
-    public ItemUsuaris(String nom, ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD, MenuLateralE menuLE) {
+    public ItemUsuaris(String nom, XatTitol chatTitol, XatBody xatBody, Client client, MenuLateralD menuLD, MenuLateralE menuLE) {
         initComponents();
-        this.chatTitol = chatTitol;
-        this.chatBody = chatBody;
+        this.xatTitol = chatTitol;
+        this.xatBody = xatBody;
         this.client = client;
         this.menuLD = menuLD;
         this.menuLE = menuLE;
         lbNom.setText(nom);
+        ItemUsuaris itm = this;
         init();
-        client.iniciarReceptorMissatges(chatBody, chatTitol, menuLE); // Iniciar el receptor de mensajes en un hilo separado
-        menuLD.addDateChangeListener(this);
+        client.iniciarReceptorMissatges(xatBody, chatTitol, menuLE);
+        menuLD.addDateChangeListener(itm);
     }
 
     private void init() {
@@ -60,72 +58,72 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
     }
 
     public void handleClick() {
-        chatTitol.setNomUsuari(lbNom.getText());
+        xatTitol.setNomUsuari(lbNom.getText());
         if (!lbNom.getText().equals("DAM")) {
-            if (activeStatus.isActive()) {
-                chatTitol.estatActiu();
+            if (estatActiu.isActive()) {
+                xatTitol.estatActiu();
             } else {
-                chatTitol.setStatusText("Inactiu");
+                xatTitol.setEstatText();
             }
         }
-
-//        chatBody.limpiarMensajes();
-        selectedUser = lbNom.getText();
-
-        refrescarMensajes();
-
+        usuariSeleccionat = lbNom.getText();
+        refrescarMissatges();
         client.enviarMissatge(
                 "/w " + client.getNomUsuari() + " " + lbNom.getText());
     }
 
+    /**
+     *
+     * @param newDate
+     */
     @Override
-    public void onDateChanged(Date newDate) {
-        if (selectedUser != null && selectedUser.equals(lbNom.getText())) {
-            refrescarMensajes();
+    public void canviData(Date newDate) {
+        if (usuariSeleccionat != null && usuariSeleccionat.equals(lbNom.getText())) {
+            refrescarMissatges();
         }
     }
 
-    public void refrescarMensajes() {
+    public void refrescarMissatges() {
 
         String nomUsuari = client.getNomUsuari();
         MongoServeis manager = MongoServeis.getInstance();
         List<Missatge> missatges;
-        Date selectedDate = menuLD.getSelectedDate();
+        Date dataSeleccionada = menuLD.getDataSeleccionada();
 
         if (lbNom.getText().equals("DAM")) {
-            missatges = manager.obtenirMissatgesPerGrupIData("DAM", selectedDate);
+            missatges = manager.obtenirMissatgesPerGrupIData("DAM", dataSeleccionada);
         } else {
-            missatges = manager.obtenirMissatgesPrivatsIData(nomUsuari, lbNom.getText(), selectedDate);
-            missatges.addAll(manager.obtenirMissatgesPrivatsIData(lbNom.getText(), nomUsuari, selectedDate));
+            missatges = manager.obtenirMissatgesPrivatsIData(nomUsuari, lbNom.getText(), dataSeleccionada);
+            missatges.addAll(manager.obtenirMissatgesPrivatsIData(lbNom.getText(), nomUsuari, dataSeleccionada));
         }
 
         Collections.sort(missatges);
 
-        chatBody.limpiarMensajes();
+        xatBody.netejarMissatges();
 
         for (Missatge missatge : missatges) {
             if (missatge.getNomUsuari() != null && missatge.getNomUsuari().equals(nomUsuari)) {
-                chatBody.addItemD(missatge.getMissatge(), missatge.getFormattedDateTime());
+                xatBody.afegirItemD(missatge.getMissatge(), missatge.getFormattedDateTime());
             } else if (missatge.getNomUsuari() != null) {
-                chatBody.addItemE(missatge.getMissatge(), missatge.getNomUsuari(), missatge.getFormattedDateTime());
+                xatBody.afegirItemE(missatge.getMissatge(), missatge.getNomUsuari(), missatge.getFormattedDateTime());
             }
         }
 
-        chatBody.revalidate();
-        chatBody.repaint();
+        xatBody.revalidate();
+        xatBody.repaint();
     }
 
-    public void setActive(boolean active) {
-        activeStatus.setActive(active);
+    public void setActiu(boolean active) {
+        estatActiu.setActive(active);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        imatgeAvatar1 = new com.projecte.swing.components.ImatgeAvatar();
+        imatgeAvatar1 = new com.projecte.components.ImatgeAvatar();
         lbNom = new javax.swing.JLabel();
-        activeStatus = new com.projecte.swing.components.ActiveStatus();
+        estatActiu = new com.projecte.components.ActiveStatus();
 
         setBackground(new Color(242, 242, 242));
 
@@ -143,7 +141,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbNom, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(activeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(estatActiu, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -153,7 +151,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(activeStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(estatActiu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbNom, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                     .addComponent(imatgeAvatar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -162,8 +160,8 @@ public class ItemUsuaris extends javax.swing.JPanel implements DateChangeListene
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.projecte.swing.components.ActiveStatus activeStatus;
-    private com.projecte.swing.components.ImatgeAvatar imatgeAvatar1;
+    private com.projecte.components.ActiveStatus estatActiu;
+    private com.projecte.components.ImatgeAvatar imatgeAvatar1;
     private javax.swing.JLabel lbNom;
     // End of variables declaration//GEN-END:variables
 }

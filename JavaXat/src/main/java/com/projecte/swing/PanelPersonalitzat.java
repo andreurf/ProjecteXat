@@ -1,6 +1,6 @@
 package com.projecte.swing;
 
-import com.projecte.swing.components.BotoDisseny;
+import com.projecte.components.BotoDisseny;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
@@ -20,7 +20,7 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
 
     private final DecimalFormat df = new DecimalFormat("##0.###");
     private ActionListener event;
-    private MigLayout layout;
+    private final MigLayout layout;
     private JLabel titol;
     private JLabel desc1;
     private JLabel desc2;
@@ -37,18 +37,18 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
 
     private void init() {
         titol = new JLabel("Benvigut de nou!");
-        titol.setFont(new Font("sanserif",1,30));
-        titol.setForeground(new Color(245,245,245));
+        titol.setFont(new Font("sanserif", 1, 30));
+        titol.setForeground(new Color(245, 245, 245));
         add(titol);
         desc1 = new JLabel("Seguir connectat amb nosaltre siusplau");
-        desc1.setForeground(new Color(245,245,245));
+        desc1.setForeground(new Color(245, 245, 245));
         add(desc1);
         desc2 = new JLabel("Inicia Sessió amb les teves credencials");
-        desc2.setForeground(new Color(245,245,245));
+        desc2.setForeground(new Color(245, 245, 245));
         add(desc2);
         boto = new BotoDisseny();
-        boto.setBackground(new Color(255,255,255));
-        boto.setForeground(new Color(255,255,255));
+        boto.setBackground(new Color(255, 255, 255));
+        boto.setForeground(new Color(255, 255, 255));
         boto.setText("INICIA SESSIÓ");
         boto.addActionListener(new ActionListener() {
             @Override
@@ -58,7 +58,7 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
         });
         boto.setBorderPainted(false);
         boto.setFocusPainted(false);
-        add(boto,"w 60%, h 40");
+        add(boto, "w 60%, h 40");
     }
 
     @SuppressWarnings("unchecked")
@@ -130,7 +130,7 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
                 desc2.setText("començar a xatejar");
                 boto.setText("REGISTRAR-SE");
                 boto.setBorderPainted(false);
-                        boto.setFocusPainted(false);
+                boto.setFocusPainted(false);
 
             } else {
                 titol.setText("Benvingut!");
@@ -138,13 +138,13 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
                 desc2.setText("començar a xatejar");
                 boto.setText("INICIA SESSIÓ");
                 boto.setBorderPainted(false);
-                        boto.setFocusPainted(false);
+                boto.setFocusPainted(false);
 
             }
             this.isLogin = login;
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

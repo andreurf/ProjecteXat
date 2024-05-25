@@ -60,36 +60,36 @@
         <Property name="rows" type="int" value="1"/>
       </Layout>
       <SubComponents>
-        <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto1">
+        <Component class="com.projecte.components.MenuBoto" name="menuBoto1">
           <Properties>
-            <Property name="iconSelected" postCode="menuBoto1.setIconSelected(loadIcon(&quot;/menuMissatgeBlau.png&quot;)); // NOI18N"/>
+            <Property name="iconSelected" postCode="menuBoto1.setIconSelected(carregarIcona(&quot;/menuMissatgeBlau.png&quot;)); // NOI18N"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto1ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto1.setIconSimple(loadIcon(&quot;/menuMissatge.png&quot;)); // NOI18N"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto1.setIcon(loadIcon(&quot;/menuMissatge.png&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto1.setIconSimple(carregarIcona(&quot;/menuMissatge.png&quot;)); // NOI18N"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto1.setIcon(carregarIcona(&quot;/menuMissatge.png&quot;));"/>
           </AuxValues>
         </Component>
-        <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto2">
+        <Component class="com.projecte.components.MenuBoto" name="menuBoto2">
           <Properties>
-            <Property name="iconSelected" postCode="menuBoto2.setIconSelected(loadIcon(&quot;/menuGrupBlau.png&quot;));&#xa;menuBoto2.setIconSimple(loadIcon(&quot;/menuGrup.png&quot;));"/>
+            <Property name="iconSelected" postCode="menuBoto2.setIconSelected(carregarIcona(&quot;/menuGrupBlau.png&quot;));&#xa;menuBoto2.setIconSimple(carregarIcona(&quot;/menuGrup.png&quot;));"/>
             <Property name="selected" type="boolean" value="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto2ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto2.setIcon(loadIcon(&quot;/menuGrup.png&quot;));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto2.setIcon(carregarIcona(&quot;/menuGrup.png&quot;));"/>
           </AuxValues>
         </Component>
-        <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto3">
+        <Component class="com.projecte.components.MenuBoto" name="menuBoto3">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto3ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto3.setIcon(loadIcon(&quot;/bindGris.png&quot;));&#xa;menuBoto3.setIconSelected(loadIcon(&quot;/bind.png&quot;)); // NOI18N&#xa;menuBoto3.setIconSimple(loadIcon(&quot;/bindGris.png&quot;)); // NOI18N"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto3.setIcon(carregarIcona(&quot;/bindGris.png&quot;));&#xa;menuBoto3.setIconSelected(carregarIcona(&quot;/bind.png&quot;)); // NOI18N&#xa;menuBoto3.setIconSimple(carregarIcona(&quot;/bindGris.png&quot;)); // NOI18N"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -104,7 +104,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JLayeredPane" name="menuList">
+        <Container class="javax.swing.JLayeredPane" name="llistaMenu">
 
           <Layout>
             <DimensionLayout dim="0">

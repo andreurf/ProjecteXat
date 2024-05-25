@@ -3,7 +3,7 @@ package com.projecte.swing;
 import com.projecte.bind.BindMongo;
 import com.projecte.serveis.Client;
 import com.projecte.serveis.MongoServeis;
-import com.projecte.swing.components.ScrollBar;
+import com.projecte.components.ScrollBar;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -17,18 +17,18 @@ import net.miginfocom.swing.MigLayout;
  */
 public class MenuLateralE extends javax.swing.JPanel {
 
-    private final ChatTitol chatTitol;
-    private final ChatBody chatBody;
+    private final XatTitol xatTitol;
+    private final XatBody xatBody;
     private final Client client;
     private ItemUsuaris damItem;
     private final MenuLateralD menuLD;
-    private Map<String, ItemUsuaris> usuarisMap = new HashMap<>();
-    private Map<String, Boolean> userStatusMap = new HashMap<>();
+    private final Map<String, ItemUsuaris> usuarisMap = new HashMap<>();
+    private final Map<String, Boolean> usuariEstatMap = new HashMap<>();
 
-    public MenuLateralE(ChatTitol chatTitol, ChatBody chatBody, Client client, MenuLateralD menuLD) {
+    public MenuLateralE(XatTitol xatTitol, XatBody xatBody, Client client, MenuLateralD menuLD) {
         initComponents();
-        this.chatTitol = chatTitol;
-        this.chatBody = chatBody;
+        this.xatTitol = xatTitol;
+        this.xatBody = xatBody;
         this.client = client;
         this.menuLD = menuLD;
         init();
@@ -36,62 +36,62 @@ public class MenuLateralE extends javax.swing.JPanel {
 
     private void init() {
         sp.setVerticalScrollBar(new ScrollBar());
-        menuList.setLayout(new MigLayout("fillx", "0[]0", "5[]5"));
-        showGrup();
-        selectDamGroup();
+        llistaMenu.setLayout(new MigLayout("fillx", "0[]0", "5[]5"));
+        mostrarLlistaGrup();
+        activarGrupDam();
     }
 
-    private void selectDamGroup() {
+    private void activarGrupDam() {
         if (damItem != null) {
             damItem.handleClick();
         }
     }
 
-    private void showPersones() {
-        menuList.removeAll();
+    private void mostrarLlistaUsuaris() {
+        llistaMenu.removeAll();
         MongoServeis servidorMDB = MongoServeis.getInstance();
         String nomActual = Client.getNomUsuari();
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {
-            ItemUsuaris item = new ItemUsuaris(nom, chatTitol, chatBody, client, menuLD, this);
-            menuList.add(item, "wrap");
+            ItemUsuaris item = new ItemUsuaris(nom, xatTitol, xatBody, client, menuLD, this);
+            llistaMenu.add(item, "wrap");
             usuarisMap.put(nom, item);
-            // Set the active status of the user based on the saved state
-            Boolean isActive = userStatusMap.get(nom);
-            if (isActive != null) {
-                item.setActive(isActive);
+            
+            Boolean actiu = usuariEstatMap.get(nom);
+            if (actiu != null) {
+                item.setActiu(actiu);
             }
         }
-        refrescarMenuList();
+        refrescarLlista();
     }
 
-    private void showGrup() {
-        menuList.removeAll();
-        damItem = new ItemUsuaris("DAM", chatTitol, chatBody, client, menuLD, this);
-        menuList.add(damItem, "wrap");
-        refrescarMenuList();
+    private void mostrarLlistaGrup() {
+        llistaMenu.removeAll();
+        damItem = new ItemUsuaris("DAM", xatTitol, xatBody, client, menuLD, this);
+        llistaMenu.add(damItem, "wrap");
+        refrescarLlista();
     }
     
-    private void showNothing() {
-        menuList.removeAll();
-        refrescarMenuList();
+    private void eliminarLlista() {
+        llistaMenu.removeAll();
+        refrescarLlista();
     }
 
-    private void refrescarMenuList() {
-        menuList.repaint();
-        menuList.revalidate();
+    private void refrescarLlista() {
+        llistaMenu.repaint();
+        llistaMenu.revalidate();
     }
     
-    public void setActive(String username, boolean active) {
+    public void setActiu(String username, boolean active) {
         ItemUsuaris itemUsuari = usuarisMap.get(username);
         if (itemUsuari != null) {
-            itemUsuari.setActive(active);
+            itemUsuari.setActiu(active);
         }
-        userStatusMap.put(username, active);
+        usuariEstatMap.put(username, active);
         System.out.println("El usuari " + username + " s'ha conectat");
     }
     
-    private ImageIcon loadIcon(String path) {
+    private ImageIcon carregarIcona(String path) {
         URL resource = getClass().getResource(path);
         if (resource != null) {
             return new ImageIcon(resource);
@@ -106,11 +106,11 @@ public class MenuLateralE extends javax.swing.JPanel {
     private void initComponents() {
 
         menu = new javax.swing.JLayeredPane();
-        menuBoto1 = new com.projecte.swing.components.MenuBoto();
-        menuBoto2 = new com.projecte.swing.components.MenuBoto();
-        menuBoto3 = new com.projecte.swing.components.MenuBoto();
+        menuBoto1 = new com.projecte.components.MenuBoto();
+        menuBoto2 = new com.projecte.components.MenuBoto();
+        menuBoto3 = new com.projecte.components.MenuBoto();
         sp = new javax.swing.JScrollPane();
-        menuList = new javax.swing.JLayeredPane();
+        llistaMenu = new javax.swing.JLayeredPane();
 
         setPreferredSize(new java.awt.Dimension(200, 600));
 
@@ -119,9 +119,9 @@ public class MenuLateralE extends javax.swing.JPanel {
         menu.setPreferredSize(new java.awt.Dimension(200, 7));
         menu.setLayout(new java.awt.GridLayout(1, 3));
 
-        menuBoto1.setIcon(loadIcon("/menuMissatge.png"));
-        menuBoto1.setIconSelected(loadIcon("/menuMissatgeBlau.png")); // NOI18N
-        menuBoto1.setIconSimple(loadIcon("/menuMissatge.png")); // NOI18N
+        menuBoto1.setIcon(carregarIcona("/menuMissatge.png"));
+        menuBoto1.setIconSelected(carregarIcona("/menuMissatgeBlau.png")); // NOI18N
+        menuBoto1.setIconSimple(carregarIcona("/menuMissatge.png")); // NOI18N
         menuBoto1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoto1ActionPerformed(evt);
@@ -129,9 +129,9 @@ public class MenuLateralE extends javax.swing.JPanel {
         });
         menu.add(menuBoto1);
 
-        menuBoto2.setIcon(loadIcon("/menuGrup.png"));
-        menuBoto2.setIconSelected(loadIcon("/menuGrupBlau.png"));
-        menuBoto2.setIconSimple(loadIcon("/menuGrup.png"));
+        menuBoto2.setIcon(carregarIcona("/menuGrup.png"));
+        menuBoto2.setIconSelected(carregarIcona("/menuGrupBlau.png"));
+        menuBoto2.setIconSimple(carregarIcona("/menuGrup.png"));
         menuBoto2.setSelected(true);
         menuBoto2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,9 +140,9 @@ public class MenuLateralE extends javax.swing.JPanel {
         });
         menu.add(menuBoto2);
 
-        menuBoto3.setIcon(loadIcon("/bindGris.png"));
-        menuBoto3.setIconSelected(loadIcon("/bind.png")); // NOI18N
-        menuBoto3.setIconSimple(loadIcon("/bindGris.png")); // NOI18N
+        menuBoto3.setIcon(carregarIcona("/bindGris.png"));
+        menuBoto3.setIconSelected(carregarIcona("/bind.png")); // NOI18N
+        menuBoto3.setIconSimple(carregarIcona("/bindGris.png")); // NOI18N
         menuBoto3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoto3ActionPerformed(evt);
@@ -153,18 +153,18 @@ public class MenuLateralE extends javax.swing.JPanel {
         sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        javax.swing.GroupLayout menuListLayout = new javax.swing.GroupLayout(menuList);
-        menuList.setLayout(menuListLayout);
-        menuListLayout.setHorizontalGroup(
-            menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout llistaMenuLayout = new javax.swing.GroupLayout(llistaMenu);
+        llistaMenu.setLayout(llistaMenuLayout);
+        llistaMenuLayout.setHorizontalGroup(
+            llistaMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        menuListLayout.setVerticalGroup(
-            menuListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        llistaMenuLayout.setVerticalGroup(
+            llistaMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 568, Short.MAX_VALUE)
         );
 
-        sp.setViewportView(menuList);
+        sp.setViewportView(llistaMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -193,7 +193,7 @@ public class MenuLateralE extends javax.swing.JPanel {
             menuBoto1.setSelected(true);
             menuBoto2.setSelected(false);
             menuBoto3.setSelected(false);
-            showPersones();
+            mostrarLlistaUsuaris();
         }
     }//GEN-LAST:event_menuBoto1ActionPerformed
 
@@ -202,7 +202,7 @@ public class MenuLateralE extends javax.swing.JPanel {
             menuBoto1.setSelected(false);
             menuBoto2.setSelected(true);
             menuBoto3.setSelected(false);
-            showGrup();
+            mostrarLlistaUsuaris();
         }
     }//GEN-LAST:event_menuBoto2ActionPerformed
 
@@ -211,7 +211,7 @@ public class MenuLateralE extends javax.swing.JPanel {
             menuBoto1.setSelected(false);
             menuBoto2.setSelected(false);
             menuBoto3.setSelected(true);
-            showNothing();
+            eliminarLlista();
             BindMongo bindMongo = new BindMongo();
             bindMongo.setVisible(true);
         }
@@ -220,11 +220,11 @@ public class MenuLateralE extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLayeredPane llistaMenu;
     private javax.swing.JLayeredPane menu;
-    private com.projecte.swing.components.MenuBoto menuBoto1;
-    private com.projecte.swing.components.MenuBoto menuBoto2;
-    private com.projecte.swing.components.MenuBoto menuBoto3;
-    private javax.swing.JLayeredPane menuList;
+    private com.projecte.components.MenuBoto menuBoto1;
+    private com.projecte.components.MenuBoto menuBoto2;
+    private com.projecte.components.MenuBoto menuBoto3;
     private javax.swing.JScrollPane sp;
     // End of variables declaration//GEN-END:variables
 }

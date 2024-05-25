@@ -3,12 +3,13 @@ package com.projecte.swing;
 import com.projecte.serveis.Client;
 import com.projecte.serveis.MongoServeis;
 import com.projecte.serveis.Usuari;
-import com.projecte.swing.components.Boto;
-import com.projecte.swing.components.JTextFieldPassword;
-import com.projecte.swing.components.JTextFieldPersonalitzat;
+import com.projecte.components.Boto;
+import com.projecte.components.JTextFieldPassword;
+import com.projecte.components.JTextFieldPersonalitzat;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,7 +27,7 @@ import net.miginfocom.swing.MigLayout;
  */
 public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
-    private MongoServeis mongoServeis;
+    private final MongoServeis mongoServeis;
 
     public PanelLoginRegistre() {
         initComponents();
@@ -63,28 +64,34 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         });
 
         txtUser.addKeyListener(new KeyListener() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     registrar(txtUser, txtPass);
                 }
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
             }
 
+            @Override
             public void keyTyped(KeyEvent e) {
             }
         });
         txtPass.addKeyListener(new KeyListener() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     registrar(txtUser, txtPass);
                 }
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
             }
 
+            @Override
             public void keyTyped(KeyEvent e) {
             }
         });
@@ -126,6 +133,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
         // Afegir accio per a poder fer enter
         txtUser.addKeyListener(new KeyListener() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
@@ -136,13 +144,16 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 }
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
             }
 
+            @Override
             public void keyTyped(KeyEvent e) {
             }
         });
         txtPass.addKeyListener(new KeyListener() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
@@ -153,13 +164,16 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 }
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
             }
 
+            @Override
             public void keyTyped(KeyEvent e) {
             }
         });
         txtIPServidor.addKeyListener(new KeyListener() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
@@ -170,9 +184,11 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 }
             }
 
+            @Override
             public void keyReleased(KeyEvent e) {
             }
 
+            @Override
             public void keyTyped(KeyEvent e) {
             }
         });
@@ -249,7 +265,7 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
                 mongoServeis.desarUsuari(usuari);
                 JOptionPane.showMessageDialog(null, "Usuari registrat correctament");
             }
-        } catch (Exception ex) {
+        } catch (HeadlessException ex) {
             JOptionPane.showMessageDialog(null, "Error en registrar l'usuari: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

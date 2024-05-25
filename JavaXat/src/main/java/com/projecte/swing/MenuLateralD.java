@@ -1,13 +1,8 @@
 package com.projecte.swing;
 
-import com.projecte.serveis.Client;
-import com.projecte.serveis.Missatge;
-import com.projecte.serveis.MongoServeis;
-import com.toedter.calendar.JCalendar;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -16,19 +11,13 @@ import java.util.List;
  * @author andreu i quim
  */
 public class MenuLateralD extends javax.swing.JPanel {
+    
+    private Date dataSeleccionada;
+    private final List<CanviDataListener> listeners = new ArrayList<>();
 
-    private final ChatTitol chatTitol;
-    private final ChatBody chatBody;
-    private final Client client;
-    private Date selectedDate;
-    private final List<DateChangeListener> listeners = new ArrayList<>();
-
-    public MenuLateralD(ChatTitol chatTitol, ChatBody chatBody, Client client) {
+    public MenuLateralD() {
         initComponents();
-        this.chatTitol = chatTitol;
-        this.chatBody = chatBody;
-        this.client = client;
-        this.selectedDate = new Date();
+        this.dataSeleccionada = new Date();
         init();
     }
 
@@ -36,28 +25,27 @@ public class MenuLateralD extends javax.swing.JPanel {
         jCalendar1.addPropertyChangeListener("calendar", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                selectedDate = jCalendar1.getDate();
-                notifyDateChangeListeners();
+                dataSeleccionada = jCalendar1.getDate();
+                canviData();
             }
         });
     }
     
-    public void addDateChangeListener(DateChangeListener listener) {
+    public void addDateChangeListener(CanviDataListener listener) {
         listeners.add(listener);
     }
 
-    private void notifyDateChangeListeners() {
-        for (DateChangeListener listener : listeners) {
-            listener.onDateChanged(selectedDate);
+    private void canviData() {
+        for (CanviDataListener listener : listeners) {
+            listener.canviData(dataSeleccionada);
         }
     }
 
-    public Date getSelectedDate() {
-        if (selectedDate == null) {
+    public Date getDataSeleccionada() {
+        if (dataSeleccionada == null) {
             return new Date();
         }
-//        System.out.println("Data: " + selectedDate);
-        return selectedDate;
+        return dataSeleccionada;
     }
 
     @SuppressWarnings("unchecked")
