@@ -7,26 +7,26 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-public class ActiveStatus extends Component {
+public class EstatActiu extends Component {
     
-    private boolean active;
+    private boolean estat;
     
-    public boolean isActive() {
-        return active;
+    public boolean comprovarEstat() {
+        return estat;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setActiu(boolean estat) {
+        this.estat = estat;
         repaint();
     }
 
-    public ActiveStatus() {
+    public EstatActiu() {
         setPreferredSize(new Dimension(8, 8));
     }
 
     @Override
     public void paint(Graphics grphcs) {
-        if (active) {
+        if (estat) {
             Graphics2D g2 = (Graphics2D) grphcs;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(new Color(62, 165, 49));

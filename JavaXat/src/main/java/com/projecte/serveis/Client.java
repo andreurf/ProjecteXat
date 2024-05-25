@@ -88,28 +88,32 @@ public class Client {
         byte[] encryptedBytes = cipher.doFinal(message.getBytes("UTF-8"));
         return Base64.getEncoder().encodeToString(encryptedBytes);
     }
-
-    public void iniciarReceptorMissatges(XatBody chatBody, XatTitol chatTitol, MenuLateralE menuLE) {
+    
+    //Fil per a rebre missatges
+    public void iniciarReceptorMissatges(XatBody xatBody, XatTitol xatTitol, MenuLateralE menuLE) {
         new Thread(() -> {
             try {
                 while (true) {
-                    String nom = in.readLine().trim();
-                    String missatgeEncriptat = in.readLine().trim();
+                    // Rebre el missatge encriptat del servidor
+                    String nom = in.readLine();
+                    String missatgeEncriptat = in.readLine();
                     System.out.println(nom + " (Missatge Encriptat): " + missatgeEncriptat);
                     if (nom != null && missatgeEncriptat != null) {
+                        // Desencriptar el missatge
                         String missatge = desencriptarMissatge(missatgeEncriptat, clauAES);
                         String time = new SimpleDateFormat("HH:mm").format(new Date());
                         System.out.println(" (Missatge Desencriptat): " + missatge);
                         if (missatge.equals(" s'ha unit al xat") || missatge.equals(" s'ha desconnectat")) {
+                            // Missatge per informar dels usuaris que es conecten o desconecten al xat
                             SwingUtilities.invokeLater(() -> menuLE.setActiu(nom, missatge.equals(" s'ha unit al xat")));
                             if(!nomUsuari.equals(nom)){
-                                SwingUtilities.invokeLater(() -> chatBody.afegirEstat(nom + missatge));
+                                SwingUtilities.invokeLater(() -> xatBody.afegirEstat(nom + missatge));
                             }
                         } else {
-                            mostrarMissatge(nom, missatge, chatBody, time);
+                            mostrarMissatge(nom, missatge, xatBody, time);
                         }
-                        chatBody.revalidate();
-                        chatBody.repaint();
+                        xatBody.revalidate();
+                        xatBody.repaint();
                         menuLE.revalidate();
                         menuLE.repaint();
                     }

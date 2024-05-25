@@ -23,7 +23,7 @@ public class Xat extends javax.swing.JFrame {
     }
 
     private void init() {
-        setIconImage(new ImageIcon(getClass().getResource("/logo.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/logoXat.png")).getImage());
         ComponentAjustar com = new ComponentAjustar();
         com.registerComponent(this);
         com.setMinimumSize(new Dimension(900, 500));

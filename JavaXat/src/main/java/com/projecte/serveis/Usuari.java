@@ -11,7 +11,6 @@ public class Usuari {
     private Date horaConnexio;
     private String grup;
     private Socket socket;
-    private boolean estat;
     private String receptor;
     private SecretKey aesKey;
 
@@ -44,12 +43,6 @@ public class Usuari {
     public Usuari(String nomUsuari, String contrasenya) {
         this.nomUsuari = nomUsuari;
         this.contrasenya = contrasenya;
-    }
-    
-    public Usuari(String nomUsuari, Socket socket, boolean estat) {
-        this.nomUsuari = nomUsuari;
-        this.socket = socket;
-        this.estat = estat;
     }
 
     public String getNomUsuari() {

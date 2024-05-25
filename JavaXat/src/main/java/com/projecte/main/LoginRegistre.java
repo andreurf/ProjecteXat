@@ -4,7 +4,9 @@ import com.projecte.swing.PanelLoginRegistre;
 import com.projecte.swing.PanelPersonalitzat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.text.DecimalFormat;
+import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
@@ -31,6 +33,7 @@ public class LoginRegistre extends javax.swing.JFrame {
     }
 
     private void init() {
+        setIconImage(new ImageIcon(getClass().getResource("/logoXat.png")).getImage());
         layout = new MigLayout("fill, insets 0");
         panelP = new PanelPersonalitzat();
         loginRegistre = new PanelLoginRegistre();

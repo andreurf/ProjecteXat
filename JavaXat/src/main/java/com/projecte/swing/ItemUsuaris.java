@@ -60,7 +60,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
     public void handleClick() {
         xatTitol.setNomUsuari(lbNom.getText());
         if (!lbNom.getText().equals("DAM")) {
-            if (estatActiu.isActive()) {
+            if (estatActiu.comprovarEstat()) {
                 xatTitol.estatActiu();
             } else {
                 xatTitol.setEstatText();
@@ -114,7 +114,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
     }
 
     public void setActiu(boolean active) {
-        estatActiu.setActive(active);
+        estatActiu.setActiu(active);
     }
 
     @SuppressWarnings("unchecked")
@@ -123,7 +123,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
 
         imatgeAvatar1 = new com.projecte.components.ImatgeAvatar();
         lbNom = new javax.swing.JLabel();
-        estatActiu = new com.projecte.components.ActiveStatus();
+        estatActiu = new com.projecte.components.EstatActiu();
 
         setBackground(new Color(242, 242, 242));
 
@@ -160,7 +160,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.projecte.components.ActiveStatus estatActiu;
+    private com.projecte.components.EstatActiu estatActiu;
     private com.projecte.components.ImatgeAvatar imatgeAvatar1;
     private javax.swing.JLabel lbNom;
     // End of variables declaration//GEN-END:variables

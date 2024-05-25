@@ -68,7 +68,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="com.projecte.components.ActiveStatus" name="estatActiu">
+    <Component class="com.projecte.components.EstatActiu" name="estatActiu">
     </Component>
   </SubComponents>
 </Form>

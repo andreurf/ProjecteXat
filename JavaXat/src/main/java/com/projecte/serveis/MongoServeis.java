@@ -34,7 +34,7 @@ public class MongoServeis {
         return instance;
     }
 
-    // Actualización del método desarMissatge
+    // // Mètode desar missatges a la bbdd
     public void desarMissatge(Missatge missatge) {
         Document document = new Document("usuari", missatge.getNomUsuari())
                 .append("missatge", missatge.getMissatge())
@@ -43,7 +43,7 @@ public class MongoServeis {
         missatgesCollection.insertOne(document);
     }
 
-    // Mètode per recuperar els missatges d'un dia concret per a un grup determinat
+    // Mètode per recuperar els missatges de un grup determinat
     public List<Missatge> obtenirMissatgesPerGrup(String grup) {
         List<Missatge> missatgesGrup = new ArrayList<>();
         MongoCursor<Document> cursor = missatgesCollection.find(Filters.eq("grup", grup)).iterator();
@@ -60,7 +60,8 @@ public class MongoServeis {
         }
         return missatgesGrup;
     }
-
+    
+    // Mètode per recuperar els missatges d'un dia d'un usuari determinat
     public List<Missatge> obtenirMissatgesPrivats(String grup, String nom) {
         List<Missatge> missatgesGrup = new ArrayList<>();
         MongoCursor<Document> cursor = missatgesCollection.find(Filters.and(Filters.eq("grup", grup), Filters.eq("usuari", nom))).iterator();
@@ -78,13 +79,13 @@ public class MongoServeis {
         return missatgesGrup;
     }
 
-    // Método para recuperar los mensajes de un día concreto para un grupo determinado
+    // Mètode per recuperar els missatges d'un dia concret de un grup determinat
     public List<Missatge> obtenirMissatgesPerGrupIData(String grup, Date data) {
         List<Missatge> missatgesGrup = new ArrayList<>();
         MongoCursor<Document> cursor = missatgesCollection.find(Filters.and(
                 Filters.eq("grup", grup),
-                Filters.gte("dataHora", getStartOfDay(data)),
-                Filters.lt("dataHora", getEndOfDay(data))
+                Filters.gte("dataHora", getTempsInciDia(data)),
+                Filters.lt("dataHora", getTempsFinalDia(data))
         )).iterator();
         try {
             while (cursor.hasNext()) {
@@ -100,14 +101,14 @@ public class MongoServeis {
         return missatgesGrup;
     }
 
-    // Método para obtener los mensajes privados de un día concreto
+    // Mètode per recuperar els missatges d'un dia concret de un usuari determinat
     public List<Missatge> obtenirMissatgesPrivatsIData(String grup, String nom, Date data) {
         List<Missatge> missatgesGrup = new ArrayList<>();
         MongoCursor<Document> cursor = missatgesCollection.find(Filters.and(
                 Filters.eq("grup", grup),
                 Filters.eq("usuari", nom),
-                Filters.gte("dataHora", getStartOfDay(data)),
-                Filters.lt("dataHora", getEndOfDay(data))
+                Filters.gte("dataHora", getTempsInciDia(data)),
+                Filters.lt("dataHora", getTempsFinalDia(data))
         )).iterator();
         try {
             while (cursor.hasNext()) {
@@ -123,8 +124,8 @@ public class MongoServeis {
         return missatgesGrup;
     }
 
-    // Método para obtener el inicio del día
-    private Date getStartOfDay(Date date) {
+    // Mètode per obtindre el inici del dia
+    private Date getTempsInciDia(Date date) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
@@ -134,8 +135,8 @@ public class MongoServeis {
         return calendar.getTime();
     }
 
-    // Método para obtener el fin del día
-    private Date getEndOfDay(Date date) {
+    // Mètode per obtindre el fi del dia
+    private Date getTempsFinalDia(Date date) {
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(java.util.Calendar.HOUR_OF_DAY, 23);
@@ -145,7 +146,7 @@ public class MongoServeis {
         return calendar.getTime();
     }
 
-    // Mètode per desar un usuari connectat a la base de dades
+    // Mètode per desar registrar un nou usuari a la base de dades
     public void desarUsuari(Usuari usuari) {
         String hashedPassword = hashPassword(usuari.getContrasenya());
         Document document = new Document("usuari", usuari.getNomUsuari())
@@ -153,7 +154,7 @@ public class MongoServeis {
         usuarisCollection.insertOne(document);
     }
 
-    // Mètode per recuperar tots els usuaris connectats
+    // Mètode per recuperar tots els usuaris registrats
     public List<String> obtenirNomsUsuarisConnectats() {
         List<String> nomsUsuarisConnectats = new ArrayList<>();
         MongoCursor<Document> cursor = usuarisCollection.find().iterator();
@@ -168,7 +169,8 @@ public class MongoServeis {
         }
         return nomsUsuarisConnectats;
     }
-
+    
+    // Mètode per obtindre tots els noms dels usuaris registrats
     public List<String> obtindreNomsUsuaris(String nomUsuari) {
         List<String> nomUsuaris = new ArrayList<>();
         FindIterable<Document> result = usuarisCollection.find();
@@ -184,7 +186,8 @@ public class MongoServeis {
         }
         return nomUsuaris;
     }
-
+    
+    // Mètode per guardar de manera segura la contrassenya
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -204,13 +207,16 @@ public class MongoServeis {
             return null;
         }
     }
-
+    
+    
+    // Mètode per compovar si l'usuari existeix
     public boolean validarUsuari(String usuari) {
         Document query = new Document("usuari", usuari);
         FindIterable<Document> result = usuarisCollection.find(query);
         return result.first() != null;
     }
-
+    
+    // Mètode per comprovar si l'usuari que es logueja es a la bbdd
     public boolean iniciarSessio(String usuari, String contrasenya) {
         // Recuperar el hash de la contrasenya de la base de dades
         Document query = new Document("usuari", usuari);
@@ -222,7 +228,8 @@ public class MongoServeis {
         }
         return false;
     }
-
+    
+    // Mètode per saber l'estat de l'usuari
     public void actualitzarEstat(String usuari, boolean estat) {
         Document query = new Document("usuari", usuari);
         // TODO: s'ha de canviar per actualitzar

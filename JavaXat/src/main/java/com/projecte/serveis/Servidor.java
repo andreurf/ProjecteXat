@@ -6,7 +6,6 @@ import java.security.*;
 import java.security.spec.*;
 import java.util.*;
 import javax.crypto.*;
-import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
 public class Servidor {
@@ -14,7 +13,7 @@ public class Servidor {
     private static final int PORT = 7878;
     private static final MongoServeis dbManager = MongoServeis.getInstance();
     private static final ArrayList<Usuari> usuaris = new ArrayList<>();
-    private static SecretKey aesKey; // Clau AES compartida
+    private static SecretKey clauAES; // Clau AES compartida
     private static KeyPair serverClauRSA; // Claus RSA del servidor
     private static PublicKey clientClauPublica; // Clau pública del client
 
@@ -26,11 +25,11 @@ public class Servidor {
             serverClauRSA = clauRSA.genKeyPair();
 
             // Generar clau AES compartida
-            KeyGenerator clauAES = KeyGenerator.getInstance("AES");
-            clauAES.init(256);
-            aesKey = clauAES.generateKey();
+            KeyGenerator novaClauAES = KeyGenerator.getInstance("AES");
+            novaClauAES.init(256);
+            clauAES = novaClauAES.generateKey();
             
-            // Obtenir la IP local del servidor
+            // Obtindre la IP local per al servidor
             InetAddress localIP = InetAddress.getLocalHost();
             
             ServerSocket serverSocket = new ServerSocket(PORT, 0, localIP);
@@ -57,7 +56,7 @@ public class Servidor {
                 }
 
                 if (!usuRepetit) {
-                    Usuari usuari = new Usuari(nom, socket, true);
+                    Usuari usuari = new Usuari(nom, socket);
                     usuaris.add(usuari);
 
                     // Enviar que pot iniciar sessió
@@ -72,11 +71,13 @@ public class Servidor {
                     // Xifrar clau AES amb clau pública del client i enviar-li
                     Cipher cipher = Cipher.getInstance("RSA");
                     cipher.init(Cipher.ENCRYPT_MODE, clientClauPublica);
-                    byte[] encryptedKey = cipher.doFinal(aesKey.getEncoded());
+                    byte[] encryptedKey = cipher.doFinal(clauAES.getEncoded());
                     String encryptedAESKey = Base64.getEncoder().encodeToString(encryptedKey);
                     out.println(encryptedAESKey);
-
+                    
+                    // Generar fil per comprovar conexions
                     new ComprovarEstatClient(usuari).start();
+                    // Generar fil per rebre missatge
                     new Handler(socket, nom).start();
                 } else {
                     out.println("Repetit");
@@ -87,11 +88,45 @@ public class Servidor {
             System.out.println("Error en el servidor: " + e.getMessage());
         }
     }
+    
+    public static class ComprovarEstatClient extends Thread {
 
-// Desencriptar missatge amb AES
+        private final Usuari usuari;
+
+        public ComprovarEstatClient(Usuari usuari) {
+            this.usuari = usuari;
+        }
+
+        @Override
+        public void run() {
+            try {
+                for (Usuari user : usuaris) {
+                    PrintWriter out = new PrintWriter(user.getSocket().getOutputStream(), true);
+                    if (usuari.getNomUsuari().equals(user.getNomUsuari())) {
+                        // Enviar la llista d'usuaris ja conectats al nou usuari
+                        for (Usuari u : usuaris) {
+                            if (!u.getNomUsuari().equals(usuari.getNomUsuari())) {
+                                out.println(u.getNomUsuari());
+                                out.println(encriptarMissatge(" s'ha unit al xat"));
+                            }
+                        }
+                    } else {
+                        // Notificar als usuaris ja conectats sobre el nou client
+                        out.println(usuari.getNomUsuari());
+                        out.println(encriptarMissatge(" s'ha unit al xat"));
+                    }
+                }
+                System.out.println(usuari.getNomUsuari() + " s'ha unit");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    // Desencriptar missatge amb AES
     private static String desencriptarMissatge(String encryptedMessage) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, aesKey);
+        cipher.init(Cipher.DECRYPT_MODE, clauAES);
         byte[] bytes = Base64.getDecoder().decode(encryptedMessage);
         byte[] decryptedBytes = cipher.doFinal(bytes);
         return new String(decryptedBytes, "UTF-8");
@@ -100,7 +135,7 @@ public class Servidor {
     // Encriptar missatge amb AES
     private static String encriptarMissatge(String message) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+        cipher.init(Cipher.ENCRYPT_MODE, clauAES);
         byte[] encryptedBytes = cipher.doFinal(message.getBytes("UTF-8"));
         return Base64.getEncoder().encodeToString(encryptedBytes);
 
@@ -123,48 +158,49 @@ public class Servidor {
                 in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                 // Atendre les peticions del client
-                String encryptedMessage;
+                String missatgeEncriptat;
                 while (true) {
-                    encryptedMessage = in.readLine().trim();
-                    System.out.println("Rebent missatge encriptat: " + encryptedMessage);
-                    if (encryptedMessage == null) {
+                    missatgeEncriptat = in.readLine().trim();
+                    System.out.println("Rebent missatge encriptat: " + missatgeEncriptat);
+                    if (missatgeEncriptat == null) {
                         return;
                     }
 
                     // Desencriptar el missatge
-                    String missatge = desencriptarMissatge(encryptedMessage);
+                    String missatge = desencriptarMissatge(missatgeEncriptat);
                     System.out.println("Missatge desencriptat: " + missatge);
-
+                    
                     if (missatge.startsWith("/w")) {
-                        // Comandar per observar missatges
+                        // Rebre Missatge per saber quin xat observa l'usuari
                         String[] missObservar = missatge.split(" ", 3);
-                        String nomObservador = missObservar[1];
-                        String nomObservat = missObservar[2];
+                        String usuariObservant = missObservar[1];
+                        String xatObservat = missObservar[2];
                         for (Usuari usu : usuaris) {
-                            if (usu.getNomUsuari().equals(nomObservador)) {
-                                usu.setReceptor(nomObservat);
-                                System.out.println("Usuari " + nomObservador + " visualitzant xat: " + nomObservat);
+                            if (usu.getNomUsuari().equals(usuariObservant)) {
+                                usu.setReceptor(xatObservat);
+                                System.out.println("Usuari " + usuariObservant + " visualitzant xat: " + xatObservat);
                             }
                         }
                     } else if (missatge.startsWith("/p")) {
-                        // Missatge privat
+                        // Rebre Missatge privat
                         String[] parts = missatge.split(" ", 3);
-                        String nomObservat = parts[1];
+                        String xatObservat = parts[1];
                         String missatgePrivat = parts[2];
                         for (Usuari usu : usuaris) {
                             if (nom.equals(usu.getNomUsuari())) {
-                                System.out.println("/p " + nom + ": " + missatgePrivat + " a " + nomObservat);
-                                guardarMissatge(nom, missatgePrivat, nomObservat, true);
+                                System.out.println("/p " + nom + ": " + missatgePrivat + " a " + xatObservat);
+                                guardarMissatge(nom, missatgePrivat, xatObservat, true);
                             }
                         }
                     } else {
-                        // Missatge general
+                        // Rebre Missatge del grup
                         guardarMissatge(nom, missatge, "DAM", false);
                     }
                 }
             } catch (Exception e) {
                 System.out.println("Error en la connexió amb el client: " + e.getMessage());
             } finally {
+                // Quan el client es desconecta
                 synchronized (usuaris) {
                     Iterator<Usuari> iterator = usuaris.iterator();
                     while (iterator.hasNext()) {
@@ -178,7 +214,7 @@ public class Servidor {
                 try {
                     socket.close(); // Tancar el socket
                     System.out.println(nom + " s'ha desconnectat");
-                    // Notificar els altres clients sobre la desconnexió
+                    // Notificar els altres clients sobre qui s'ha desconectat
                     String missDescon = " s'ha desconnectat";
                     new RealitzarEnviaments(missDescon, nom, false, "DAM").start();
                 } catch (IOException e) {
@@ -191,6 +227,7 @@ public class Servidor {
     public static void guardarMissatge(String nom, String missatge, String grup, boolean missPrivat) {
         Missatge missatgeModel = new Missatge(nom, missatge, new Date(), grup);
         dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
+        // Generar fil per rebre missatges
         new RealitzarEnviaments(missatge, nom, missPrivat, grup).start();
 
     }
@@ -214,66 +251,34 @@ public class Servidor {
             try {
                 String missatgeEncriptat = encriptarMissatge(missatge);
                 if (missPrivat) {
+                    // Enviar missatge privat
                     for (Usuari usu : usuaris) {
                         if ((usu.getNomUsuari().equals(nom) || usu.getNomUsuari().equals(nomR)) && (usu.getReceptor().equals(nom) || usu.getReceptor().equals(nomR))) {
-                            // Obtenir el socket del usuari
+                            // Usuari rebra el missatge en cas de que observi el xat de qui li envia el missatge se li envia
                             Socket socket = usu.getSocket();
                             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                             System.out.println("Enviant missatge privat a " + usu.getNomUsuari());
-                            // Enviar missatge als usuaris que es connecten
+                            // Enviar missatge als usuaris connectats
                             out.println(nom);
                             out.println(missatgeEncriptat);
                             out.flush();
                         }
                     }
                 } else {
+                    // Enviar missatge grup
                     System.out.println("Enviant missatge a tots els usuaris del grup DAM");
                     for (Usuari usu : usuaris) {
                         if (usu.getReceptor().equals("DAM")) {
-                            // Obtenir el socket del usuari
+                            // Si l'usuari no esta mirant el grup el missatge no se li envia
                             Socket socket = usu.getSocket();
                             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                            // Enviar missatge als usuaris que es connecten
+                            // Enviar missatge als usuaris connectats
                             out.println(nom);
                             out.println(missatgeEncriptat);
                             out.flush();
                         }
                     }
                 }
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
-    }
-
-    public static class ComprovarEstatClient extends Thread {
-
-        private final Usuari usuari;
-
-        public ComprovarEstatClient(Usuari usuari) {
-            this.usuari = usuari;
-        }
-
-        @Override
-        public void run() {
-            try {
-                for (Usuari user : usuaris) {
-                    PrintWriter out = new PrintWriter(user.getSocket().getOutputStream(), true);
-                    if (usuari.getNomUsuari().equals(user.getNomUsuari())) {
-                        // Enviar la lista de todos los usuarios conectados al nuevo usuario
-                        for (Usuari u : usuaris) {
-                            if (!u.getNomUsuari().equals(usuari.getNomUsuari())) {
-                                out.println(u.getNomUsuari());
-                                out.println(encriptarMissatge(" s'ha unit al xat"));
-                            }
-                        }
-                    } else {
-                        // Notificar a los otros usuarios sobre el nuevo usuario
-                        out.println(usuari.getNomUsuari());
-                        out.println(encriptarMissatge(" s'ha unit al xat"));
-                    }
-                }
-                System.out.println(usuari.getNomUsuari() + " s'ha unit");
             } catch (Exception e) {
                 System.out.println(e);
             }
