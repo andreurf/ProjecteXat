@@ -1,7 +1,7 @@
 package com.projecte.swing;
 
 import com.projecte.bind.BindMongo;
-import com.projecte.prova.Client;
+import com.projecte.serveis.Client;
 import com.projecte.swing.components.ComponentAjustar;
 import java.awt.Dimension;
 import java.awt.Toolkit;

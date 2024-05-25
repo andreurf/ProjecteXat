@@ -1,8 +1,8 @@
 package com.projecte.swing;
 
-import com.projecte.prova.Client;
-import com.projecte.prova.Missatge;
-import com.projecte.prova.MongoServeis;
+import com.projecte.serveis.Client;
+import com.projecte.serveis.Missatge;
+import com.projecte.serveis.MongoServeis;
 import com.toedter.calendar.JCalendar;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

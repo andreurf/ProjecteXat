@@ -1,4 +1,4 @@
-package com.projecte.prova;
+package com.projecte.serveis;
 
 import com.projecte.swing.ChatBody;
 import com.projecte.swing.ChatTitol;

@@ -1,4 +1,4 @@
-package com.projecte.prova;
+package com.projecte.serveis;
 
 import java.net.Socket;
 import java.util.Date;

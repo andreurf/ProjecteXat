@@ -1,12 +1,14 @@
 package com.projecte.swing;
 
 import com.projecte.bind.BindMongo;
-import com.projecte.prova.Client;
-import com.projecte.prova.MongoServeis;
+import com.projecte.serveis.Client;
+import com.projecte.serveis.MongoServeis;
 import com.projecte.swing.components.ScrollBar;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -88,6 +90,16 @@ public class MenuLateralE extends javax.swing.JPanel {
         userStatusMap.put(username, active);
         System.out.println("El usuari " + username + " s'ha conectat");
     }
+    
+    private ImageIcon loadIcon(String path) {
+        URL resource = getClass().getResource(path);
+        if (resource != null) {
+            return new ImageIcon(resource);
+        } else {
+            System.err.println("Resource not found: " + path);
+            return null;
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -107,9 +119,9 @@ public class MenuLateralE extends javax.swing.JPanel {
         menu.setPreferredSize(new java.awt.Dimension(200, 7));
         menu.setLayout(new java.awt.GridLayout(1, 3));
 
-        menuBoto1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuMissatge.png")));
-        menuBoto1.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuMissatgeBlau.png"))); // NOI18N
-        menuBoto1.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuMissatge.png"))); // NOI18N
+        menuBoto1.setIcon(loadIcon("/menuMissatge.png"));
+        menuBoto1.setIconSelected(loadIcon("/menuMissatgeBlau.png")); // NOI18N
+        menuBoto1.setIconSimple(loadIcon("/menuMissatge.png")); // NOI18N
         menuBoto1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoto1ActionPerformed(evt);
@@ -117,9 +129,9 @@ public class MenuLateralE extends javax.swing.JPanel {
         });
         menu.add(menuBoto1);
 
-        menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
-        menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/menuGrupBlau.png")));
-        menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/menuGrup.png")));
+        menuBoto2.setIcon(loadIcon("/menuGrup.png"));
+        menuBoto2.setIconSelected(loadIcon("/menuGrupBlau.png"));
+        menuBoto2.setIconSimple(loadIcon("/menuGrup.png"));
         menuBoto2.setSelected(true);
         menuBoto2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,9 +140,9 @@ public class MenuLateralE extends javax.swing.JPanel {
         });
         menu.add(menuBoto2);
 
-        menuBoto3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bindGris.png")));
-        menuBoto3.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/bind.png"))); // NOI18N
-        menuBoto3.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/bindGris.png"))); // NOI18N
+        menuBoto3.setIcon(loadIcon("/bindGris.png"));
+        menuBoto3.setIconSelected(loadIcon("/bind.png")); // NOI18N
+        menuBoto3.setIconSimple(loadIcon("/bindGris.png")); // NOI18N
         menuBoto3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuBoto3ActionPerformed(evt);

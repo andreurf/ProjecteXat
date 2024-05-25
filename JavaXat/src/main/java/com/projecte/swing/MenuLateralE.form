@@ -62,26 +62,26 @@
       <SubComponents>
         <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto1">
           <Properties>
-            <Property name="iconSelected" postCode="menuBoto1.setIconSelected(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuMissatgeBlau.png&quot;))); // NOI18N"/>
+            <Property name="iconSelected" postCode="menuBoto1.setIconSelected(loadIcon(&quot;/menuMissatgeBlau.png&quot;)); // NOI18N"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto1ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto1.setIconSimple(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuMissatge.png&quot;))); // NOI18N"/>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto1.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuMissatge.png&quot;)));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto1.setIconSimple(loadIcon(&quot;/menuMissatge.png&quot;)); // NOI18N"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto1.setIcon(loadIcon(&quot;/menuMissatge.png&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto2">
           <Properties>
-            <Property name="iconSelected" postCode="menuBoto2.setIconSelected(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrupBlau.png&quot;)));&#xa;menuBoto2.setIconSimple(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrup.png&quot;)));"/>
+            <Property name="iconSelected" postCode="menuBoto2.setIconSelected(loadIcon(&quot;/menuGrupBlau.png&quot;));&#xa;menuBoto2.setIconSimple(loadIcon(&quot;/menuGrup.png&quot;));"/>
             <Property name="selected" type="boolean" value="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto2ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto2.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/menuGrup.png&quot;)));"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="menuBoto2.setIcon(loadIcon(&quot;/menuGrup.png&quot;));"/>
           </AuxValues>
         </Component>
         <Component class="com.projecte.swing.components.MenuBoto" name="menuBoto3">
@@ -89,7 +89,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuBoto3ActionPerformed"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto3.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/bindGris.png&quot;)));&#xa;menuBoto3.setIconSelected(new javax.swing.ImageIcon(getClass().getResource(&quot;/bind.png&quot;))); // NOI18N&#xa;menuBoto3.setIconSimple(new javax.swing.ImageIcon(getClass().getResource(&quot;/bindGris.png&quot;))); // NOI18N"/>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="menuBoto3.setIcon(loadIcon(&quot;/bindGris.png&quot;));&#xa;menuBoto3.setIconSelected(loadIcon(&quot;/bind.png&quot;)); // NOI18N&#xa;menuBoto3.setIconSimple(loadIcon(&quot;/bindGris.png&quot;)); // NOI18N"/>
           </AuxValues>
         </Component>
       </SubComponents>

@@ -1,6 +1,6 @@
 package com.projecte.swing;
 
-import com.projecte.prova.Client;
+import com.projecte.serveis.Client;
 import com.projecte.swing.components.JIMSendTextPane;
 import com.projecte.swing.components.ScrollBar;
 import java.awt.Color;

@@ -1,6 +1,6 @@
 package com.projecte.swing;
 
-import com.projecte.prova.Client;
+import com.projecte.serveis.Client;
 import com.projecte.swing.ChatText;
 import net.miginfocom.swing.MigLayout;
 

@@ -1,8 +1,8 @@
 package com.projecte.swing;
 
-import com.projecte.prova.Client;
-import com.projecte.prova.Missatge;
-import com.projecte.prova.MongoServeis;
+import com.projecte.serveis.Client;
+import com.projecte.serveis.Missatge;
+import com.projecte.serveis.MongoServeis;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

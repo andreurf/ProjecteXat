@@ -1,4 +1,4 @@
-package com.projecte.prova;
+package com.projecte.serveis;
 
 import com.mongodb.client.*;
 import com.mongodb.MongoClientURI;

@@ -1,8 +1,8 @@
 package com.projecte.swing;
 
-import com.projecte.prova.Client;
-import com.projecte.prova.MongoServeis;
-import com.projecte.prova.Usuari;
+import com.projecte.serveis.Client;
+import com.projecte.serveis.MongoServeis;
+import com.projecte.serveis.Usuari;
 import com.projecte.swing.components.Boto;
 import com.projecte.swing.components.JTextFieldPassword;
 import com.projecte.swing.components.JTextFieldPersonalitzat;
