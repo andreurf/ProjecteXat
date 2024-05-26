@@ -6,9 +6,12 @@ import com.projecte.components.ComponentAjustar;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -52,7 +55,7 @@ public class Xat extends javax.swing.JFrame {
     public void netejarXat() {
         home1.netejarXat();
     }
-    
+
     private void showUserGuide() {
         JDialog userGuideDialog = new JDialog(this, "Guia d'Usuari", true);
         userGuideDialog.setSize(600, 400);
@@ -87,6 +90,30 @@ public class Xat extends javax.swing.JFrame {
                 + "   - Per tancar l'aplicacio, ves a Fitxer -> Sortir. o prem 'ctrl + Q'.\n\n"
                 + "7. Informació sobre l'aplicacio:\n\n"
                 + "   - Per obtindre mes informació sobre l'aplicacio, ves a Ajuda -> Info o prem 'ctrl + I'.\n";
+    }
+
+    private void showActiveUsers() {
+        List<String> usuarisConectats = Client.getUsuarisConectats();
+        JDialog activeUsersDialog = new JDialog(this, "Participants Actius", true);
+        activeUsersDialog.setSize(300, 200);
+        activeUsersDialog.setLocationRelativeTo(this);
+
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+
+        if (usuarisConectats.isEmpty()) {
+            textArea.setText("No hi ha usuaris connectats.");
+        } else {
+            StringBuilder sb = new StringBuilder("Usuaris connectats:\n");
+            for (String usuari : usuarisConectats) {
+                sb.append(usuari).append("\n");
+            }
+            textArea.setText(sb.toString());
+        }
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        activeUsersDialog.add(scrollPane);
+        activeUsersDialog.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -307,6 +334,11 @@ public class Xat extends javax.swing.JFrame {
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem7.setText("Participants actius");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem7);
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -443,6 +475,10 @@ public class Xat extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         showUserGuide();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        showActiveUsers();
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;

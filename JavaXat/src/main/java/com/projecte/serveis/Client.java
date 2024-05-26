@@ -7,8 +7,10 @@ import java.io.*;
 import java.net.*;
 import java.security.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,6 +26,7 @@ public class Client {
     private static String nomUsuari;
     private SecretKey clauAES;
     private static KeyPair clientClauRSA; // Claus RSA del client
+    private static List<String> usuarisConectats = new ArrayList<>();
 
     public Client(String serverIP, int serverPort) {
         this.serverIP = serverIP;
@@ -107,6 +110,11 @@ public class Client {
                             // Missatge per informar dels usuaris que es conecten o desconecten al xat
                             SwingUtilities.invokeLater(() -> menuLE.setActiu(nom, missatge.equals(" s'ha unit al xat")));
                             if(!nomUsuari.equals(nom)){
+                                if(missatge.equals(" s'ha unit al xat")){
+                                    usuarisConectats.add(nom);
+                                } else {
+                                    usuarisConectats.remove(nom);
+                                }
                                 SwingUtilities.invokeLater(() -> xatBody.afegirEstat(nom + missatge));
                             }
                         } else {
@@ -144,4 +152,9 @@ public class Client {
     public static String getNomUsuari() {
         return nomUsuari;
     }
+
+    public static List<String> getUsuarisConectats() {
+        return new ArrayList<>(usuarisConectats); 
+    }
+    
 }
