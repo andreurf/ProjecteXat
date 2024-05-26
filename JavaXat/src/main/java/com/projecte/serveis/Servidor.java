@@ -229,7 +229,6 @@ public class Servidor {
         dbManager.desarMissatge(missatgeModel); // Desa el missatge a la base de dades
         // Generar fil per rebre missatges
         new RealitzarEnviaments(missatge, nom, missPrivat, grup).start();
-
     }
 
     public static class RealitzarEnviaments extends Thread {

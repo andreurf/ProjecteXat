@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\DAM\2n DAM\ProjecteXat\JavaXat\target\JavaXat-1.0-SNAPSHOT-jar-with-dependencies.jar</jar>
+  <outfile>D:\DAM\2n DAM\ProjecteXat\Executables\AppXat.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\andre\Downloads\logoXat.ico</icon>
+  <classPath>
+    <mainClass>com.projecte.main.LoginRegistre</mainClass>
+    <cp>com.projecte.main.LoginRegistre</cp>
+  </classPath>
+  <jre>
+    <path>%JAVA_HOME%;%PATH%</path>
+    <requiresJdk>true</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>11</minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+</launch4jConfig>
