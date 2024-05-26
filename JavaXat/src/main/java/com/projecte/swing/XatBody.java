@@ -66,6 +66,10 @@ public class XatBody extends javax.swing.JPanel {
         body.repaint();
         body.revalidate();
     }
+    
+    public void changeTheme(boolean isDarkTheme){
+        
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -7,6 +7,7 @@ import com.projecte.components.Boto;
 import com.projecte.components.JTextFieldPassword;
 import com.projecte.components.JTextFieldPersonalitzat;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -28,6 +29,19 @@ import net.miginfocom.swing.MigLayout;
 public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
     private final MongoServeis mongoServeis;
+    private final Color initialBgColor = Color.WHITE;
+    private boolean isDarkTheme = false;
+
+    private JLabel labelRegistre;
+    private Boto cmdRegistre;
+    private JLabel labelLogin;
+    private Boto cmdLogin;
+
+    private JTextFieldPersonalitzat txtUserRegistre;
+    private JTextFieldPassword txtPassRegistre;
+    private JTextFieldPersonalitzat txtUserLogin;
+    private JTextFieldPassword txtPassLogin;
+    private JTextFieldPersonalitzat txtIPServidor;
 
     public PanelLoginRegistre() {
         initComponents();
@@ -39,35 +53,74 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
 
     }
 
+    public void changeTheme(boolean isDarkTheme) {
+        this.isDarkTheme = isDarkTheme;
+        Color bgColor = isDarkTheme ? Color.DARK_GRAY : initialBgColor;
+
+        registre.setBackground(bgColor);
+        login.setBackground(bgColor);
+
+        // Actualitzar colors dels botons
+        if (labelRegistre != null && cmdRegistre != null) {
+            labelRegistre.setForeground(isDarkTheme ? Color.WHITE : new Color(166, 35, 35));
+            cmdRegistre.setBackground(isDarkTheme ? Color.LIGHT_GRAY : new Color(166, 35, 35));
+            cmdRegistre.setForeground(Color.WHITE);
+        }
+
+        if (labelLogin != null && cmdLogin != null) {
+            labelLogin.setForeground(isDarkTheme ? Color.WHITE : new Color(166, 35, 35));
+            cmdLogin.setBackground(isDarkTheme ? Color.LIGHT_GRAY : new Color(166, 35, 35));
+            cmdLogin.setForeground(Color.WHITE);
+        }
+    }
+
+    public void esborrarDades() {
+        if (txtUserRegistre != null) {
+            txtUserRegistre.setText(""); // Esborrar el contingut del camp de text de registre
+        }
+        if (txtPassRegistre != null) {
+            txtPassRegistre.setText(""); // Esborrar el contingut del camp de text de registre
+        }
+        if (txtUserLogin != null) {
+            txtUserLogin.setText(""); // Esborrar el contingut del camp de text de login
+        }
+        if (txtPassLogin != null) {
+            txtPassLogin.setText(""); // Esborrar el contingut del camp de text de login
+        }
+        if (txtIPServidor != null) {
+            txtIPServidor.setText(""); // Esborrar el contingut del camp de text de login
+        }
+    }
+
     private void initRegistre() {
         registre.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]25[]push"));
-        JLabel label = new JLabel("REGISTRA'T");
-        label.setFont(new Font("sanserif", 1, 30));
-        label.setForeground(new Color(166, 35, 35));
+        labelRegistre = new JLabel("REGISTRA'T");
+        labelRegistre.setFont(new Font("sanserif", 1, 30));
+        labelRegistre.setForeground(isDarkTheme ? Color.WHITE : new Color(166, 35, 35));
 
         // TextField Usuari
-        JTextFieldPersonalitzat txtUser = new JTextFieldPersonalitzat();
-        txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/user.png")));
-        txtUser.setHint("Usuari");
+        txtUserRegistre = new JTextFieldPersonalitzat();
+        txtUserRegistre.setPrefixIcon(new ImageIcon(getClass().getResource("/user.png")));
+        txtUserRegistre.setHint("Usuari");
 
         //TextField Contrassenya
-        JTextFieldPassword txtPass = new JTextFieldPassword();
-        txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
-        txtPass.setHint("Contrassenya");
+        txtPassRegistre = new JTextFieldPassword();
+        txtPassRegistre.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
+        txtPassRegistre.setHint("Contrassenya");
 
-        Boto cmd = new Boto();
-        cmd.setBackground(new Color(166, 35, 35));
-        cmd.setForeground(new Color(250, 250, 250));
-        cmd.setText("REGISTRAR-SE");
-        cmd.addActionListener((ActionEvent e) -> {
-            registrar(txtUser, txtPass);
+        cmdRegistre = new Boto();
+        cmdRegistre.setBackground(isDarkTheme ? Color.LIGHT_GRAY : new Color(166, 35, 35));
+        cmdRegistre.setForeground(Color.WHITE);
+        cmdRegistre.setText("REGISTRAR-SE");
+        cmdRegistre.addActionListener((ActionEvent e) -> {
+            registrar(txtUserRegistre, txtPassRegistre);
         });
 
-        txtUser.addKeyListener(new KeyListener() {
+        txtUserRegistre.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    registrar(txtUser, txtPass);
+                    registrar(txtUserRegistre, txtPassRegistre);
                 }
             }
 
@@ -79,11 +132,11 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
             public void keyTyped(KeyEvent e) {
             }
         });
-        txtPass.addKeyListener(new KeyListener() {
+        txtPassRegistre.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    registrar(txtUser, txtPass);
+                    registrar(txtUserRegistre, txtPassRegistre);
                 }
             }
 
@@ -96,28 +149,28 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
             }
         });
 
-        registre.add(label);
-        registre.add(txtUser, "w 60%");
-        registre.add(txtPass, "w 60%");
-        registre.add(cmd, "w 40%, h 40");
+        registre.add(labelRegistre);
+        registre.add(txtUserRegistre, "w 60%");
+        registre.add(txtPassRegistre, "w 60%");
+        registre.add(cmdRegistre, "w 40%, h 40");
 
     }
 
     private void initLogin() {
         login.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]25[]push"));
-        JLabel label = new JLabel("INICIAR SESSIÓ");
-        label.setFont(new Font("sanserif", 1, 30));
-        label.setForeground(new Color(166, 35, 35));
+        labelLogin = new JLabel("INICIAR SESSIÓ");
+        labelLogin.setFont(new Font("sanserif", 1, 30));
+        labelLogin.setForeground(isDarkTheme ? Color.WHITE : new Color(166, 35, 35));
 
         // TextField Usuari
-        JTextFieldPersonalitzat txtUser = new JTextFieldPersonalitzat();
-        txtUser.setPrefixIcon(new ImageIcon(getClass().getResource("/user.png")));
-        txtUser.setHint("Usuari");
+        txtUserLogin = new JTextFieldPersonalitzat();
+        txtUserLogin.setPrefixIcon(new ImageIcon(getClass().getResource("/user.png")));
+        txtUserLogin.setHint("Usuari");
 
         //TextField Contrassenya
-        JTextFieldPassword txtPass = new JTextFieldPassword();
-        txtPass.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
-        txtPass.setHint("Contrassenya");
+        txtPassLogin = new JTextFieldPassword();
+        txtPassLogin.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
+        txtPassLogin.setHint("Contrassenya");
 
         JButton cmdRenovarPass = new JButton("Has olvidat la contrassenya?");
         cmdRenovarPass.setForeground(new Color(100, 100, 100));
@@ -127,19 +180,19 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
         cmdRenovarPass.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         //TextField IP Servidor
-        JTextFieldPersonalitzat txtIPServidor = new JTextFieldPersonalitzat();
+        txtIPServidor = new JTextFieldPersonalitzat();
         txtIPServidor.setPrefixIcon(new ImageIcon(getClass().getResource("/location.png")));
         txtIPServidor.setHint("IP Servidor");
 
         // Afegir accio per a poder fer enter
-        txtUser.addKeyListener(new KeyListener() {
+        txtUserLogin.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        inciarSessio(txtUser, txtPass, txtIPServidor);
+                        inciarSessio(txtUserLogin, txtPassLogin, txtIPServidor);
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -152,14 +205,14 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
             public void keyTyped(KeyEvent e) {
             }
         });
-        txtPass.addKeyListener(new KeyListener() {
+        txtPassLogin.addKeyListener(new KeyListener() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        inciarSessio(txtUser, txtPass, txtIPServidor);
+                        inciarSessio(txtUserLogin, txtPassLogin, txtIPServidor);
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -177,9 +230,9 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     try {
-                        inciarSessio(txtUser, txtPass, txtIPServidor);
+                        inciarSessio(txtUserLogin, txtPassLogin, txtIPServidor);
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -192,25 +245,25 @@ public class PanelLoginRegistre extends javax.swing.JLayeredPane {
             public void keyTyped(KeyEvent e) {
             }
         });
-        login.add(label);
-        login.add(txtUser, "w 60%");
-        login.add(txtPass, "w 60%");
+        login.add(labelLogin);
+        login.add(txtUserLogin, "w 60%");
+        login.add(txtPassLogin, "w 60%");
         login.add(cmdRenovarPass);
         login.add(txtIPServidor, "w 60%");
 
-        Boto cmd = new Boto();
-        cmd.setBackground(new Color(166, 35, 35));
-        cmd.setForeground(new Color(250, 250, 250));
-        cmd.setText("Iniciar Sesión");
-        cmd.addActionListener((ActionEvent e) -> {
+        cmdLogin = new Boto();
+        cmdLogin.setBackground(isDarkTheme ? Color.LIGHT_GRAY : new Color(166, 35, 35));
+        cmdLogin.setForeground(Color.WHITE);
+        cmdLogin.setText("INICIA SESSIÓ");
+        cmdLogin.addActionListener((ActionEvent e) -> {
             try {
-                inciarSessio(txtUser, txtPass, txtIPServidor);
+                inciarSessio(txtUserLogin, txtPassLogin, txtIPServidor);
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Nom d'usuari o contrasenya incorrectes", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
-        login.add(cmd, "w 40%, h 40");
+        login.add(cmdLogin, "w 40%, h 40");
 
     }
 

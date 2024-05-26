@@ -32,6 +32,10 @@ public class XatTitol extends javax.swing.JPanel {
     public String getLbNom() {
         return lbNom.getText();
     }
+    
+    public void changeTheme(boolean isDarkTheme){
+        
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

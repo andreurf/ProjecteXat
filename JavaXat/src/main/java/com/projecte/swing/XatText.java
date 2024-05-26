@@ -14,17 +14,17 @@ public class XatText extends javax.swing.JPanel {
     private XatBottom xatBottom;
     private final Client client;
     
-    public XatText(XatTitol chatTitol, XatBody chatBody, Client client) {
+    public XatText(XatTitol xatTitol, XatBody xatBody, XatBottom xatBottom, Client client) {
         initComponents();
-        this.xatTitol = chatTitol;
-        this.xatBody = chatBody;
+        this.xatTitol = xatTitol;
+        this.xatBody = xatBody;
+        this.xatBottom = xatBottom;
         this.client = client;
         init();
     }
     
     private void init(){
         setLayout(new MigLayout("fillx", "0[fill]0","0[]0[100%, bottom]0[shrink 0]0"));
-        xatBottom = new XatBottom(client, xatBody, xatTitol);
         add(xatTitol,"wrap");
         add(xatBody,"wrap");
         add(xatBottom,"h :: 50%");

@@ -1,9 +1,12 @@
 package com.projecte.swing;
 
 import com.projecte.bind.BindMongo;
+import com.projecte.components.MenuBoto;
 import com.projecte.serveis.Client;
 import com.projecte.serveis.MongoServeis;
 import com.projecte.components.ScrollBar;
+import java.awt.Color;
+import java.awt.Component;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ public class MenuLateralE extends javax.swing.JPanel {
     private final MenuLateralD menuLD;
     private final Map<String, ItemUsuaris> usuarisMap = new HashMap<>();
     private final Map<String, Boolean> usuariEstatMap = new HashMap<>();
+    private boolean isDarkTheme = false;
 
     public MenuLateralE(XatTitol xatTitol, XatBody xatBody, Client client, MenuLateralD menuLD) {
         initComponents();
@@ -56,7 +60,7 @@ public class MenuLateralE extends javax.swing.JPanel {
             ItemUsuaris item = new ItemUsuaris(nom, xatTitol, xatBody, client, menuLD, this);
             llistaMenu.add(item, "wrap");
             usuarisMap.put(nom, item);
-            
+
             Boolean actiu = usuariEstatMap.get(nom);
             if (actiu != null) {
                 item.setActiu(actiu);
@@ -71,7 +75,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         llistaMenu.add(damItem, "wrap");
         refrescarLlista();
     }
-    
+
     private void eliminarLlista() {
         llistaMenu.removeAll();
         refrescarLlista();
@@ -81,7 +85,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         llistaMenu.repaint();
         llistaMenu.revalidate();
     }
-    
+
     public void setActiu(String username, boolean active) {
         ItemUsuaris itemUsuari = usuarisMap.get(username);
         if (itemUsuari != null) {
@@ -90,7 +94,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         usuariEstatMap.put(username, active);
         System.out.println("El usuari " + username + " s'ha conectat");
     }
-    
+
     private ImageIcon carregarIcona(String path) {
         URL resource = getClass().getResource(path);
         if (resource != null) {
@@ -99,6 +103,44 @@ public class MenuLateralE extends javax.swing.JPanel {
             System.err.println("Resource not found: " + path);
             return null;
         }
+    }
+
+    public void changeTheme(boolean isDarkTheme) {
+        this.isDarkTheme = isDarkTheme;
+        Color bgColor = isDarkTheme ? new Color(44, 44, 44) : new Color(229, 229, 229);
+        Color menuColor = isDarkTheme ? new Color(55, 55, 55) : new Color(242, 242, 242);
+        Color itemBgColor = isDarkTheme ? new Color(77, 77, 77) : new Color(255, 255, 255);
+        Color itemFgColor = isDarkTheme ? new Color(200, 200, 200) : new Color(0, 0, 0);
+
+        menu.setBackground(menuColor);
+        llistaMenu.setBackground(bgColor);
+        sp.setBackground(menuColor);
+
+        for (Component comp : llistaMenu.getComponents()) {
+            if (comp instanceof ItemUsuaris) {
+                ((ItemUsuaris) comp).changeTheme(isDarkTheme);
+                comp.setBackground(itemBgColor);
+                comp.setForeground(itemFgColor);
+            }
+        }
+
+        menuBoto1.changeTheme(isDarkTheme);
+        menuBoto1.setIcon(carregarIcona("/menuMissatge.png"));
+        menuBoto1.setIconSelected(carregarIcona(isDarkTheme ? "/menuMissatgeRed.png" : "/menuMissatgeBlau.png"));
+        menuBoto1.setIconSimple(carregarIcona("/menuMissatge.png"));
+
+        menuBoto2.changeTheme(isDarkTheme);
+        menuBoto2.setIcon(carregarIcona("/menuGrup.png"));
+        menuBoto2.setIconSelected(carregarIcona(isDarkTheme ? "/menuGrupRed.png" : "/menuGrupBlau.png"));
+        menuBoto2.setIconSimple(carregarIcona("/menuGrup.png"));
+
+        menuBoto3.changeTheme(isDarkTheme);
+        menuBoto3.setIcon(carregarIcona("/bindGris.png"));
+        menuBoto3.setIconSelected(carregarIcona(isDarkTheme ? "/bindRed.png" : "/bind.png"));
+        menuBoto3.setIconSimple(carregarIcona("/bindGris.png"));
+
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")
@@ -114,7 +156,7 @@ public class MenuLateralE extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(200, 600));
 
-        menu.setBackground(new java.awt.Color(229, 229, 229));
+        menu.setBackground(isDarkTheme ? new java.awt.Color(142, 142, 142) : new java.awt.Color(229, 229, 229));
         menu.setOpaque(true);
         menu.setPreferredSize(new java.awt.Dimension(200, 7));
         menu.setLayout(new java.awt.GridLayout(1, 3));
@@ -150,8 +192,11 @@ public class MenuLateralE extends javax.swing.JPanel {
         });
         menu.add(menuBoto3);
 
+        sp.setBackground(new java.awt.Color(242, 242, 242));
         sp.setBorder(null);
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        llistaMenu.setBackground(new java.awt.Color(229, 229, 229));
 
         javax.swing.GroupLayout llistaMenuLayout = new javax.swing.GroupLayout(llistaMenu);
         llistaMenu.setLayout(llistaMenuLayout);
@@ -202,7 +247,7 @@ public class MenuLateralE extends javax.swing.JPanel {
             menuBoto1.setSelected(false);
             menuBoto2.setSelected(true);
             menuBoto3.setSelected(false);
-            mostrarLlistaUsuaris();
+            mostrarLlistaGrup();
         }
     }//GEN-LAST:event_menuBoto2ActionPerformed
 

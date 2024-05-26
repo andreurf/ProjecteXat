@@ -25,6 +25,7 @@ public class XatBottom extends javax.swing.JPanel {
     private final Client client;
     private final XatBody xatBody;
     private final XatTitol xatTitol;
+    private JIMSendTextPane txt;
 
     public XatBottom(Client client, XatBody xatBody, XatTitol xatTitol) {
         this.client = client;
@@ -38,13 +39,19 @@ public class XatBottom extends javax.swing.JPanel {
         setLayout(new MigLayout("fillx, filly", "0[fill]0[]0[]2", "2[fill]2"));
         JScrollPane scroll = new JScrollPane();
         scroll.setBorder(null);
-        JIMSendTextPane txt = new JIMSendTextPane();
+        txt = new JIMSendTextPane();
         txt.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 refrescar();
             }
-
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    enviarMissatge();
+                }
+            }
         });
         txt.setHintText("Escriu un missatge aqui...");
         scroll.setViewportView(txt);
@@ -65,27 +72,44 @@ public class XatBottom extends javax.swing.JPanel {
         cmd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String text = txt.getText().trim();
-                if (!text.equals("")) {
-                    if (xatTitol.getLbNom().equals("DAM")) {
-                        client.enviarMissatge(text);
-                    } else {
-                        client.enviarMissatge("/p " + xatTitol.getLbNom()+ " " + text);
-                    }
-                    txt.setText("");
-                    txt.grabFocus();
-                } else {
-                    txt.grabFocus();
-                }
+                enviarMissatge();
             }
         });
         cmd.setFocusPainted(false);
         panel.add(cmd);
         add(panel);
     }
+    
+    public void enviarMissatge() {
+        String text = txt.getText().trim();
+        if (!text.equals("")) {
+            if (xatTitol.getLbNom().equals("DAM")) {
+                client.enviarMissatge(text);
+            } else {
+                client.enviarMissatge("/p " + xatTitol.getLbNom() + " " + text);
+            }
+            txt.setText("");
+            txt.grabFocus();
+        } else {
+            txt.grabFocus();
+        }
+        refrescar();
+    }
+    
+    public void setText(String text){
+        System.out.println("XatBottom setText " + text);
+        if(txt != null){
+            txt.setText(text);
+        }
+        refrescar();
+    }
 
     private void refrescar() {
         revalidate();
+    }
+    
+    public void changeTheme(boolean isDarkTheme){
+        
     }
 
     @SuppressWarnings("unchecked")

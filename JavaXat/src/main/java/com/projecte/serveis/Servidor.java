@@ -118,7 +118,7 @@ public class Servidor {
                 }
                 System.out.println(usuari.getNomUsuari() + " s'ha unit");
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("Error al unir-se");
             }
         }
     }
@@ -213,12 +213,11 @@ public class Servidor {
                 }
                 try {
                     socket.close(); // Tancar el socket
-                    System.out.println(nom + " s'ha desconnectat");
                     // Notificar els altres clients sobre qui s'ha desconectat
                     String missDescon = " s'ha desconnectat";
                     new RealitzarEnviaments(missDescon, nom, false, "DAM").start();
                 } catch (IOException e) {
-                    System.out.println(e);
+                    System.out.println(nom + " s'ha desconnectat");
                 }
             }
         }
@@ -280,7 +279,7 @@ public class Servidor {
                     }
                 }
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("Error al enviar el missatge");
             }
         }
     }

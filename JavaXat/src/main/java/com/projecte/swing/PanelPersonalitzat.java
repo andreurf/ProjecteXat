@@ -26,6 +26,10 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
     private JLabel desc2;
     private BotoDisseny boto;
     private boolean isLogin;
+    
+    private final Color initialBgColor = new Color(166, 35, 35);
+    private final Color initialFgColor = new Color(245, 245, 245);
+    private boolean isDarkTheme = false;
 
     public PanelPersonalitzat() {
         initComponents();
@@ -60,6 +64,18 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
         boto.setFocusPainted(false);
         add(boto, "w 60%, h 40");
     }
+    
+    public void changeTheme(boolean isDarkTheme) {
+        this.isDarkTheme = isDarkTheme;
+        Color bgColor = isDarkTheme ? Color.DARK_GRAY : initialBgColor;
+        Color fgColor = isDarkTheme ? Color.WHITE : initialFgColor;
+        
+        setBackground(bgColor);
+        titol.setForeground(fgColor);
+        desc1.setForeground(fgColor);
+        desc2.setForeground(fgColor);
+        boto.setForeground(fgColor);
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -80,7 +96,9 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        GradientPaint gra = new GradientPaint(0, 0, new Color(166, 35, 35), 0, getHeight(), new Color(116, 22, 22));
+        GradientPaint gra = isDarkTheme 
+            ? new GradientPaint(0, 0, Color.DARK_GRAY, 0, getHeight(), Color.GRAY) 
+            : new GradientPaint(0, 0, initialBgColor, 0, getHeight(), new Color(116, 22, 22));
         g2.setPaint(gra);
         g2.fillRect(0, 0, getWidth(), getHeight());
         super.paintComponent(g);
@@ -144,7 +162,7 @@ public class PanelPersonalitzat extends javax.swing.JPanel {
             this.isLogin = login;
         }
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

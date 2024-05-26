@@ -68,7 +68,7 @@ public class Client {
             // Si la resposta del servidor és "OK", l'inici de sessió és exitós
             return true;
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Error en la conexio");
             return false;
         }
     }
@@ -119,7 +119,7 @@ public class Client {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                System.out.println("Error al rebre el missatge");
             }
         }).start();
     }
@@ -132,12 +132,12 @@ public class Client {
         return new String(decryptedBytes, "UTF-8");
     }
 
-    public static void mostrarMissatge(String nom, String missatge, XatBody chatBody, String time) {
+    public static void mostrarMissatge(String nom, String missatge, XatBody xatBody, String time) {
         System.out.println(nom + ": " + missatge);
         if (nom.equals(nomUsuari)) {
-            SwingUtilities.invokeLater(() -> chatBody.afegirItemD(missatge, time));
+            SwingUtilities.invokeLater(() -> xatBody.afegirItemD(missatge, time));
         } else {
-            SwingUtilities.invokeLater(() -> chatBody.afegirItemE(missatge, nom, time));
+            SwingUtilities.invokeLater(() -> xatBody.afegirItemE(missatge, nom, time));
         }
     }
 

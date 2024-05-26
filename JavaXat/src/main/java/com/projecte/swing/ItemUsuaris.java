@@ -22,10 +22,11 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
     private final MenuLateralD menuLD;
     private final MenuLateralE menuLE;
     private static String usuariSeleccionat;
+    private boolean isDarkTheme = false;
 
-    public ItemUsuaris(String nom, XatTitol chatTitol, XatBody xatBody, Client client, MenuLateralD menuLD, MenuLateralE menuLE) {
+    public ItemUsuaris(String nom, XatTitol xatTitol, XatBody xatBody, Client client, MenuLateralD menuLD, MenuLateralE menuLE) {
         initComponents();
-        this.xatTitol = chatTitol;
+        this.xatTitol = xatTitol;
         this.xatBody = xatBody;
         this.client = client;
         this.menuLD = menuLD;
@@ -33,7 +34,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
         lbNom.setText(nom);
         ItemUsuaris itm = this;
         init();
-        client.iniciarReceptorMissatges(xatBody, chatTitol, menuLE);
+        client.iniciarReceptorMissatges(xatBody, xatTitol, menuLE);
         menuLD.addDateChangeListener(itm);
     }
 
@@ -47,12 +48,12 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(new Color(230, 230, 230));
+                setBackground(isDarkTheme ? new java.awt.Color(143, 201, 255) : new Color(230, 230, 230));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(new Color(242, 242, 242));
+                setBackground(isDarkTheme ? new Color(77, 77, 77) :new Color(242, 242, 242));
             }
         });
     }
@@ -115,6 +116,16 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
 
     public void setActiu(boolean active) {
         estatActiu.setActiu(active);
+    }
+
+    public void changeTheme(boolean isDarkTheme) {
+        Color backgroundColor = isDarkTheme ? new Color(77, 77, 77) : new java.awt.Color(230, 230, 230);
+        Color textColor = isDarkTheme ? new java.awt.Color(255, 255, 255) : new java.awt.Color(0, 0, 0);
+
+        setBackground(backgroundColor);
+        
+        lbNom.setForeground(textColor);
+        estatActiu.setForeground(textColor);
     }
 
     @SuppressWarnings("unchecked")
