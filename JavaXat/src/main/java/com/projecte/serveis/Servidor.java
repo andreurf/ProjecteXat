@@ -214,10 +214,11 @@ public class Servidor {
                 try {
                     socket.close(); // Tancar el socket
                     // Notificar els altres clients sobre qui s'ha desconectat
+                    System.out.println(nom + " s'ha desconnectat");
                     String missDescon = " s'ha desconnectat";
                     new RealitzarEnviaments(missDescon, nom, false, "DAM").start();
                 } catch (IOException e) {
-                    System.out.println(nom + " s'ha desconnectat");
+                    System.out.println("Error al desconectar-se:" + e );
                 }
             }
         }
@@ -253,7 +254,7 @@ public class Servidor {
                     // Enviar missatge privat
                     for (Usuari usu : usuaris) {
                         if ((usu.getNomUsuari().equals(nom) || usu.getNomUsuari().equals(nomR)) && (usu.getReceptor().equals(nom) || usu.getReceptor().equals(nomR))) {
-                            // Usuari rebra el missatge en cas de que observi el xat de qui li envia el missatge se li envia
+                            // L'usuari rebra el missatge en cas de que observi el xat de qui li envia el missatge
                             Socket socket = usu.getSocket();
                             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                             System.out.println("Enviant missatge privat a " + usu.getNomUsuari());

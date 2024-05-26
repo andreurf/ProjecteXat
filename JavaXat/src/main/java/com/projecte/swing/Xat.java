@@ -92,7 +92,7 @@ public class Xat extends javax.swing.JFrame {
                 + "   - Per obtindre mes informació sobre l'aplicacio, ves a Ajuda -> Info o prem 'ctrl + I'.\n";
     }
 
-    private void showActiveUsers() {
+    private void mostrarUsuarisActius() {
         List<String> usuarisConectats = Client.getUsuarisConectats();
         JDialog activeUsersDialog = new JDialog(this, "Participants Actius", true);
         activeUsersDialog.setSize(300, 200);
@@ -492,7 +492,7 @@ public class Xat extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        showActiveUsers();
+        mostrarUsuarisActius();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void botoBindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoBindActionPerformed
