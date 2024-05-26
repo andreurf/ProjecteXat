@@ -127,6 +127,7 @@ public class Xat extends javax.swing.JFrame {
         botoInfo = new javax.swing.JButton();
         cmdMinimitzar = new javax.swing.JButton();
         cmdTancar = new javax.swing.JButton();
+        botoBind = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
         home1 = new com.projecte.swing.Home(client);
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -218,6 +219,16 @@ public class Xat extends javax.swing.JFrame {
             }
         });
 
+        botoBind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bind.png")));
+        botoBind.setBackground(new java.awt.Color(204, 204, 204));
+        botoBind.setBorder(null);
+        botoBind.setBorderPainted(false);
+        botoBind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoBindActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout titolLayout = new javax.swing.GroupLayout(titol);
         titol.setLayout(titolLayout);
         titolLayout.setHorizontalGroup(
@@ -227,6 +238,8 @@ public class Xat extends javax.swing.JFrame {
                 .addComponent(botoTema, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botoInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botoBind, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cmdMinimitzar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
@@ -237,9 +250,11 @@ public class Xat extends javax.swing.JFrame {
             .addComponent(cmdMinimitzar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(cmdTancar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(titolLayout.createSequentialGroup()
-                .addGroup(titolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(botoInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botoTema, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(titolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botoBind, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(titolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(botoInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botoTema, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -261,7 +276,7 @@ public class Xat extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(titol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
+                .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
                 .addGap(4, 4, 4))
         );
 
@@ -480,10 +495,16 @@ public class Xat extends javax.swing.JFrame {
         showActiveUsers();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void botoBindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoBindActionPerformed
+        BindMongo bindMongo = new BindMongo();
+        bindMongo.setVisible(true);
+    }//GEN-LAST:event_botoBindActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JLayeredPane body;
     private javax.swing.JPanel border;
+    private javax.swing.JButton botoBind;
     private javax.swing.JButton botoInfo;
     private javax.swing.JButton botoTema;
     private javax.swing.JButton cmdMinimitzar;

@@ -162,6 +162,7 @@ public class LoginRegistre extends javax.swing.JFrame {
         barraEines = new javax.swing.JToolBar();
         botoTema = new javax.swing.JButton();
         botoInfo = new javax.swing.JButton();
+        botoBind = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -201,7 +202,7 @@ public class LoginRegistre extends javax.swing.JFrame {
         botoTema.setBorderPainted(false);
         botoTema.setFocusable(false);
         botoTema.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        botoTema.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        botoTema.setMargin(new java.awt.Insets(0, 20, 0, 20));
         botoTema.setMinimumSize(new java.awt.Dimension(19, 19));
         botoTema.setPreferredSize(new java.awt.Dimension(19, 19));
         botoTema.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -217,7 +218,7 @@ public class LoginRegistre extends javax.swing.JFrame {
         botoInfo.setBorderPainted(false);
         botoInfo.setFocusable(false);
         botoInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        botoInfo.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        botoInfo.setMargin(new java.awt.Insets(0, 20, 0, 20));
         botoInfo.setMinimumSize(new java.awt.Dimension(19, 19));
         botoInfo.setPreferredSize(new java.awt.Dimension(19, 19));
         botoInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -227,6 +228,20 @@ public class LoginRegistre extends javax.swing.JFrame {
             }
         });
         barraEines.add(botoInfo);
+
+        botoBind.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bind.png")));
+        botoBind.setBorder(null);
+        botoBind.setBorderPainted(false);
+        botoBind.setFocusable(false);
+        botoBind.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botoBind.setMargin(new java.awt.Insets(0, 20, 0, 20));
+        botoBind.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botoBind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoBindActionPerformed(evt);
+            }
+        });
+        barraEines.add(botoBind);
 
         jMenu1.setText("Fitxer");
 
@@ -379,6 +394,11 @@ public class LoginRegistre extends javax.swing.JFrame {
         showUserGuide();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void botoBindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoBindActionPerformed
+        BindMongo bindMongo = new BindMongo();
+        bindMongo.setVisible(true);
+    }//GEN-LAST:event_botoBindActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -391,6 +411,7 @@ public class LoginRegistre extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar barraEines;
+    private javax.swing.JButton botoBind;
     private javax.swing.JButton botoInfo;
     private javax.swing.JButton botoTema;
     private javax.swing.JLayeredPane fons;

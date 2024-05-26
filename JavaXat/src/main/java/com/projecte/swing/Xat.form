@@ -234,7 +234,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="titol" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                      <Component id="body" pref="615" max="32767" attributes="0"/>
+                      <Component id="body" pref="614" max="32767" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -260,6 +260,8 @@
                           <Component id="botoTema" min="-2" pref="24" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="botoInfo" min="-2" pref="24" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="botoBind" min="-2" pref="24" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="cmdMinimitzar" min="-2" pref="24" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
@@ -272,9 +274,12 @@
                       <Component id="cmdMinimitzar" max="32767" attributes="0"/>
                       <Component id="cmdTancar" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="botoInfo" alignment="0" max="32767" attributes="0"/>
-                              <Component id="botoTema" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="botoBind" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="botoInfo" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="botoTema" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -368,6 +373,23 @@
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="cmdTancar.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/tancar.png&quot;)));"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="botoBind">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                    </Property>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="null"/>
+                    </Property>
+                    <Property name="borderPainted" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botoBindActionPerformed"/>
+                  </Events>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="botoBind.setIcon(new javax.swing.ImageIcon(getClass().getResource(&quot;/bind.png&quot;)));"/>
                   </AuxValues>
                 </Component>
               </SubComponents>
