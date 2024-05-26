@@ -1,6 +1,7 @@
 package com.projecte.swing;
 
 import com.projecte.serveis.Client;
+import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -12,9 +13,12 @@ public class Home extends javax.swing.JLayeredPane {
     private Client client;
     private MenuLateralD menuLD;
     private MenuLateralE menuLE;
+    private XatText xatText;
     private final XatBody xatBody = new XatBody();
     private final XatTitol xatTitol = new XatTitol();
     private XatBottom xatBottom;
+    private boolean isDarkTheme = false;
+    private final Color originalBackgroundColor = new java.awt.Color(255, 255, 255);
 
     public Home(Client client) {
         this.client = client;
@@ -31,8 +35,9 @@ public class Home extends javax.swing.JLayeredPane {
         setLayout(new MigLayout("fillx, filly", "0[200!]5[fill, 100%]5[200!]0", "0[fill]0"));
         menuLD = new MenuLateralD();
         menuLE = new MenuLateralE(xatTitol, xatBody, client, menuLD);
+        xatText = new XatText(xatTitol, xatBody, xatBottom, client);
         this.add(menuLE, "cell 0 0, grow");
-        this.add(new XatText(xatTitol, xatBody, xatBottom, client), "cell 1 0, grow");
+        this.add(xatText, "cell 1 0, grow");
         this.add(menuLD, "cell 2 0, grow, wmin 200px, hmin 400px");
     }
 
@@ -49,11 +54,17 @@ public class Home extends javax.swing.JLayeredPane {
     }
     
     public void changeTheme(boolean isDarkTheme){
+        this.isDarkTheme = isDarkTheme;
+        Color backgroundColor = isDarkTheme ? new Color(44, 44, 44) : originalBackgroundColor;
+        setBackground(backgroundColor);
         menuLE.changeTheme(isDarkTheme);
         menuLD.changeTheme(isDarkTheme);
+        xatText.changeTheme(isDarkTheme);
         xatTitol.changeTheme(isDarkTheme);
         xatBody.changeTheme(isDarkTheme);
         xatBottom.changeTheme(isDarkTheme);
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")

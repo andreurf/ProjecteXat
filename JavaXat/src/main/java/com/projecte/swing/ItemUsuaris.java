@@ -48,7 +48,7 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(isDarkTheme ? new java.awt.Color(143, 201, 255) : new Color(230, 230, 230));
+                setBackground(isDarkTheme ? new java.awt.Color(60, 60, 60) : new Color(230, 230, 230));
             }
 
             @Override
@@ -119,7 +119,8 @@ public class ItemUsuaris extends javax.swing.JPanel implements CanviDataListener
     }
 
     public void changeTheme(boolean isDarkTheme) {
-        Color backgroundColor = isDarkTheme ? new Color(77, 77, 77) : new java.awt.Color(230, 230, 230);
+        this.isDarkTheme = isDarkTheme;
+        Color backgroundColor = isDarkTheme ? new Color(77, 77, 77) : new java.awt.Color(242, 242, 242);
         Color textColor = isDarkTheme ? new java.awt.Color(255, 255, 255) : new java.awt.Color(0, 0, 0);
 
         setBackground(backgroundColor);

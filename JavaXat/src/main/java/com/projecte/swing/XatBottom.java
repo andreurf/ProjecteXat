@@ -4,6 +4,7 @@ import com.projecte.serveis.Client;
 import com.projecte.components.JIMSendTextPane;
 import com.projecte.components.ScrollBar;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -26,6 +27,8 @@ public class XatBottom extends javax.swing.JPanel {
     private final XatBody xatBody;
     private final XatTitol xatTitol;
     private JIMSendTextPane txt;
+    private boolean isDarkTheme = false;
+    private final Color originalBackgroundColor = new Color(242, 242, 242);
 
     public XatBottom(Client client, XatBody xatBody, XatTitol xatTitol) {
         this.client = client;
@@ -55,7 +58,7 @@ public class XatBottom extends javax.swing.JPanel {
         });
         txt.setHintText("Escriu un missatge aqui...");
         scroll.setViewportView(txt);
-        ScrollBar sb = new ScrollBar();
+        ScrollBar sb = new ScrollBar(isDarkTheme);
         sb.setPreferredSize(new Dimension(2, 10));
         scroll.setVerticalScrollBar(sb);
         add(sb);
@@ -97,7 +100,6 @@ public class XatBottom extends javax.swing.JPanel {
     }
     
     public void setText(String text){
-        System.out.println("XatBottom setText " + text);
         if(txt != null){
             txt.setText(text);
         }
@@ -108,8 +110,27 @@ public class XatBottom extends javax.swing.JPanel {
         revalidate();
     }
     
-    public void changeTheme(boolean isDarkTheme){
-        
+    public void changeTheme(boolean isDarkTheme) {
+        this.isDarkTheme = isDarkTheme;
+        Color backgroundColor = isDarkTheme ? new Color(70, 70, 70) : originalBackgroundColor;
+        Color textColor = isDarkTheme ? Color.WHITE : Color.BLACK;
+
+        setBackground(backgroundColor);
+        txt.setBackground(backgroundColor);
+        txt.setForeground(textColor);
+
+        for (Component comp : getComponents()) {
+            if (comp instanceof JScrollPane) {
+                JScrollPane scrollPane = (JScrollPane) comp;
+                scrollPane.getViewport().setBackground(backgroundColor);
+                scrollPane.setVerticalScrollBar(new ScrollBar(isDarkTheme));
+            } else if (comp instanceof JPanel) {
+                comp.setBackground(backgroundColor);
+            }
+        }
+
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")

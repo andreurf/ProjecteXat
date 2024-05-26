@@ -20,7 +20,8 @@ public class MongoServeis {
     private final MongoCollection<Document> usuarisCollection;
 
     public MongoServeis() {
-        MongoClientURI uri = new MongoClientURI("mongodb://grup2:gos456@57.129.5.24:27017");
+//        MongoClientURI uri = new MongoClientURI("mongodb://grup2:gos456@57.129.5.24:27017");
+        MongoClientURI uri = new MongoClientURI("mongodb://localhost:27017");
         mongoClient = new com.mongodb.MongoClient(uri);
         database = mongoClient.getDatabase("grup2");
         missatgesCollection = database.getCollection("missatges");

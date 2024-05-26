@@ -13,6 +13,10 @@ import net.miginfocom.swing.MigLayout;
  * @author andreu i quim
  */
 public class XatBody extends javax.swing.JPanel {
+    
+    private boolean isDarkTheme = false;
+    private final Color originalBodyBgColor = new Color(255, 255, 255);
+    private final Color originalScrollBarBgColor = Color.WHITE;
 
     public XatBody() {
         initComponents();
@@ -21,7 +25,7 @@ public class XatBody extends javax.swing.JPanel {
 
     private void init() {
         body.setLayout(new MigLayout("fillx", "", "5[]5"));
-        sp.setVerticalScrollBar(new ScrollBar());
+        sp.setVerticalScrollBar(new ScrollBar(isDarkTheme));
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
 
@@ -68,7 +72,18 @@ public class XatBody extends javax.swing.JPanel {
     }
     
     public void changeTheme(boolean isDarkTheme){
+        this.isDarkTheme = isDarkTheme;
+        Color bodyBgColor = isDarkTheme ? new Color(44, 44, 44) : originalBodyBgColor;
+        Color scrollBarBgColor = isDarkTheme ? new Color(66, 66, 66) : originalScrollBarBgColor;
         
+        setBackground(bodyBgColor);
+        body.setBackground(bodyBgColor);
+        sp.getViewport().setBackground(bodyBgColor);
+        sp.setBackground(bodyBgColor);
+        sp.getVerticalScrollBar().setBackground(scrollBarBgColor);
+
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")

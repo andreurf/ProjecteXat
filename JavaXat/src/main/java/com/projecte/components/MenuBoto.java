@@ -68,7 +68,8 @@ public class MenuBoto extends JButton{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if(isSelected()){
-            g.setColor(isDarkTheme ? new Color(255, 110, 110) : new Color(110,213,255));
+//            g.setColor(isDarkTheme ? new Color(255, 110, 110) : new Color(110,213,255));
+            g.setColor(isDarkTheme ? new Color(114, 255, 110) : new Color(110,213,255));
             g.fillRect(0, getHeight()-3, getWidth(), getHeight());
         }
     }

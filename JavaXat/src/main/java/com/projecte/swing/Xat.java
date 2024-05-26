@@ -7,9 +7,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -19,6 +20,7 @@ public class Xat extends javax.swing.JFrame {
 
     private final Client client;
     private boolean isDarkTheme = false;
+    private final Color originalBackgroundColor = new java.awt.Color(242, 242, 242);
 
     public Xat(Client client) {
         this.client = client;
@@ -37,6 +39,8 @@ public class Xat extends javax.swing.JFrame {
 
     public void changeTheme() {
         isDarkTheme = !isDarkTheme;
+        Color backgroundColor = isDarkTheme ? new Color(44, 44, 44) : originalBackgroundColor;
+        setBackground(backgroundColor);
         home1.changeTheme(isDarkTheme);
     }
 
@@ -48,6 +52,42 @@ public class Xat extends javax.swing.JFrame {
     public void netejarXat() {
         home1.netejarXat();
     }
+    
+    private void showUserGuide() {
+        JDialog userGuideDialog = new JDialog(this, "Guia d'Usuari", true);
+        userGuideDialog.setSize(600, 400);
+        userGuideDialog.setLocationRelativeTo(this);
+
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setText(getUserGuideContent()); // Método para obtener el contenido de la guía
+        JScrollPane scrollPane = new JScrollPane(textArea);
+
+        userGuideDialog.add(scrollPane);
+        userGuideDialog.setVisible(true);
+    }
+
+    private String getUserGuideContent() {
+        return "Guia d'Usuari:\n\n"
+                + "1. Iniciar Sessió:\n"
+                + "   - Per iniciar sessió, introdueix el teu nom d'usuari, contrasenya i la ip del servidor.\n"
+                + "   - Fes clic al botó 'Inicia Sessió'.\n\n"
+                + "2. Registre:\n"
+                + "   - Per registrar-te, introdueix les teves dades personals.\n"
+                + "   - Fes clic al botó 'Registrar-se'.\n\n"
+                + "3. Xatejar:\n"
+                + "   - Selecciona un usuari o un grup per començar a xatejar.\n"
+                + "   - Escriu el teu missatge i fes clic a l'icona d'enviar o prem 'ctrl + Enter'.\n\n"
+                + "4. Canviar Tema:\n"
+                + "   - Per canviar el tema, ves a Opcions -> Canvia Tema.\n"
+                + "   - Selecciona el tema desitjat.\n\n"
+                + "5. Esborrar Dades:\n"
+                + "   - Per esborar les dades del inputs, selecciona 'Esborrar dades' del menú 'Edita'.\n"
+                + "6. Tancar Aplicacio:\n\n"
+                + "   - Per tancar l'aplicacio, ves a Fitxer -> Sortir. o prem 'ctrl + Q'.\n\n"
+                + "7. Informació sobre l'aplicacio:\n\n"
+                + "   - Per obtindre mes informació sobre l'aplicacio, ves a Ajuda -> Info o prem 'ctrl + I'.\n";
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -56,6 +96,8 @@ public class Xat extends javax.swing.JFrame {
         border = new javax.swing.JPanel();
         background = new javax.swing.JPanel();
         titol = new javax.swing.JPanel();
+        botoTema = new javax.swing.JButton();
+        botoInfo = new javax.swing.JButton();
         cmdMinimitzar = new javax.swing.JButton();
         cmdTancar = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
@@ -97,6 +139,38 @@ public class Xat extends javax.swing.JFrame {
             }
         });
 
+        botoTema.setIcon(new javax.swing.ImageIcon(getClass().getResource("/tema.png")));
+        botoTema.setBackground(new java.awt.Color(204, 204, 204));
+        botoTema.setBorder(null);
+        botoTema.setBorderPainted(false);
+        botoTema.setFocusable(false);
+        botoTema.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botoTema.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        botoTema.setMinimumSize(new java.awt.Dimension(19, 19));
+        botoTema.setPreferredSize(new java.awt.Dimension(19, 19));
+        botoTema.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botoTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoTemaActionPerformed(evt);
+            }
+        });
+
+        botoInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/info.png")));
+        botoInfo.setBackground(new java.awt.Color(204, 204, 204));
+        botoInfo.setBorder(null);
+        botoInfo.setBorderPainted(false);
+        botoInfo.setFocusable(false);
+        botoInfo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        botoInfo.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        botoInfo.setMinimumSize(new java.awt.Dimension(19, 19));
+        botoInfo.setPreferredSize(new java.awt.Dimension(19, 19));
+        botoInfo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        botoInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botoInfoActionPerformed(evt);
+            }
+        });
+
         cmdMinimitzar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/minimitzar.png")));
         cmdMinimitzar.setBorder(null);
         cmdMinimitzar.setBorderPainted(false);
@@ -122,15 +196,24 @@ public class Xat extends javax.swing.JFrame {
         titolLayout.setHorizontalGroup(
             titolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titolLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(botoTema, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botoInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cmdMinimitzar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(cmdTancar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         titolLayout.setVerticalGroup(
             titolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(cmdMinimitzar, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+            .addComponent(cmdMinimitzar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(cmdTancar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(titolLayout.createSequentialGroup()
+                .addGroup(titolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(botoInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botoTema, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         body.setLayout(new java.awt.BorderLayout());
@@ -151,7 +234,7 @@ public class Xat extends javax.swing.JFrame {
             .addGroup(backgroundLayout.createSequentialGroup()
                 .addComponent(titol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                .addComponent(body, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
                 .addGap(4, 4, 4))
         );
 
@@ -215,6 +298,11 @@ public class Xat extends javax.swing.JFrame {
         jMenu3.setText("Visualitza");
 
         jMenuItem6.setText("Barra d'eines");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem6);
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -252,6 +340,11 @@ public class Xat extends javax.swing.JFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         jMenuItem1.setText("Guia Usuari");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -331,10 +424,32 @@ public class Xat extends javax.swing.JFrame {
         home1.enviarMissatge();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void botoTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoTemaActionPerformed
+        changeTheme();
+    }//GEN-LAST:event_botoTemaActionPerformed
+
+    private void botoInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoInfoActionPerformed
+        showInfoDialog();
+    }//GEN-LAST:event_botoInfoActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        if (titol.isVisible()) {
+            titol.setVisible(false);
+        } else {
+            titol.setVisible(true);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        showUserGuide();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JLayeredPane body;
     private javax.swing.JPanel border;
+    private javax.swing.JButton botoInfo;
+    private javax.swing.JButton botoTema;
     private javax.swing.JButton cmdMinimitzar;
     private javax.swing.JButton cmdTancar;
     private com.projecte.swing.Home home1;

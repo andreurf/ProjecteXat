@@ -9,6 +9,8 @@ import javax.swing.JLabel;
  */
 public class XatTitol extends javax.swing.JPanel {
 
+    private boolean isDarkTheme = false;
+
     public XatTitol() {
         initComponents();
     }
@@ -21,7 +23,7 @@ public class XatTitol extends javax.swing.JPanel {
 
     public void estatActiu() {
         lbEstat.setText("Actiu");
-        lbEstat.setForeground(new java.awt.Color(40, 147, 59));
+        lbEstat.setForeground(isDarkTheme ? new java.awt.Color(75, 201, 100) : new java.awt.Color(40, 147, 59));
     }
 
     public void setEstatText() {
@@ -32,9 +34,20 @@ public class XatTitol extends javax.swing.JPanel {
     public String getLbNom() {
         return lbNom.getText();
     }
-    
-    public void changeTheme(boolean isDarkTheme){
-        
+
+    public void changeTheme(boolean isDarkTheme) {
+        this.isDarkTheme = isDarkTheme;
+        Color bgColor = isDarkTheme ? new Color(55, 55, 55) : new Color(242, 242, 242);
+        Color textColor = isDarkTheme ? new Color(200, 200, 200) : new Color(63, 63, 63);
+        Color activeColor = isDarkTheme ? new Color(75, 201, 100) : new Color(40, 147, 59);
+        Color inactiveColor = isDarkTheme ? new Color(120, 120, 120) : new Color(160, 160, 160);
+
+        this.setBackground(bgColor);
+        lbNom.setForeground(textColor);
+        lbEstat.setForeground(lbEstat.getText().equals("Actiu") ? activeColor : inactiveColor);
+
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")

@@ -1,5 +1,6 @@
 package com.projecte.swing;
 
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class MenuLateralD extends javax.swing.JPanel {
     
     private Date dataSeleccionada;
     private final List<CanviDataListener> listeners = new ArrayList<>();
+    private boolean isDarkTheme = false;
 
     public MenuLateralD() {
         initComponents();
@@ -49,7 +51,10 @@ public class MenuLateralD extends javax.swing.JPanel {
     }
     
     public void changeTheme(boolean isDarkTheme){
-        
+        this.isDarkTheme = isDarkTheme;
+        setBackground(isDarkTheme ? new Color(66, 66, 66) : new Color(242, 242, 242));
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")

@@ -6,9 +6,11 @@ import com.projecte.swing.PanelLoginRegistre;
 import com.projecte.swing.PanelPersonalitzat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -114,6 +116,42 @@ public class LoginRegistre extends javax.swing.JFrame {
     private void showInfoDialog() {
         InfoDialog infoDialog = new InfoDialog(this);
         infoDialog.setVisible(true);
+    }
+
+    private void showUserGuide() {
+        JDialog userGuideDialog = new JDialog(this, "Guia d'Usuari", true);
+        userGuideDialog.setSize(600, 400);
+        userGuideDialog.setLocationRelativeTo(this);
+
+        JTextArea textArea = new JTextArea();
+        textArea.setEditable(false);
+        textArea.setText(getUserGuideContent()); // Método para obtener el contenido de la guía
+        JScrollPane scrollPane = new JScrollPane(textArea);
+
+        userGuideDialog.add(scrollPane);
+        userGuideDialog.setVisible(true);
+    }
+
+    private String getUserGuideContent() {
+        return "Guia d'Usuari:\n\n"
+                + "1. Iniciar Sessió:\n"
+                + "   - Per iniciar sessió, introdueix el teu nom d'usuari, contrasenya i la ip del servidor.\n"
+                + "   - Fes clic al botó 'Inicia Sessió'.\n\n"
+                + "2. Registre:\n"
+                + "   - Per registrar-te, introdueix les teves dades personals.\n"
+                + "   - Fes clic al botó 'Registrar-se'.\n\n"
+                + "3. Xatejar:\n"
+                + "   - Selecciona un usuari o un grup per començar a xatejar.\n"
+                + "   - Escriu el teu missatge i fes clic a l'icona d'enviar o prem 'ctrl + Enter'.\n\n"
+                + "4. Canviar Tema:\n"
+                + "   - Per canviar el tema, ves a Opcions -> Canvia Tema.\n"
+                + "   - Selecciona el tema desitjat.\n\n"
+                + "5. Esborrar Dades:\n"
+                + "   - Per esborar les dades del inputs, selecciona 'Esborrar dades' del menú 'Edita'.\n"
+                + "6. Tancar Aplicacio:\n\n"
+                + "   - Per tancar l'aplicacio, ves a Fitxer -> Sortir. o prem 'ctrl + Q'.\n\n"
+                + "7. Informació sobre l'aplicacio:\n\n"
+                + "   - Per obtindre mes informació sobre l'aplicacio, ves a Ajuda -> Info o prem 'ctrl + I'.\n";
     }
 
     @SuppressWarnings("unchecked")
@@ -261,6 +299,11 @@ public class LoginRegistre extends javax.swing.JFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         jMenuItem1.setText("Guia Usuari");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem1);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -321,7 +364,7 @@ public class LoginRegistre extends javax.swing.JFrame {
     }//GEN-LAST:event_botoTemaActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        if(barraEines.isVisible()){
+        if (barraEines.isVisible()) {
             barraEines.setVisible(false);
         } else {
             barraEines.setVisible(true);
@@ -331,7 +374,11 @@ public class LoginRegistre extends javax.swing.JFrame {
     private void botoInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botoInfoActionPerformed
         showInfoDialog();
     }//GEN-LAST:event_botoInfoActionPerformed
-    
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        showUserGuide();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {

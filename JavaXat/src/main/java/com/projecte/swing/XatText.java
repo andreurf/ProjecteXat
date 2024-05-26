@@ -1,6 +1,7 @@
 package com.projecte.swing;
 
 import com.projecte.serveis.Client;
+import java.awt.Color;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -11,9 +12,12 @@ public class XatText extends javax.swing.JPanel {
 
     private final XatTitol xatTitol;
     private final XatBody xatBody;
-    private XatBottom xatBottom;
+    private final XatBottom xatBottom;
     private final Client client;
-    
+    private boolean isDarkTheme = false;
+
+    private final Color originalBackgroundColor = new java.awt.Color(255, 255, 255);
+
     public XatText(XatTitol xatTitol, XatBody xatBody, XatBottom xatBottom, Client client) {
         initComponents();
         this.xatTitol = xatTitol;
@@ -22,12 +26,20 @@ public class XatText extends javax.swing.JPanel {
         this.client = client;
         init();
     }
-    
-    private void init(){
-        setLayout(new MigLayout("fillx", "0[fill]0","0[]0[100%, bottom]0[shrink 0]0"));
-        add(xatTitol,"wrap");
-        add(xatBody,"wrap");
-        add(xatBottom,"h :: 50%");
+
+    private void init() {
+        setLayout(new MigLayout("fillx", "0[fill]0", "0[]0[100%, bottom]0[shrink 0]0"));
+        add(xatTitol, "wrap");
+        add(xatBody, "wrap");
+        add(xatBottom, "h :: 50%");
+    }
+
+    public void changeTheme(boolean isDarkTheme) {
+        this.isDarkTheme = isDarkTheme;
+        Color backgroundColor = isDarkTheme ? new Color(44, 44, 44) : originalBackgroundColor;
+        setBackground(backgroundColor);
+        revalidate();
+        repaint();
     }
 
     @SuppressWarnings("unchecked")

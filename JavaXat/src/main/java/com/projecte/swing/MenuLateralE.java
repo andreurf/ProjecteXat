@@ -1,7 +1,6 @@
 package com.projecte.swing;
 
 import com.projecte.bind.BindMongo;
-import com.projecte.components.MenuBoto;
 import com.projecte.serveis.Client;
 import com.projecte.serveis.MongoServeis;
 import com.projecte.components.ScrollBar;
@@ -39,7 +38,7 @@ public class MenuLateralE extends javax.swing.JPanel {
     }
 
     private void init() {
-        sp.setVerticalScrollBar(new ScrollBar());
+        sp.setVerticalScrollBar(new ScrollBar(isDarkTheme));
         llistaMenu.setLayout(new MigLayout("fillx", "0[]0", "5[]5"));
         mostrarLlistaGrup();
         activarGrupDam();
@@ -58,6 +57,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         List<String> nomUsuaris = servidorMDB.obtindreNomsUsuaris(nomActual);
         for (String nom : nomUsuaris) {
             ItemUsuaris item = new ItemUsuaris(nom, xatTitol, xatBody, client, menuLD, this);
+            item.changeTheme(isDarkTheme);
             llistaMenu.add(item, "wrap");
             usuarisMap.put(nom, item);
 
@@ -72,6 +72,7 @@ public class MenuLateralE extends javax.swing.JPanel {
     private void mostrarLlistaGrup() {
         llistaMenu.removeAll();
         damItem = new ItemUsuaris("DAM", xatTitol, xatBody, client, menuLD, this);
+        damItem.changeTheme(isDarkTheme);
         llistaMenu.add(damItem, "wrap");
         refrescarLlista();
     }
@@ -108,13 +109,15 @@ public class MenuLateralE extends javax.swing.JPanel {
     public void changeTheme(boolean isDarkTheme) {
         this.isDarkTheme = isDarkTheme;
         Color bgColor = isDarkTheme ? new Color(44, 44, 44) : new Color(229, 229, 229);
-        Color menuColor = isDarkTheme ? new Color(55, 55, 55) : new Color(242, 242, 242);
-        Color itemBgColor = isDarkTheme ? new Color(77, 77, 77) : new Color(255, 255, 255);
+        Color spColor = isDarkTheme ? new Color(66, 66, 66) : new Color(242, 242, 242);
+        Color menuColor = isDarkTheme ? new Color(55, 55, 55) : new Color(229, 229, 229);
+        Color itemBgColor = isDarkTheme ? new Color(77, 77, 77) : new Color(242, 242, 242);
         Color itemFgColor = isDarkTheme ? new Color(200, 200, 200) : new Color(0, 0, 0);
 
+        setBackground(spColor);
+        sp.getViewport().setBackground(spColor);
         menu.setBackground(menuColor);
         llistaMenu.setBackground(bgColor);
-        sp.setBackground(menuColor);
 
         for (Component comp : llistaMenu.getComponents()) {
             if (comp instanceof ItemUsuaris) {
@@ -126,17 +129,17 @@ public class MenuLateralE extends javax.swing.JPanel {
 
         menuBoto1.changeTheme(isDarkTheme);
         menuBoto1.setIcon(carregarIcona("/menuMissatge.png"));
-        menuBoto1.setIconSelected(carregarIcona(isDarkTheme ? "/menuMissatgeRed.png" : "/menuMissatgeBlau.png"));
+        menuBoto1.setIconSelected(carregarIcona(isDarkTheme ? "/menuMissatgeVerd.png" : "/menuMissatgeBlau.png"));
         menuBoto1.setIconSimple(carregarIcona("/menuMissatge.png"));
 
         menuBoto2.changeTheme(isDarkTheme);
         menuBoto2.setIcon(carregarIcona("/menuGrup.png"));
-        menuBoto2.setIconSelected(carregarIcona(isDarkTheme ? "/menuGrupRed.png" : "/menuGrupBlau.png"));
+        menuBoto2.setIconSelected(carregarIcona(isDarkTheme ? "/menuGrupVerd.png" : "/menuGrupBlau.png"));
         menuBoto2.setIconSimple(carregarIcona("/menuGrup.png"));
 
         menuBoto3.changeTheme(isDarkTheme);
         menuBoto3.setIcon(carregarIcona("/bindGris.png"));
-        menuBoto3.setIconSelected(carregarIcona(isDarkTheme ? "/bindRed.png" : "/bind.png"));
+        menuBoto3.setIconSelected(carregarIcona(isDarkTheme ? "/bindVerd.png" : "/bind.png"));
         menuBoto3.setIconSimple(carregarIcona("/bindGris.png"));
 
         revalidate();
@@ -156,7 +159,7 @@ public class MenuLateralE extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(200, 600));
 
-        menu.setBackground(isDarkTheme ? new java.awt.Color(142, 142, 142) : new java.awt.Color(229, 229, 229));
+        menu.setBackground(new java.awt.Color(229, 229, 229));
         menu.setOpaque(true);
         menu.setPreferredSize(new java.awt.Dimension(200, 7));
         menu.setLayout(new java.awt.GridLayout(1, 3));
@@ -182,6 +185,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         });
         menu.add(menuBoto2);
 
+        menuBoto3.setBackground(new java.awt.Color(229, 229, 229));
         menuBoto3.setIcon(carregarIcona("/bindGris.png"));
         menuBoto3.setIconSelected(carregarIcona("/bind.png")); // NOI18N
         menuBoto3.setIconSimple(carregarIcona("/bindGris.png")); // NOI18N
@@ -197,6 +201,7 @@ public class MenuLateralE extends javax.swing.JPanel {
         sp.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         llistaMenu.setBackground(new java.awt.Color(229, 229, 229));
+        llistaMenu.setInheritsPopupMenu(true);
 
         javax.swing.GroupLayout llistaMenuLayout = new javax.swing.GroupLayout(llistaMenu);
         llistaMenu.setLayout(llistaMenuLayout);
@@ -216,12 +221,12 @@ public class MenuLateralE extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(sp)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
